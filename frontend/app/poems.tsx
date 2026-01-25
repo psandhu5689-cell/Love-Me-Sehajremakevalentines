@@ -23,8 +23,8 @@ interface Poem {
 
 const POEMS: Poem[] = [
   {
-    id: 'sweet',
-    title: 'Sweet',
+    id: 'sehaj',
+    title: "Sehaj's Poem",
     type: 'sweet',
     icon: 'flower',
     color: '#FF6B9D',
@@ -38,8 +38,8 @@ const POEMS: Poem[] = [
     ],
   },
   {
-    id: 'playful',
-    title: 'Playful',
+    id: 'berryboo',
+    title: "Berryboo's Poem",
     type: 'playful',
     icon: 'happy',
     color: '#FFB347',
@@ -53,8 +53,8 @@ const POEMS: Poem[] = [
     ],
   },
   {
-    id: 'sincere',
-    title: 'Sincere',
+    id: 'mrssandhu',
+    title: "Mrs. Sandhu's Poem",
     type: 'sincere',
     icon: 'heart',
     color: '#9B59B6',

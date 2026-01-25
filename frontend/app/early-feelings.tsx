@@ -96,9 +96,7 @@ export default function EarlyFeelings() {
               <Text style={styles.cardTitle}>When I First Liked You</Text>
             </View>
             <Text style={styles.cardText}>
-              It happened before I even realized it. One moment we were just
-              talking, and the next, I found myself looking forward to every
-              conversation. Every time you smiled, something shifted in me.
+              Seeing you on Wizz lowkey was all I needed, but growing to know that you're such an amazing person on the inside as well, was when I liked you.
             </Text>
           </Animated.View>
 
@@ -117,18 +115,9 @@ export default function EarlyFeelings() {
               </Text>
             </View>
             <Text style={styles.cardText}>
-              It was in the small things — the way you'd find excuses to be
-              near me, how your voice softened when you said my name, those
-              lingering glances that said more than words ever could.
+              When you fucked me.
             </Text>
           </Animated.View>
-
-          {/* Reflection */}
-          <View style={styles.reflectionContainer}>
-            <Text style={styles.reflectionText}>
-              "{userName}, even then, I knew you were something special."
-            </Text>
-          </View>
 
           <TouchableOpacity
             style={styles.button}
@@ -203,20 +192,6 @@ const styles = StyleSheet.create({
     lineHeight: 26,
     color: '#5A4A5A',
   },
-  reflectionContainer: {
-    backgroundColor: '#F8E8F8',
-    borderRadius: 16,
-    padding: 20,
-    width: '100%',
-    marginVertical: 20,
-  },
-  reflectionText: {
-    fontSize: 17,
-    fontStyle: 'italic',
-    color: '#6B4A6B',
-    textAlign: 'center',
-    lineHeight: 26,
-  },
   button: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -225,6 +200,7 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     borderRadius: 30,
     gap: 8,
+    marginTop: 16,
     shadowColor: '#FF6B9D',
     shadowOffset: { width: 0, height: 6 },
     shadowOpacity: 0.35,

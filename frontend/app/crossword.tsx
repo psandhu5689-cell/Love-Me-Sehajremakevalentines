@@ -17,7 +17,6 @@ import { Ionicons } from '@expo/vector-icons';
 
 interface CrosswordClue {
   number: number;
-  direction: 'across' | 'down';
   clue: string;
   answer: string;
   row: number;
@@ -25,14 +24,13 @@ interface CrosswordClue {
 }
 
 const CLUES: CrosswordClue[] = [
-  { number: 1, direction: 'across', clue: 'What you are to me (my everything)', answer: 'WORLD', row: 0, col: 0 },
-  { number: 2, direction: 'down', clue: 'The feeling I get when I see you', answer: 'JOY', row: 0, col: 4 },
-  { number: 3, direction: 'across', clue: 'What my heart does for you', answer: 'BEATS', row: 2, col: 0 },
-  { number: 4, direction: 'across', clue: 'February 14th celebration', answer: 'LOVE', row: 4, col: 1 },
+  { number: 1, clue: 'What you are to me (my everything)', answer: 'WORLD', row: 0, col: 0 },
+  { number: 2, clue: 'The feeling I get when I see you', answer: 'JOY', row: 0, col: 4 },
+  { number: 3, clue: 'What my heart does for you', answer: 'BEATS', row: 2, col: 0 },
+  { number: 4, clue: 'New nickname', answer: 'POOPYPANTS', row: 4, col: 1 },
 ];
 
-const GRID_SIZE = 6;
-const SOLUTION_MESSAGE = 'WILL YOU BE MY VALENTINE';
+const SOLUTION_MESSAGE = 'TAKE A SHOWER STINKY';
 
 export default function Crossword() {
   const router = useRouter();
@@ -51,13 +49,13 @@ export default function Crossword() {
 
   const checkAllCorrect = () => {
     return CLUES.every((clue) => {
-      const key = `${clue.number}-${clue.direction}`;
+      const key = `${clue.number}`;
       return answers[key]?.toUpperCase() === clue.answer;
     });
   };
 
   const handleAnswerChange = (clue: CrosswordClue, text: string) => {
-    const key = `${clue.number}-${clue.direction}`;
+    const key = `${clue.number}`;
     setAnswers((prev) => ({ ...prev, [key]: text.toUpperCase() }));
   };
 
@@ -75,7 +73,7 @@ export default function Crossword() {
   };
 
   const getAnswerStatus = (clue: CrosswordClue) => {
-    const key = `${clue.number}-${clue.direction}`;
+    const key = `${clue.number}`;
     const answer = answers[key] || '';
     if (!answer) return 'empty';
     if (answer.toUpperCase() === clue.answer) return 'correct';
@@ -104,14 +102,11 @@ export default function Crossword() {
               {CLUES.map((clue) => {
                 const status = getAnswerStatus(clue);
                 return (
-                  <View key={`${clue.number}-${clue.direction}`} style={styles.clueCard}>
+                  <View key={`${clue.number}`} style={styles.clueCard}>
                     <View style={styles.clueHeader}>
                       <View style={styles.clueNumber}>
                         <Text style={styles.clueNumberText}>{clue.number}</Text>
                       </View>
-                      <Text style={styles.clueDirection}>
-                        {clue.direction.toUpperCase()}
-                      </Text>
                       {status === 'correct' && (
                         <Ionicons name="checkmark-circle" size={20} color="#4CAF50" />
                       )}
@@ -123,7 +118,7 @@ export default function Crossword() {
                         status === 'correct' && styles.correctInput,
                         status === 'incorrect' && styles.incorrectInput,
                       ]}
-                      value={answers[`${clue.number}-${clue.direction}`] || ''}
+                      value={answers[`${clue.number}`] || ''}
                       onChangeText={(text) => handleAnswerChange(clue, text)}
                       maxLength={clue.answer.length}
                       autoCapitalize="characters"
@@ -240,12 +235,6 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontWeight: '700',
     fontSize: 14,
-  },
-  clueDirection: {
-    flex: 1,
-    fontSize: 12,
-    color: '#9B7FA7',
-    fontWeight: '600',
   },
   clueText: {
     fontSize: 15,

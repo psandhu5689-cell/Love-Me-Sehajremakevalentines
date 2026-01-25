@@ -30,7 +30,7 @@ const MEMORIES: Memory[] = [
     icon: 'happy',
     color: '#FFB347',
     content:
-      "Remember when we couldn't stop laughing at the most random thing? Everyone around us thought we were crazy, but in that moment, nothing else mattered. Your laugh is still my favorite sound in the world — even when you snort a little at the end.",
+      "Remember getting eaten alive by mosquitoes? 🦟",
   },
   {
     id: 'sweet',
@@ -38,7 +38,7 @@ const MEMORIES: Memory[] = [
     icon: 'heart',
     color: '#FF6B9D',
     content:
-      "That quiet moment when you held my hand for the first time. My heart was racing so fast, I was sure you could hear it. You looked at me with those beautiful eyes, and I knew right then — I'd cross any ocean just to see you smile.",
+      "Remember when you sat down with me to eat pepperoni pizza, and refused to eat until I did. 🍕",
   },
   {
     id: 'meaningful',
@@ -46,7 +46,7 @@ const MEMORIES: Memory[] = [
     icon: 'star',
     color: '#9B59B6',
     content:
-      "The night we stayed up talking until sunrise. We shared our dreams, our fears, everything we usually keep hidden. That's when I realized — with you, I don't have to pretend. You see me, really see me, and you still chose to stay.",
+      "When you took me back to the Legos store. I know it's not that deep but to me it's really special. You fought and hit me over it but I still won at the end of the day. 🧱",
   },
 ];
 

@@ -16,12 +16,12 @@ import ConfettiCannon from 'react-native-confetti-cannon';
 const { width, height } = Dimensions.get('window');
 
 const MEMORIES_FLOATING = [
-  'Our first laugh together',
-  'That late-night conversation',
-  'When you held my hand',
-  'Your beautiful smile',
-  'Our inside jokes',
-  'The way you say my name',
+  'Every argument is never that serious',
+  'I will always love you',
+  "You're not that dumb",
+  'Wanna fuck',
+  'I miss terms and conditions',
+  'Thank you for being my sweet girl',
 ];
 
 export default function Celebration() {
@@ -224,7 +224,7 @@ export default function Celebration() {
             </View>
           </Animated.View>
 
-          {/* Secret Heart */}
+          {/* Secret Heart - Now BLUE */}
           <TouchableOpacity
             style={styles.secretHeart}
             onPress={handleSecretPress}
@@ -233,7 +233,7 @@ export default function Celebration() {
             <Ionicons
               name="heart"
               size={16}
-              color={showSecret ? '#FF6B9D' : '#FFE4EC'}
+              color={showSecret ? '#4A90D9' : '#D6E6FF'}
             />
           </TouchableOpacity>
 
@@ -353,12 +353,12 @@ const styles = StyleSheet.create({
   secretContainer: {
     marginTop: 24,
     padding: 20,
-    backgroundColor: '#FFE4EC',
+    backgroundColor: '#E6F0FF',
     borderRadius: 16,
   },
   secretText: {
     fontSize: 16,
-    color: '#FF6B9D',
+    color: '#4A90D9',
     fontStyle: 'italic',
     textAlign: 'center',
   },

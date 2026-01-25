@@ -78,15 +78,13 @@ export default function OriginStory() {
 
           <View style={styles.storyCard}>
             <Text style={styles.storyText}>
-              I still remember the first time I saw you, {userName}. There was
-              something about you that made everything else fade away.
+              Our first meeting was at Calgary Stampede. She walked towards my car, busy traffic, sat inside. I genuinely fell in love all over again, the way she smiled at my smile and laughed at my laugh. I love you so much.
             </Text>
 
             <View style={styles.divider} />
 
             <Text style={styles.storyText}>
-              It wasn't just how you looked — it was the way you laughed, the
-              way your eyes lit up when you talked about things you loved.
+              Sehaj. You're my comfort person, my crush, my pillow, and my sandbag to beat up. You're my everything for eternity.
             </Text>
 
             <View style={styles.divider} />
@@ -94,8 +92,7 @@ export default function OriginStory() {
             <View style={styles.detailContainer}>
               <Ionicons name="star" size={20} color="#FFB347" />
               <Text style={styles.detailText}>
-                The small detail I remember: the way you tucked your hair
-                behind your ear when you were thinking.
+                Something small I remember is how expressive your face is. I can read your emotions from your eyes alone.
               </Text>
             </View>
           </View>
