@@ -253,6 +253,16 @@ export default function Surprise() {
               <Animated.View style={{ transform: [{ scale: bounceAnim }] }}>
                 <Ionicons name="heart" size={30} color="#FF6B9D" style={styles.messageHeart} />
               </Animated.View>
+              
+              {/* Continue Button */}
+              <TouchableOpacity
+                style={styles.continueButton}
+                onPress={() => { playClick(); router.push('/quiet-stars'); }}
+                activeOpacity={0.8}
+              >
+                <Text style={styles.continueButtonText}>One more thing...</Text>
+                <Ionicons name="chevron-forward" size={20} color="#FFFFFF" />
+              </TouchableOpacity>
             </Animated.View>
           )}
         </View>
