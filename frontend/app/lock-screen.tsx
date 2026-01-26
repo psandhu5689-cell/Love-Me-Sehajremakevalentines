@@ -240,11 +240,12 @@ const styles = StyleSheet.create({
   },
   keypad: {
     alignItems: 'center',
+    width: 280,
   },
   keypadRow: {
     flexDirection: 'row',
-    justifyContent: 'center',
-    gap: 20,
+    justifyContent: 'space-between',
+    width: '100%',
     marginBottom: 15,
   },
   key: {
