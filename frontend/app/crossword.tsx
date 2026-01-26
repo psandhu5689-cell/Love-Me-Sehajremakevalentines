@@ -18,41 +18,35 @@ import { Ionicons } from '@expo/vector-icons';
 import { useAudio } from './_layout';
 
 const { width } = Dimensions.get('window');
-const CELL_SIZE = Math.min((width - 32) / 6, 44);
+const CELL_SIZE = Math.min((width - 32) / 8, 40);
 
-// Grid: 6 columns x 11 rows
+// Grid: 8 columns x 8 rows
 // null = black cell, number or '' = white cell
-// All intersections verified!
+// 6 words: SOULMATE, FOREVER, ALWAYS, HOME, SEHAJ, PRABH
 
 const GRID_STRUCTURE = [
-  // 0    1    2    3    4    5
-  [null, null, null, null, null, null], // row 0
-  [null, null, null, null, null, null], // row 1
-  [null,  1,  '',   '',  null, null],   // row 2: HUG (1-3), HOME starts
-  [ 2,   '',  '',   '',  null, null],   // row 3: LOVE (0-3)
-  [ 3,   '',  null, null, null, null],  // row 4: US (0-1)
-  [ 4,   '',   5,    6,   '',  null],   // row 5: SEHAJ (0-4), HEART & ALWAYS start
-  [null, null, '',  '',  null, null],   // row 6: HEART E, ALWAYS L
-  [null, null, '',  '',  null, null],   // row 7: HEART A, ALWAYS W
-  [null,  7,  '',   '',   '',   ''],    // row 8: PRABH (1-5)
-  [null, null, '',  '',  null, null],   // row 9: HEART T, ALWAYS Y
-  [null,  8,  '',   '',   '',  null],   // row 10: KISS (1-4)
+  //0     1     2     3     4     5     6     7
+  [null, null, null, null, null, null, null, null], // row 0
+  [null,   1, null, null, null, null, null, null],  // row 1: FOREVER starts
+  [  2,   '',  '',   '',   '',    3,   '',   ''],   // row 2: SOULMATE, ALWAYS starts
+  [null,  '', null, null, null,   '', null, null],  // row 3
+  [  4,   '',    5,   '',   '',   '', null, null],  // row 4: SEHAJ, HOME starts
+  [null,  '',   '',    6,   '',   '',   '',   ''],  // row 5: PRABH
+  [null,  '',   '', null, null,   '', null, null],  // row 6
+  [null,  '',   '', null, null,   '', null, null],  // row 7
 ];
 
-// Answers - All intersections verified!
+// Answers - 6 words with verified intersections
 const ANSWERS = {
   across: {
-    1: { word: 'HUG', row: 2, col: 1, hint: "My favorite kind of therapy" },
-    2: { word: 'LOVE', row: 3, col: 0, hint: "What started everything" },
-    4: { word: 'SEHAJ', row: 5, col: 0, hint: "Her name, my favorite word" },
-    7: { word: 'PRABH', row: 8, col: 1, hint: "The name she teases and loves" },
-    8: { word: 'KISS', row: 10, col: 1, hint: "Something I owe you" },
+    2: { word: 'SOULMATE', row: 2, col: 0, hint: "What you feel like to me" },
+    4: { word: 'SEHAJ', row: 4, col: 0, hint: "Her name, my favorite word" },
+    6: { word: 'PRABH', row: 5, col: 3, hint: "The name she teases and loves" },
   },
   down: {
-    1: { word: 'HOME', row: 2, col: 1, hint: "Where my heart feels safe" },
-    3: { word: 'US', row: 4, col: 0, hint: "Not me. Not you. Something better." },
-    5: { word: 'HEART', row: 5, col: 2, hint: "What you hold" },
-    6: { word: 'ALWAYS', row: 5, col: 3, hint: "When I choose you" },
+    1: { word: 'FOREVER', row: 1, col: 1, hint: "How long I want you" },
+    3: { word: 'ALWAYS', row: 2, col: 5, hint: "When I choose you" },
+    5: { word: 'HOME', row: 4, col: 2, hint: "Where my heart feels safe" },
   },
 };
 
