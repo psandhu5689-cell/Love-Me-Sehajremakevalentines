@@ -462,13 +462,14 @@ const styles = StyleSheet.create({
   },
   gridContainer: {
     backgroundColor: '#FFFFFF',
-    padding: 4,
-    borderRadius: 12,
+    padding: 2,
+    borderRadius: 8,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.1,
     shadowRadius: 8,
     elevation: 5,
+    alignSelf: 'center',
   },
   gridRow: {
     flexDirection: 'row',
