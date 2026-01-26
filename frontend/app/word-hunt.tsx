@@ -173,6 +173,7 @@ export default function WordHunt() {
   };
 
   const handleCellPress = (row: number, col: number) => {
+    playClick(); // Sound on every cell tap
     if (isSelecting) {
       // Add to selection
       const lastCell = selectedCells[selectedCells.length - 1];
@@ -189,7 +190,6 @@ export default function WordHunt() {
       }
     } else {
       // Start new selection
-      playClick();
       setIsSelecting(true);
       setSelectedCells([{ row, col }]);
     }
