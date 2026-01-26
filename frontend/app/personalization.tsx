@@ -40,6 +40,7 @@ export default function Personalization() {
 
   const handleContinue = () => {
     Keyboard.dismiss();
+    playPop();
     const finalName = name.trim() || 'Sehaj';
     setUserName(finalName);
     router.push('/origin');
