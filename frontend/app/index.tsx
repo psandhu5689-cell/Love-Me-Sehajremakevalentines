@@ -134,7 +134,10 @@ export default function EntryGate() {
 
           <TouchableOpacity
             style={styles.button}
-            onPress={() => router.push('/personalization')}
+            onPress={() => {
+              playPop();
+              router.push('/personalization');
+            }}
             activeOpacity={0.8}
           >
             <Text style={styles.buttonText}>BEGIN</Text>
