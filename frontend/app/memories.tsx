@@ -221,7 +221,7 @@ export default function Memories() {
               style={styles.button}
               onPress={() => {
                 playComplete();
-                router.push('/word-hunt');
+                router.push('/crossword');
               }}
               activeOpacity={0.8}
             >
