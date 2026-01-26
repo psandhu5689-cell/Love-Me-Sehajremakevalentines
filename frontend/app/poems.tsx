@@ -10,7 +10,7 @@ import {
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { useUser } from './_layout';
+import { useUser, useAudio } from './_layout';
 
 interface Poem {
   id: string;

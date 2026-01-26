@@ -10,11 +10,12 @@ import {
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { useUser } from './_layout';
+import { useUser, useAudio } from './_layout';
 
 export default function Confession() {
   const router = useRouter();
   const { userName } = useUser();
+  const { playPop } = useAudio();
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const line1Anim = useRef(new Animated.Value(0)).current;
   const line2Anim = useRef(new Animated.Value(0)).current;
