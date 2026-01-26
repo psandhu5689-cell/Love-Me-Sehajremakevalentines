@@ -534,9 +534,22 @@ const styles = StyleSheet.create({
     elevation: 10,
     width: '100%',
   },
+  celebrationEmojis: {
+    flexDirection: 'row',
+    gap: 20,
+    marginBottom: 10,
+  },
+  emoji: {
+    fontSize: 40,
+  },
+  starRow: {
+    flexDirection: 'row',
+    gap: 10,
+    marginVertical: 12,
+  },
   completeTitle: {
-    fontSize: 28,
-    fontWeight: '600',
+    fontSize: 32,
+    fontWeight: '700',
     color: '#FF6B9D',
     marginTop: 12,
   },
