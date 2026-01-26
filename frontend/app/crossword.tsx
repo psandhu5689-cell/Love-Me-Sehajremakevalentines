@@ -237,7 +237,7 @@ export default function Crossword() {
           maxLength={1}
           autoCapitalize="characters"
           autoCorrect={false}
-          onFocus={() => setSelectedCell({ row, col })}
+          onFocus={() => { playClick(); setSelectedCell({ row, col }); }}
           editable={!isComplete}
           selectTextOnFocus
         />
