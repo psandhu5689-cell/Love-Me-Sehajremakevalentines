@@ -230,6 +230,21 @@ export default function Memories() {
             </TouchableOpacity>
           </Animated.View>
         )}
+
+        {/* Skip Button */}
+        {!allViewed && (
+          <TouchableOpacity
+            style={styles.skipButton}
+            onPress={() => {
+              playClick();
+              router.push('/crossword');
+            }}
+            activeOpacity={0.8}
+          >
+            <Text style={styles.skipButtonText}>Skip</Text>
+            <Ionicons name="chevron-forward" size={16} color="#9B7FA7" />
+          </TouchableOpacity>
+        )}
       </Animated.View>
 
       {/* Memory Detail Modal */}
