@@ -24,6 +24,9 @@ const MEMORIES_FLOATING = [
   'Thank you for being my sweet girl',
 ];
 
+const STICKER_OCTOPUS = 'https://customer-assets.emergentagent.com/job_love-adventure-49/artifacts/cayt7gcy_IMG_5352.jpeg';
+const STICKER_GOLD = 'https://customer-assets.emergentagent.com/job_love-adventure-49/artifacts/grh04hmp_IMG_5616.jpeg';
+
 export default function Celebration() {
   const { userName } = useUser();
   const [showSecret, setShowSecret] = useState(false);
