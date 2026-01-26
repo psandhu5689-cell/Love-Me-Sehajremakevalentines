@@ -21,6 +21,7 @@ export default function OriginStory() {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(40)).current;
   const heartPulse = useRef(new Animated.Value(1)).current;
+  const floatAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     Animated.parallel([
@@ -51,10 +52,49 @@ export default function OriginStory() {
         }),
       ])
     ).start();
+
+    // Float animation
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(floatAnim, {
+          toValue: 1,
+          duration: 2000,
+          useNativeDriver: true,
+        }),
+        Animated.timing(floatAnim, {
+          toValue: 0,
+          duration: 2000,
+          useNativeDriver: true,
+        }),
+      ])
+    ).start();
   }, []);
+
+  const floatTranslate = floatAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, -10],
+  });
 
   return (
     <SafeAreaView style={styles.container}>
+      {/* Photo Sticker - Heart Shaped */}
+      <Animated.View
+        style={[
+          styles.stickerContainer,
+          {
+            transform: [{ translateY: floatTranslate }, { rotate: '10deg' }],
+          },
+        ]}
+      >
+        <View style={styles.heartStickerWrapper}>
+          <Ionicons name="heart" size={120} color="#FF6B9D" style={styles.heartBg} />
+          <Image
+            source={{ uri: STICKER_CITY }}
+            style={styles.stickerImage}
+          />
+        </View>
+      </Animated.View>
+
       <ScrollView
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
@@ -69,19 +109,6 @@ export default function OriginStory() {
           ]}
         >
           <Text style={styles.pageLabel}>Our Beginning</Text>
-
-          {/* Photo Sticker */}
-          <Animated.View
-            style={[
-              styles.stickerContainer,
-              { transform: [{ scale: heartPulse }] },
-            ]}
-          >
-            <Image
-              source={{ uri: STICKER_CITY }}
-              style={styles.sticker}
-            />
-          </Animated.View>
 
           <Animated.View
             style={[
@@ -136,6 +163,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: 'center',
     padding: 24,
+    paddingTop: 80,
   },
   content: {
     alignItems: 'center',
@@ -213,14 +241,24 @@ const styles = StyleSheet.create({
   },
   stickerContainer: {
     position: 'absolute',
-    top: 10,
+    top: 50,
     right: 10,
     zIndex: 10,
   },
-  sticker: {
+  heartStickerWrapper: {
+    width: 120,
+    height: 120,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  heartBg: {
+    position: 'absolute',
+  },
+  stickerImage: {
     width: 70,
     height: 70,
     borderRadius: 35,
+    marginTop: 12,
     borderWidth: 3,
     borderColor: '#FFFFFF',
   },
