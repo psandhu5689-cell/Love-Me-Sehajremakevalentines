@@ -335,4 +335,17 @@ const styles = StyleSheet.create({
   yesButtonTextSecondary: {
     color: '#FF6B9D',
   },
+  skipButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 30,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    gap: 4,
+  },
+  skipButtonText: {
+    fontSize: 14,
+    color: '#9B7FA7',
+    fontWeight: '500',
+  },
 });
