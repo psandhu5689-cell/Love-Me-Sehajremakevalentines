@@ -114,6 +114,19 @@ export default function EntryGate() {
     router.push('/personalization');
   };
 
+  const handleSillyCrybaby = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    playClick();
+    router.push('/daily-love');
+  };
+
+  // Show nothing while checking intro
+  if (checkingIntro) {
+    return (
+      <View style={[styles.loadingContainer, { backgroundColor: colors.background }]} />
+    );
+  }
+
   return (
     <ThemedBackground showFloatingElements={true}>
       <SafeAreaView style={styles.container}>
