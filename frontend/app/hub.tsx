@@ -15,25 +15,23 @@ import { LinearGradient } from 'expo-linear-gradient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useAudio } from './_layout';
 import { useTheme } from '../src/theme/ThemeContext';
-import { ThemedBackground, ThemedButton, ThemedCard } from '../src/components/themed';
-import { UserSetupModal, PresenceCheckModal, PresenceDisplay } from '../src/components/PresenceModals';
+import { ThemedBackground } from '../src/components/themed';
+import { PresenceCheckModal, PresenceDisplay } from '../src/components/PresenceModals';
 import * as Haptics from 'expo-haptics';
 
 const { width, height } = Dimensions.get('window');
 
 const STICKER_GOLD_DRESS = 'https://customer-assets.emergentagent.com/job_love-adventure-49/artifacts/grh04hmp_IMG_5616.jpeg';
 
-export default function EntryGate() {
+export default function Hub() {
   const router = useRouter();
   const { playKiss, playClick } = useAudio();
   const { colors, isDark } = useTheme();
   
   // State management
-  const [checkingIntro, setCheckingIntro] = useState(true);
-  const [showUserSetup, setShowUserSetup] = useState(false);
-  const [showPresenceCheck, setShowPresenceCheck] = useState(false);
+  const [showPresenceCheck, setShowPresenceCheck] = useState(true);
   const [currentUser, setCurrentUser] = useState<'prabh' | 'sehaj' | null>(null);
-  const [presenceKey, setPresenceKey] = useState(0); // To force refresh presence display
+  const [presenceKey, setPresenceKey] = useState(0);
   
   // Animations
   const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -42,57 +40,23 @@ export default function EntryGate() {
   const glowAnim = useRef(new Animated.Value(0.3)).current;
 
   useEffect(() => {
-    initializeApp();
+    loadUser();
   }, []);
 
-  const initializeApp = async () => {
-    try {
-      // Check if user has been set up
-      const savedUser = await AsyncStorage.getItem('currentUser');
-      if (!savedUser) {
-        // First check if first intro was seen (for new users)
-        const introSeen = await AsyncStorage.getItem('first_intro_seen');
-        if (!introSeen) {
-          router.replace('/first-intro');
-          return;
-        }
-        setCheckingIntro(false);
-        setShowUserSetup(true);
-        return;
-      }
-
+  const loadUser = async () => {
+    const savedUser = await AsyncStorage.getItem('currentUser');
+    if (savedUser) {
       setCurrentUser(savedUser as 'prabh' | 'sehaj');
-      
-      // If Sehaj, always show first intro
-      if (savedUser === 'sehaj') {
-        router.replace('/first-intro');
-        return;
-      }
-
-      setCheckingIntro(false);
-      
-      // Show presence check modal
-      setShowPresenceCheck(true);
-    } catch (error) {
-      console.log('Error initializing app:', error);
-      setCheckingIntro(false);
     }
-  };
-
-  const handleUserSetupComplete = (user: 'prabh' | 'sehaj') => {
-    setCurrentUser(user);
-    setShowUserSetup(false);
-    setShowPresenceCheck(true);
   };
 
   const handlePresenceComplete = (shared: boolean) => {
     setShowPresenceCheck(false);
-    setPresenceKey(prev => prev + 1); // Refresh presence display
+    setPresenceKey(prev => prev + 1);
+    startAnimations();
   };
 
-  useEffect(() => {
-    if (checkingIntro || showUserSetup || showPresenceCheck) return;
-    
+  const startAnimations = () => {
     Animated.sequence([
       Animated.delay(300),
       Animated.parallel([
@@ -141,7 +105,13 @@ export default function EntryGate() {
         }),
       ])
     ).start();
-  }, [checkingIntro, showUserSetup, showPresenceCheck]);
+  };
+
+  useEffect(() => {
+    if (!showPresenceCheck) {
+      startAnimations();
+    }
+  }, [showPresenceCheck]);
 
   const heartTranslateY = heartAnim.interpolate({
     inputRange: [0, 1],
@@ -160,22 +130,9 @@ export default function EntryGate() {
     router.push('/daily-love');
   };
 
-  // Show nothing while checking intro
-  if (checkingIntro) {
-    return (
-      <View style={[styles.loadingContainer, { backgroundColor: colors.background }]} />
-    );
-  }
-
   return (
     <ThemedBackground showFloatingElements={true}>
       <SafeAreaView style={styles.container}>
-        {/* User Setup Modal - First time only */}
-        <UserSetupModal
-          visible={showUserSetup}
-          onComplete={handleUserSetupComplete}
-        />
-
         {/* Presence Check Modal - Every app launch */}
         {currentUser && (
           <PresenceCheckModal
@@ -287,9 +244,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  loadingContainer: {
-    flex: 1,
-  },
   content: {
     flex: 1,
     justifyContent: 'center',
@@ -299,13 +253,6 @@ const styles = StyleSheet.create({
   },
   mainContent: {
     alignItems: 'center',
-  },
-  smallText: {
-    fontSize: 14,
-    fontStyle: 'italic',
-    marginBottom: 30,
-    letterSpacing: 1.5,
-    textTransform: 'uppercase',
   },
   heartContainer: {
     marginBottom: 24,
