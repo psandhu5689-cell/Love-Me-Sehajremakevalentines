@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   View,
   Text,
@@ -12,6 +12,7 @@ import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useAudio } from './_layout';
 import { useTheme } from '../src/theme/ThemeContext';
 import { ThemedBackground, ThemedButton, ThemedCard } from '../src/components/themed';
@@ -23,14 +24,35 @@ const STICKER_GOLD_DRESS = 'https://customer-assets.emergentagent.com/job_love-a
 
 export default function EntryGate() {
   const router = useRouter();
-  const { playKiss } = useAudio();
+  const { playKiss, playClick } = useAudio();
   const { colors, isDark } = useTheme();
+  const [checkingIntro, setCheckingIntro] = useState(true);
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const scaleAnim = useRef(new Animated.Value(0.8)).current;
   const heartAnim = useRef(new Animated.Value(0)).current;
   const glowAnim = useRef(new Animated.Value(0.3)).current;
 
   useEffect(() => {
+    // Check if first intro has been seen
+    const checkFirstIntro = async () => {
+      try {
+        const introSeen = await AsyncStorage.getItem('first_intro_seen');
+        if (!introSeen) {
+          // First time user - show intro
+          router.replace('/first-intro');
+          return;
+        }
+      } catch (error) {
+        console.log('Error checking intro:', error);
+      }
+      setCheckingIntro(false);
+    };
+    checkFirstIntro();
+  }, []);
+
+  useEffect(() => {
+    if (checkingIntro) return;
+    
     Animated.sequence([
       Animated.delay(300),
       Animated.parallel([
