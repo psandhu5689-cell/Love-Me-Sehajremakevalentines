@@ -137,7 +137,7 @@ export default function Confession() {
               </Text>
 
               <View style={[styles.dateContainer, { backgroundColor: colors.primaryGlow }]}>
-                <Ionicons name="calendar-heart" size={20} color={colors.primary} />
+                <Ionicons name="calendar" size={20} color={colors.primary} />
                 <Text style={[styles.dateText, { color: colors.primary }]}>July 11 — Our day 💕</Text>
               </View>
             </ThemedCard>
