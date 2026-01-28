@@ -219,6 +219,16 @@ export default function EntryGate() {
           <Ionicons name="heart" size={24} color="#FFD700" />
         </TouchableOpacity>
 
+        {/* Gallery Button - Top Right of Yellow Heart */}
+        <TouchableOpacity
+          style={styles.galleryButton}
+          onPress={handleGallery}
+          activeOpacity={0.8}
+        >
+          <Ionicons name="images" size={20} color={colors.secondary} />
+          <Text style={[styles.galleryButtonText, { color: colors.secondary }]}>Gallery</Text>
+        </TouchableOpacity>
+
         <View style={styles.content}>
           {/* Photo Sticker - Heart Shaped */}
           <Animated.View
