@@ -11,7 +11,11 @@ import {
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useAudio } from './_layout';
+import { useTheme } from './theme/ThemeContext';
+import { ThemedBackground, ThemedButton, ThemedCard } from './components/themed';
+import * as Haptics from 'expo-haptics';
 
 const { width, height } = Dimensions.get('window');
 
@@ -20,9 +24,11 @@ const STICKER_GOLD_DRESS = 'https://customer-assets.emergentagent.com/job_love-a
 export default function EntryGate() {
   const router = useRouter();
   const { playKiss } = useAudio();
+  const { colors, isDark } = useTheme();
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const scaleAnim = useRef(new Animated.Value(0.8)).current;
   const heartAnim = useRef(new Animated.Value(0)).current;
+  const glowAnim = useRef(new Animated.Value(0.3)).current;
 
   useEffect(() => {
     Animated.sequence([
@@ -47,11 +53,27 @@ export default function EntryGate() {
       Animated.sequence([
         Animated.timing(heartAnim, {
           toValue: 1,
-          duration: 2000,
+          duration: 2500,
           useNativeDriver: true,
         }),
         Animated.timing(heartAnim, {
           toValue: 0,
+          duration: 2500,
+          useNativeDriver: true,
+        }),
+      ])
+    ).start();
+
+    // Glow animation
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(glowAnim, {
+          toValue: 0.6,
+          duration: 2000,
+          useNativeDriver: true,
+        }),
+        Animated.timing(glowAnim, {
+          toValue: 0.3,
           duration: 2000,
           useNativeDriver: true,
         }),
@@ -64,94 +86,101 @@ export default function EntryGate() {
     outputRange: [0, -15],
   });
 
+  const handleBegin = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    playKiss();
+    router.push('/personalization');
+  };
+
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.content}>
-        {/* Floating Hearts Background */}
-        <View style={styles.heartsBackground}>
-          {[...Array(6)].map((_, i) => (
-            <Animated.View
-              key={i}
-              style={[
-                styles.floatingHeart,
-                {
-                  left: `${15 + i * 15}%`,
-                  top: `${10 + (i % 3) * 25}%`,
-                  opacity: 0.15,
-                  transform: [
-                    { translateY: heartTranslateY },
-                    { scale: 0.5 + (i % 3) * 0.3 },
-                  ],
-                },
-              ]}
-            >
-              <Ionicons name="heart" size={40} color="#FF6B9D" />
-            </Animated.View>
-          ))}
-        </View>
-
-        {/* Photo Sticker - Heart Shaped */}
-        <Animated.View
-          style={[
-            styles.stickerContainer,
-            {
-              transform: [{ translateY: heartTranslateY }, { rotate: '-12deg' }],
-            },
-          ]}
-        >
-          <View style={styles.heartStickerWrapper}>
-            <Ionicons name="heart" size={130} color="#FF6B9D" style={styles.heartBg} />
-            <Image
-              source={{ uri: STICKER_GOLD_DRESS }}
-              style={styles.stickerImage}
-            />
-          </View>
-        </Animated.View>
-
-        <Animated.View
-          style={[
-            styles.mainContent,
-            {
-              opacity: fadeAnim,
-              transform: [{ scale: scaleAnim }],
-            },
-          ]}
-        >
-          <Text style={styles.smallText}>A small journey through us</Text>
+    <ThemedBackground showFloatingElements={true}>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.content}>
+          {/* Photo Sticker - Heart Shaped */}
+          <Animated.View
+            style={[
+              styles.stickerContainer,
+              {
+                transform: [{ translateY: heartTranslateY }, { rotate: '-12deg' }],
+              },
+            ]}
+          >
+            <View style={styles.heartStickerWrapper}>
+              <Ionicons name="heart" size={130} color={colors.primary} style={styles.heartBg} />
+              <Image
+                source={{ uri: STICKER_GOLD_DRESS }}
+                style={[styles.stickerImage, { borderColor: colors.card }]}
+              />
+            </View>
+          </Animated.View>
 
           <Animated.View
             style={[
-              styles.heartContainer,
-              { transform: [{ translateY: heartTranslateY }] },
+              styles.mainContent,
+              {
+                opacity: fadeAnim,
+                transform: [{ scale: scaleAnim }],
+              },
             ]}
           >
-            <Ionicons name="heart" size={80} color="#FF6B9D" />
+            <Text style={[styles.smallText, { color: colors.textSecondary }]}>
+              A small journey through us
+            </Text>
+
+            {/* Main Heart with Glow */}
+            <Animated.View
+              style={[
+                styles.heartContainer,
+                { transform: [{ translateY: heartTranslateY }] },
+              ]}
+            >
+              {/* Glow effect */}
+              <Animated.View 
+                style={[
+                  styles.heartGlow, 
+                  { 
+                    opacity: glowAnim,
+                    backgroundColor: colors.primaryGlow,
+                  }
+                ]} 
+              />
+              <Ionicons name="heart" size={90} color={colors.primary} />
+            </Animated.View>
+
+            <Text style={[styles.mainText, { color: colors.textPrimary }]}>
+              For Sehaj
+            </Text>
+
+            <Text style={[styles.subText, { color: colors.textSecondary }]}>
+              Made with love
+            </Text>
+
+            {/* Premium Gradient Button */}
+            <TouchableOpacity
+              onPress={handleBegin}
+              activeOpacity={0.9}
+              style={styles.buttonWrapper}
+            >
+              <LinearGradient
+                colors={colors.gradientPrimary as any}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={[styles.button, { shadowColor: colors.primary }]}
+              >
+                <Text style={styles.buttonText}>BEGIN</Text>
+                <Ionicons name="heart" size={18} color="#FFFFFF" />
+              </LinearGradient>
+            </TouchableOpacity>
           </Animated.View>
-
-          <Text style={styles.mainText}>For Sehaj</Text>
-
-          <Text style={styles.subText}>Made with love</Text>
-
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              playKiss();
-              router.push('/personalization');
-            }}
-            activeOpacity={0.8}
-          >
-            <Text style={styles.buttonText}>BEGIN</Text>
-          </TouchableOpacity>
-        </Animated.View>
-      </View>
-    </SafeAreaView>
+        </View>
+      </SafeAreaView>
+    </ThemedBackground>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFF5F7',
   },
   content: {
     flex: 1,
@@ -159,50 +188,53 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 24,
   },
-  heartsBackground: {
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
-  },
-  floatingHeart: {
-    position: 'absolute',
-  },
   mainContent: {
     alignItems: 'center',
   },
   smallText: {
     fontSize: 14,
-    color: '#9B7FA7',
     fontStyle: 'italic',
     marginBottom: 30,
-    letterSpacing: 1,
+    letterSpacing: 1.5,
+    textTransform: 'uppercase',
   },
   heartContainer: {
-    marginBottom: 20,
+    marginBottom: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  heartGlow: {
+    position: 'absolute',
+    width: 150,
+    height: 150,
+    borderRadius: 75,
   },
   mainText: {
-    fontSize: 42,
+    fontSize: 44,
     fontWeight: '300',
-    color: '#4A1942',
     marginBottom: 12,
     letterSpacing: 2,
   },
   subText: {
     fontSize: 16,
-    color: '#9B7FA7',
-    marginBottom: 60,
-    letterSpacing: 1,
+    marginBottom: 50,
+    letterSpacing: 1.5,
+    fontStyle: 'italic',
+  },
+  buttonWrapper: {
+    marginTop: 10,
   },
   button: {
-    backgroundColor: '#FF6B9D',
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingHorizontal: 50,
-    paddingVertical: 16,
+    paddingVertical: 18,
     borderRadius: 30,
-    shadowColor: '#FF6B9D',
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.35,
-    shadowRadius: 12,
-    elevation: 8,
+    gap: 10,
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.4,
+    shadowRadius: 16,
+    elevation: 10,
   },
   buttonText: {
     color: '#FFFFFF',
@@ -212,7 +244,7 @@ const styles = StyleSheet.create({
   },
   stickerContainer: {
     position: 'absolute',
-    top: 40,
+    top: 60,
     right: 5,
     zIndex: 10,
   },
@@ -231,6 +263,5 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     marginTop: 15,
     borderWidth: 3,
-    borderColor: '#FFFFFF',
   },
 });
