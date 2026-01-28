@@ -47,22 +47,28 @@ export default function EntryGate() {
 
   const initializeApp = async () => {
     try {
-      // Check if first intro has been seen
-      const introSeen = await AsyncStorage.getItem('first_intro_seen');
-      if (!introSeen) {
-        router.replace('/first-intro');
-        return;
-      }
-
       // Check if user has been set up
       const savedUser = await AsyncStorage.getItem('currentUser');
       if (!savedUser) {
+        // First check if first intro was seen (for new users)
+        const introSeen = await AsyncStorage.getItem('first_intro_seen');
+        if (!introSeen) {
+          router.replace('/first-intro');
+          return;
+        }
         setCheckingIntro(false);
         setShowUserSetup(true);
         return;
       }
 
       setCurrentUser(savedUser as 'prabh' | 'sehaj');
+      
+      // If Sehaj, always show first intro
+      if (savedUser === 'sehaj') {
+        router.replace('/first-intro');
+        return;
+      }
+
       setCheckingIntro(false);
       
       // Show presence check modal
