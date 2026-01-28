@@ -365,7 +365,7 @@ export default function TortureChamber() {
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(5, 1fr)',
-            gap: 8,
+            gap: 6,
           }}>
             {DAMAGE_ATTACKS.map((attack) => (
               <motion.button
@@ -378,17 +378,29 @@ export default function TortureChamber() {
                   background: 'rgba(239,68,68,0.2)',
                   border: '1px solid rgba(239,68,68,0.3)',
                   borderRadius: 10,
-                  padding: '10px 4px',
+                  padding: '8px 2px',
                   cursor: isDead ? 'not-allowed' : 'pointer',
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
-                  gap: 2,
+                  gap: 1,
                   opacity: isDead ? 0.5 : 1,
+                  minHeight: 70,
                 }}
               >
-                <span style={{ fontSize: 22 }}>{attack.emoji}</span>
-                <span style={{ color: '#ef4444', fontSize: 9, fontWeight: 600 }}>
+                <span style={{ fontSize: 20 }}>{attack.emoji}</span>
+                <span style={{ 
+                  color: 'rgba(255,255,255,0.8)', 
+                  fontSize: 8, 
+                  fontWeight: 500,
+                  textAlign: 'center',
+                  lineHeight: 1.1,
+                  maxWidth: '100%',
+                  overflow: 'hidden',
+                }}>
+                  {attack.name}
+                </span>
+                <span style={{ color: '#ef4444', fontSize: 9, fontWeight: 700 }}>
                   -{attack.damage}
                 </span>
               </motion.button>
@@ -404,7 +416,7 @@ export default function TortureChamber() {
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(5, 1fr)',
-            gap: 8,
+            gap: 6,
           }}>
             {HEAL_ACTIONS.map((action) => (
               <motion.button
@@ -417,17 +429,29 @@ export default function TortureChamber() {
                   background: 'rgba(74,222,128,0.2)',
                   border: '1px solid rgba(74,222,128,0.3)',
                   borderRadius: 10,
-                  padding: '10px 4px',
+                  padding: '8px 2px',
                   cursor: isDead ? 'not-allowed' : 'pointer',
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
-                  gap: 2,
+                  gap: 1,
                   opacity: isDead ? 0.5 : 1,
+                  minHeight: 70,
                 }}
               >
-                <span style={{ fontSize: 22 }}>{action.emoji}</span>
-                <span style={{ color: '#4ade80', fontSize: 9, fontWeight: 600 }}>
+                <span style={{ fontSize: 20 }}>{action.emoji}</span>
+                <span style={{ 
+                  color: 'rgba(255,255,255,0.8)', 
+                  fontSize: 8, 
+                  fontWeight: 500,
+                  textAlign: 'center',
+                  lineHeight: 1.1,
+                  maxWidth: '100%',
+                  overflow: 'hidden',
+                }}>
+                  {action.name}
+                </span>
+                <span style={{ color: '#4ade80', fontSize: 9, fontWeight: 700 }}>
                   +{action.heal}
                 </span>
               </motion.button>
