@@ -82,6 +82,17 @@ export const MusicProvider: React.FC<MusicProviderProps> = ({ children }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const soundRef = useRef<Audio.Sound | null>(null);
   const fadeIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const currentTrackIndexRef = useRef(currentTrackIndex);
+  const isMutedRef = useRef(isMuted);
+
+  // Keep refs in sync with state
+  useEffect(() => {
+    currentTrackIndexRef.current = currentTrackIndex;
+  }, [currentTrackIndex]);
+
+  useEffect(() => {
+    isMutedRef.current = isMuted;
+  }, [isMuted]);
 
   // Load saved state on mount
   useEffect(() => {
@@ -116,22 +127,19 @@ export const MusicProvider: React.FC<MusicProviderProps> = ({ children }) => {
       const savedIndex = await AsyncStorage.getItem('music_track_index');
       const savedMuted = await AsyncStorage.getItem('music_muted');
       
-      if (savedIndex !== null) {
-        setCurrentTrackIndex(parseInt(savedIndex, 10));
-      }
-      if (savedMuted !== null) {
-        setIsMuted(savedMuted === 'true');
-      }
+      const index = savedIndex !== null ? parseInt(savedIndex, 10) : 0;
+      const muted = savedMuted === 'true';
+      
+      setCurrentTrackIndex(index);
+      setIsMuted(muted);
       
       // Auto-play after loading state
       setTimeout(() => {
-        const index = savedIndex !== null ? parseInt(savedIndex, 10) : 0;
-        const muted = savedMuted === 'true';
-        loadAndPlayTrack(index, !muted);
+        loadAndPlayTrack(index, !muted, muted);
       }, 1000);
     } catch (error) {
       console.log('Error loading saved state:', error);
-      loadAndPlayTrack(0, true);
+      loadAndPlayTrack(0, true, false);
     }
   };
 
@@ -153,13 +161,14 @@ export const MusicProvider: React.FC<MusicProviderProps> = ({ children }) => {
           if (fadeIntervalRef.current) {
             clearInterval(fadeIntervalRef.current);
           }
-          await sound.setVolumeAsync(0);
+          try {
+            await sound.setVolumeAsync(0);
+          } catch (e) {}
           resolve();
         } else {
           try {
             await sound.setVolumeAsync(volume);
           } catch (e) {
-            // Sound might be unloaded
             if (fadeIntervalRef.current) {
               clearInterval(fadeIntervalRef.current);
             }
@@ -179,7 +188,9 @@ export const MusicProvider: React.FC<MusicProviderProps> = ({ children }) => {
           if (fadeIntervalRef.current) {
             clearInterval(fadeIntervalRef.current);
           }
-          await sound.setVolumeAsync(targetVolume);
+          try {
+            await sound.setVolumeAsync(targetVolume);
+          } catch (e) {}
           resolve();
         } else {
           try {
@@ -195,7 +206,7 @@ export const MusicProvider: React.FC<MusicProviderProps> = ({ children }) => {
     });
   };
 
-  const loadAndPlayTrack = async (index: number, shouldPlay: boolean = true) => {
+  const loadAndPlayTrack = async (index: number, shouldPlay: boolean = true, currentMuted?: boolean) => {
     try {
       // Fade out current track if playing
       if (soundRef.current && isLoaded) {
@@ -211,36 +222,42 @@ export const MusicProvider: React.FC<MusicProviderProps> = ({ children }) => {
           volume: 0,
           isLooping: false,
         },
-        onPlaybackStatusUpdate
+        (status) => onPlaybackStatusUpdate(status, index)
       );
 
       soundRef.current = newSound;
       setIsLoaded(true);
       setCurrentTrackIndex(index);
 
-      if (shouldPlay && !isMuted) {
+      const muted = currentMuted !== undefined ? currentMuted : isMutedRef.current;
+
+      if (shouldPlay && !muted) {
         await newSound.playAsync();
         setIsPlaying(true);
-        await fadeIn(newSound, isMuted ? 0 : 0.4);
+        await fadeIn(newSound, 0.4);
       } else {
-        setIsPlaying(false);
+        setIsPlaying(shouldPlay);
+        if (shouldPlay && muted) {
+          await newSound.playAsync();
+        }
       }
 
-      saveState(index, isMuted);
+      saveState(index, muted);
     } catch (error) {
       console.log('Error loading track:', error);
     }
   };
 
-  const onPlaybackStatusUpdate = (status: any) => {
+  const onPlaybackStatusUpdate = (status: any, trackIndex?: number) => {
     if (status.isLoaded) {
       setProgress(status.positionMillis || 0);
       setDuration(status.durationMillis || 0);
       
       // When track finishes, play next track
       if (status.didJustFinish && !status.isLooping) {
-        const nextIndex = (currentTrackIndex + 1) % PLAYLIST.length;
-        loadAndPlayTrack(nextIndex, !isMuted);
+        const currentIdx = trackIndex !== undefined ? trackIndex : currentTrackIndexRef.current;
+        const nextIndex = (currentIdx + 1) % PLAYLIST.length;
+        loadAndPlayTrack(nextIndex, !isMutedRef.current);
       }
     }
   };
