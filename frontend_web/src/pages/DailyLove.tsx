@@ -910,6 +910,165 @@ export default function DailyLove() {
         <p style={{ color: colors.textSecondary, fontSize: 16 }}>Choose an activity</p>
       </div>
 
+      {/* Jukebox Player with Video CD Art */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        style={{
+          background: colors.card,
+          border: `1px solid ${colors.border}`,
+          borderRadius: 20,
+          padding: 16,
+          marginBottom: 24,
+          display: 'flex',
+          alignItems: 'center',
+          gap: 16,
+        }}
+      >
+        {/* Spinning CD with Video */}
+        <motion.div
+          animate={isPlaying ? { rotate: 360 } : {}}
+          transition={isPlaying ? { duration: 3, repeat: Infinity, ease: 'linear' } : {}}
+          style={{
+            width: 70,
+            height: 70,
+            borderRadius: 35,
+            overflow: 'hidden',
+            border: `3px solid ${colors.primary}`,
+            boxShadow: `0 0 20px ${colors.primaryGlow}`,
+            position: 'relative',
+            flexShrink: 0,
+          }}
+        >
+          <video
+            src={JUKEBOX_VIDEO}
+            autoPlay
+            loop
+            muted
+            playsInline
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+            }}
+          />
+          {/* Center hole for CD effect */}
+          <div style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 12,
+            height: 12,
+            borderRadius: 6,
+            background: colors.background,
+            border: `2px solid ${colors.border}`,
+          }} />
+        </motion.div>
+
+        {/* Track Info */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <p style={{ 
+            color: colors.textPrimary, 
+            fontSize: 14, 
+            fontWeight: 600,
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+          }}>
+            {currentTrack?.title || 'No Track'}
+          </p>
+          <p style={{ 
+            color: colors.textSecondary, 
+            fontSize: 12,
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+          }}>
+            {currentTrack?.artist || 'Unknown'}
+          </p>
+        </div>
+
+        {/* Controls */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={previousTrack}
+            style={{
+              width: 32,
+              height: 32,
+              borderRadius: 16,
+              background: 'transparent',
+              border: 'none',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+            }}
+          >
+            <IoPlaySkipBack size={18} color={colors.textSecondary} />
+          </motion.button>
+
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={togglePlayPause}
+            style={{
+              width: 40,
+              height: 40,
+              borderRadius: 20,
+              background: colors.primary,
+              border: 'none',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+            }}
+          >
+            {isPlaying ? <IoPause size={20} color="white" /> : <IoPlay size={20} color="white" style={{ marginLeft: 2 }} />}
+          </motion.button>
+
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={nextTrack}
+            style={{
+              width: 32,
+              height: 32,
+              borderRadius: 16,
+              background: 'transparent',
+              border: 'none',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+            }}
+          >
+            <IoPlaySkipForward size={18} color={colors.textSecondary} />
+          </motion.button>
+
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={toggleMute}
+            style={{
+              width: 32,
+              height: 32,
+              borderRadius: 16,
+              background: 'transparent',
+              border: 'none',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+            }}
+          >
+            {isMuted ? <IoVolumeMute size={18} color={colors.textMuted} /> : <IoVolumeHigh size={18} color={colors.textSecondary} />}
+          </motion.button>
+        </div>
+      </motion.div>
+
       {/* Category Grid */}
       <div style={{
         display: 'grid',
