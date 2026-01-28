@@ -433,12 +433,13 @@ export default function TortureChamber() {
             {HEAL_ACTIONS.map((action) => (
               <motion.button
                 key={action.name}
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ scale: 1.08, boxShadow: '0 0 20px rgba(74,222,128,0.4)' }}
                 whileTap={{ scale: 0.9 }}
                 onClick={() => handleHeal(action)}
                 disabled={isDead}
                 style={{
-                  background: 'rgba(74,222,128,0.2)',
+                  background: 'rgba(74,222,128,0.15)',
+                  backdropFilter: 'blur(10px)',
                   border: '1px solid rgba(74,222,128,0.3)',
                   borderRadius: 10,
                   padding: '8px 2px',
@@ -449,9 +450,16 @@ export default function TortureChamber() {
                   gap: 1,
                   opacity: isDead ? 0.5 : 1,
                   minHeight: 70,
+                  boxShadow: '0 4px 15px rgba(0,0,0,0.2), inset 0 0 15px rgba(74,222,128,0.1)',
                 }}
               >
-                <span style={{ fontSize: 20 }}>{action.emoji}</span>
+                <motion.span 
+                  animate={{ scale: [1, 1.15, 1] }}
+                  transition={{ duration: 1.5, repeat: Infinity, delay: Math.random() * 2 }}
+                  style={{ fontSize: 20 }}
+                >
+                  {action.emoji}
+                </motion.span>
                 <span style={{ 
                   color: 'rgba(255,255,255,0.8)', 
                   fontSize: 8, 
