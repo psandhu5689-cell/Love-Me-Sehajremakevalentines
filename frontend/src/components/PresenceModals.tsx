@@ -103,7 +103,7 @@ export const UserSetupModal: React.FC<UserSetupModalProps> = ({ visible, onCompl
                 style={styles.userButton}
               >
                 <Text style={styles.userButtonText}>I'm Sehaj</Text>
-                <Text style={styles.userEmoji}>👸</Text>
+                <Text style={styles.userEmoji}>❄️</Text>
               </LinearGradient>
             </TouchableOpacity>
           </View>
