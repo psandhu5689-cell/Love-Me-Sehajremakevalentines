@@ -195,11 +195,28 @@ export default function DailyLove() {
   const navigate = useNavigate()
   const { colors, isDark } = useTheme()
   const { playClick, playMagic } = useAudio()
+  const { currentTrack, isPlaying, isMuted, togglePlayPause, toggleMute, nextTrack, previousTrack } = useMusic()
   const [selectedCategory, setSelectedCategory] = useState<typeof CATEGORIES[0] | null>(null)
   const [currentIndex, setCurrentIndex] = useState(0)
   const [showSadMode, setShowSadMode] = useState(false)
   const [sadMessage, setSadMessage] = useState('')
   const [streak, setStreak] = useState(0)
+  
+  // New states for activities
+  const [showWouldYouRather, setShowWouldYouRather] = useState(false)
+  const [wyrIndex, setWyrIndex] = useState(0)
+  const [showHeartToHeart, setShowHeartToHeart] = useState(false)
+  const [hthIndex, setHthIndex] = useState(0)
+  const [showCoinFlip, setShowCoinFlip] = useState(false)
+  const [coinResult, setCoinResult] = useState<string | null>(null)
+  const [isFlipping, setIsFlipping] = useState(false)
+  const [showTimeTogether, setShowTimeTogether] = useState(false)
+  
+  // Calculate time together (from a start date)
+  const startDate = new Date('2023-07-01') // Adjust this date!
+  const now = new Date()
+  const timeDiff = now.getTime() - startDate.getTime()
+  const daysTogether = Math.floor(timeDiff / (1000 * 60 * 60 * 24))
 
   useEffect(() => {
     // Load streak from localStorage
