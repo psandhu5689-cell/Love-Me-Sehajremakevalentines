@@ -252,6 +252,52 @@ export default function DailyLove() {
     setSadMessage(SAD_MESSAGES[Math.floor(Math.random() * SAD_MESSAGES.length)])
   }
 
+  // Activity handlers
+  const handleOpenWYR = () => {
+    playClick()
+    setWyrIndex(Math.floor(Math.random() * WOULD_YOU_RATHER.length))
+    setShowWouldYouRather(true)
+  }
+
+  const handleNextWYR = () => {
+    playClick()
+    setWyrIndex((prev) => (prev + 1) % WOULD_YOU_RATHER.length)
+  }
+
+  const handleOpenHTH = () => {
+    playClick()
+    setHthIndex(Math.floor(Math.random() * HEART_TO_HEART.length))
+    setShowHeartToHeart(true)
+  }
+
+  const handleNextHTH = () => {
+    playClick()
+    setHthIndex((prev) => (prev + 1) % HEART_TO_HEART.length)
+  }
+
+  const handleCoinFlip = () => {
+    playClick()
+    setShowCoinFlip(true)
+    setCoinResult(null)
+  }
+
+  const flipCoin = () => {
+    if (isFlipping) return
+    playMagic()
+    setIsFlipping(true)
+    setCoinResult(null)
+    
+    setTimeout(() => {
+      setCoinResult(Math.random() > 0.5 ? 'Sehaj is Right! 👑' : 'Prabh is Right! 🏆')
+      setIsFlipping(false)
+    }, 1500)
+  }
+
+  const handleOpenTimeTogether = () => {
+    playClick()
+    setShowTimeTogether(true)
+  }
+
   // ============ SAD MODE ============
   if (showSadMode) {
     return (
