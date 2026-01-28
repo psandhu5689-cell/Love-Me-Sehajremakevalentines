@@ -16,7 +16,7 @@ import { Audio, Video, ResizeMode } from 'expo-av';
 import { BlurView } from 'expo-blur';
 import { useTheme } from '../src/theme/ThemeContext';
 import { ThemedBackground } from '../src/components/themed';
-import { useMusic } from '../src/context/MusicContext';
+import { useMusic, PLAYLIST } from '../src/context/MusicContext';
 import * as Haptics from 'expo-haptics';
 
 const { width, height } = Dimensions.get('window');
@@ -32,78 +32,55 @@ const VIDEOS = [
   'https://customer-assets.emergentagent.com/job_add-this-1/artifacts/zr6k5md8_6ED17C90-F068-4114-862A-9C69C98D65D1.MOV',
 ];
 
-// Memory entries with videos and songs
+// Memory entries with videos and songs from PLAYLIST
 const GALLERY_ITEMS = [
   {
     id: '1',
-    type: 'video',
     media: VIDEOS[0],
     title: 'Golden Memories',
-    song: {
-      title: 'Our Song',
-      uri: 'https://customer-assets.emergentagent.com/job_sehaj-love/artifacts/yavk7xux_efeed8b5.mp3',
-    },
+    song: PLAYLIST[0], // It's Love - RealestK
   },
   {
     id: '2',
-    type: 'video',
     media: VIDEOS[1],
     title: 'Sweet Moments',
-    song: {
-      title: 'Forever Yours',
-      uri: 'https://customer-assets.emergentagent.com/job_sehaj-love/artifacts/yavk7xux_efeed8b5.mp3',
-    },
+    song: PLAYLIST[1], // Apocalypse - Cigarettes After Sex
   },
   {
     id: '3',
-    type: 'video',
     media: VIDEOS[2],
     title: 'Together Always',
-    song: {
-      title: 'Love Story',
-      uri: 'https://customer-assets.emergentagent.com/job_sehaj-love/artifacts/yavk7xux_efeed8b5.mp3',
-    },
+    song: PLAYLIST[2], // Fall in Love with You - Montell Fish
   },
   {
     id: '4',
-    type: 'video',
     media: VIDEOS[3],
     title: 'Beautiful Days',
-    song: {
-      title: 'Dreaming',
-      uri: 'https://customer-assets.emergentagent.com/job_sehaj-love/artifacts/yavk7xux_efeed8b5.mp3',
-    },
+    song: PLAYLIST[3], // Love Me - RealestK
   },
   {
     id: '5',
-    type: 'video',
     media: VIDEOS[4],
     title: 'Our Love',
-    song: {
-      title: 'Heartbeat',
-      uri: 'https://customer-assets.emergentagent.com/job_sehaj-love/artifacts/yavk7xux_efeed8b5.mp3',
-    },
+    song: PLAYLIST[4], // Meet Me in Amsterdam - RINI
   },
   {
     id: '6',
-    type: 'video',
     media: VIDEOS[5],
     title: 'Forever Us',
-    song: {
-      title: 'Endless',
-      uri: 'https://customer-assets.emergentagent.com/job_sehaj-love/artifacts/yavk7xux_efeed8b5.mp3',
-    },
+    song: PLAYLIST[0], // It's Love - RealestK (repeat)
   },
 ];
 
 interface GalleryItemType {
   id: string;
-  type: 'image' | 'video';
   media: string;
   title: string;
   song: {
+    id: number;
     title: string;
-    uri: string;
+    artist: string;
+    url: string;
   };
 }
 
