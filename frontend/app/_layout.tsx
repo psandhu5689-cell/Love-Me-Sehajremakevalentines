@@ -4,11 +4,11 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { View, TouchableOpacity, StyleSheet, Animated, Platform } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import soundManager from './utils/sounds';
-import { ThemeProvider, useTheme } from './theme/ThemeContext';
-import { ThemeToggle } from './components/themed';
-import { MusicProvider, useMusic } from './context/MusicContext';
-import { NowPlayingWidget, JukeboxModal } from './components/music';
+import soundManager from '../src/utils/sounds';
+import { ThemeProvider, useTheme } from '../src/theme/ThemeContext';
+import { ThemeToggle } from '../src/components/themed';
+import { MusicProvider, useMusic } from '../src/context/MusicContext';
+import { NowPlayingWidget, JukeboxModal } from '../src/components/music';
 import * as Haptics from 'expo-haptics';
 
 interface UserContextType {
