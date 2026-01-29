@@ -985,8 +985,8 @@ export default function VirtualBed() {
               }} />
             </div>
             
-            {/* LAYER 5: Cat Sprites */}
-            {/* Sehaj Cat (Left - Ginger) */}
+            {/* LAYER 5: Cat Sprites - POSITIONED LOWER FOR MOBILE, NO NAMES */}
+            {/* Sehaj Cat (Left - Ginger) - VISIBILITY SAFETY: Always visible */}
             <motion.div
               animate={{
                 y: sehaj.action === 'nudge' || sehaj.action === 'kick' ? [0, -3, 0] : 0,
@@ -994,9 +994,15 @@ export default function VirtualBed() {
               transition={{ duration: 0.3, ease: 'easeOut' }}
               style={{
                 position: 'absolute',
-                left: '28%',
-                bottom: 180,
+                left: '25%',
+                bottom: 110, // Moved lower to touch floor on mobile
                 zIndex: 3,
+                // SAFETY: Never allow invisible cats
+                opacity: 1,
+                visibility: 'visible',
+                display: 'block',
+                minWidth: 64,
+                minHeight: 64,
               }}
             >
               <Sprite
@@ -1007,18 +1013,7 @@ export default function VirtualBed() {
                 scale={1.8}
                 flip={false}
               />
-              <p style={{
-                position: 'absolute',
-                bottom: -18,
-                left: '50%',
-                transform: 'translateX(-50%)',
-                color: colors.textSecondary,
-                fontSize: 11,
-                fontWeight: 600,
-                whiteSpace: 'nowrap',
-              }}>
-                Sehaj 🧡
-              </p>
+              {/* REMOVED: Name label under cat */}
               {sehaj.action === 'gaming' && (
                 <motion.div
                   animate={{ y: [0, -3, 0] }}
@@ -1036,7 +1031,7 @@ export default function VirtualBed() {
               )}
             </motion.div>
             
-            {/* Prabh Cat (Right - Grey) */}
+            {/* Prabh Cat (Right - Grey) - VISIBILITY SAFETY: Always visible */}
             <motion.div
               animate={{
                 y: prabh.action === 'nudge' || prabh.action === 'kick' ? [0, -3, 0] : 0,
@@ -1044,9 +1039,15 @@ export default function VirtualBed() {
               transition={{ duration: 0.3, ease: 'easeOut' }}
               style={{
                 position: 'absolute',
-                right: '28%',
-                bottom: 180,
+                right: '25%',
+                bottom: 110, // Moved lower to touch floor on mobile
                 zIndex: 3,
+                // SAFETY: Never allow invisible cats
+                opacity: 1,
+                visibility: 'visible',
+                display: 'block',
+                minWidth: 64,
+                minHeight: 64,
               }}
             >
               <Sprite
@@ -1057,18 +1058,7 @@ export default function VirtualBed() {
                 scale={1.8}
                 flip={true}
               />
-              <p style={{
-                position: 'absolute',
-                bottom: -18,
-                left: '50%',
-                transform: 'translateX(-50%)',
-                color: colors.textSecondary,
-                fontSize: 11,
-                fontWeight: 600,
-                whiteSpace: 'nowrap',
-              }}>
-                Prabh 🖤
-              </p>
+              {/* REMOVED: Name label under cat */}
               {prabh.action === 'gaming' && (
                 <motion.div
                   animate={{ y: [0, -3, 0] }}
