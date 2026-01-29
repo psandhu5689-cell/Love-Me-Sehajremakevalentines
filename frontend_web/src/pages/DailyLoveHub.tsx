@@ -100,31 +100,35 @@ export default function DailyLoveHub() {
         maxWidth: 600,
         margin: '0 auto',
         width: '100%',
-        paddingTop: 50,
+        paddingTop: 10,
         paddingLeft: 16,
         paddingRight: 16,
+        marginTop: 50,
       }}>
-        {/* Title Section */}
+        {/* Title Section - PROMINENT */}
         <div
           style={{
             textAlign: 'center',
             marginBottom: 16,
-            padding: '8px 0',
+            padding: '10px 0',
+            backgroundColor: 'rgba(232, 99, 143, 0.1)',
+            borderRadius: 12,
           }}
         >
           <span style={{
             color: '#FFFFFF',
-            fontSize: 24,
+            fontSize: 22,
             fontWeight: 700,
             display: 'block',
+            letterSpacing: '0.5px',
           }}>
             ✨ Personal Library ✨
           </span>
           <span style={{
             color: '#9B9BAE',
-            fontSize: 13,
+            fontSize: 12,
             display: 'block',
-            marginTop: 4,
+            marginTop: 2,
           }}>
             Everything for my girl
           </span>
