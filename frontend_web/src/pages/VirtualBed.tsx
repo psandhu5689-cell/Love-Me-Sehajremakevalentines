@@ -641,17 +641,35 @@ export default function VirtualBed() {
             boxShadow: `0 8px 32px ${colors.primaryGlow}`,
           }}
         >
-          {/* Rainy Window - Always rainy GIF style */}
+          {/* Rainy Window - Real Video Loop */}
           <div style={{
             width: 180,
             height: 130,
-            background: 'linear-gradient(180deg, #2a3a5e 0%, #1a2540 100%)',
             border: '6px solid #5D4037',
             borderRadius: 12,
             margin: '0 auto 16px',
             position: 'relative',
             overflow: 'hidden',
           }}>
+            {/* Background Video */}
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                zIndex: 0,
+              }}
+            >
+              <source src="/window-rain.mov" type="video/mp4" />
+            </video>
+            
             {/* Window frame */}
             <div style={{
               position: 'absolute',
@@ -661,6 +679,7 @@ export default function VirtualBed() {
               height: '100%',
               background: '#5D4037',
               transform: 'translateX(-50%)',
+              zIndex: 1,
             }} />
             <div style={{
               position: 'absolute',
@@ -670,46 +689,8 @@ export default function VirtualBed() {
               height: 6,
               background: '#5D4037',
               transform: 'translateY(-50%)',
+              zIndex: 1,
             }} />
-            
-            {/* Rain animation - always on */}
-            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, overflow: 'hidden' }}>
-              {[...Array(40)].map((_, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ y: -20, x: `${Math.random() * 100}%`, opacity: 0.7 }}
-                  animate={{ y: 150, opacity: [0.7, 0.4, 0.7] }}
-                  transition={{
-                    duration: 0.6 + Math.random() * 0.4,
-                    repeat: Infinity,
-                    delay: Math.random() * 0.6,
-                    ease: 'linear',
-                  }}
-                  style={{
-                    position: 'absolute',
-                    width: 2,
-                    height: 12,
-                    background: 'linear-gradient(180deg, rgba(150, 200, 255, 0.8), rgba(150, 200, 255, 0.2))',
-                    borderRadius: 2,
-                  }}
-                />
-              ))}
-            </div>
-            
-            {/* Distant lightning flash occasionally */}
-            <motion.div
-              animate={{ opacity: [0, 0, 0, 0, 0.3, 0, 0.1, 0] }}
-              transition={{ duration: 8, repeat: Infinity, repeatDelay: 5 }}
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                background: 'white',
-                pointerEvents: 'none',
-              }}
-            />
           </div>
           
           {/* Floor Scene Container */}
