@@ -1,6 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { IoChevronBack, IoHeart, IoHelpCircle, IoTrophy, IoChatbubbles, IoStar, IoBook, IoTime, IoSwapHorizontal, IoImages } from 'react-icons/io5'
+import { IoChevronBack, IoHeart, IoHelpCircle, IoTrophy, IoChatbubbles, IoStar, IoBook, IoImages } from 'react-icons/io5'
 import { useNavigate } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
 import haptics from '../utils/haptics'
@@ -11,24 +11,8 @@ export default function DailyLoveHub() {
 
   const activities = [
     {
-      id: 'timer',
-      title: 'How Long Together',
-      subtitle: 'Every second with you',
-      icon: IoTime,
-      gradient: ['#667eea', '#764ba2'],
-      route: '/how-long-together',
-    },
-    {
-      id: 'would-you-rather',
-      title: 'Would You Rather',
-      subtitle: 'Fun questions for us',
-      icon: IoSwapHorizontal,
-      gradient: ['#f093fb', '#f5576c'],
-      route: '/would-you-rather',
-    },
-    {
       id: 'gallery',
-      title: 'Memories',
+      title: 'When i.....',
       subtitle: 'Our moments together',
       icon: IoImages,
       gradient: ['#4facfe', '#00f2fe'],
@@ -36,7 +20,7 @@ export default function DailyLoveHub() {
     },
     {
       id: 'compliments',
-      title: 'Daily Compliments',
+      title: 'For Sehaj & Mrs. Sandhu',
       subtitle: 'Words from my heart',
       icon: IoHeart,
       gradient: ['#FF6B9D', '#C471ED'],
@@ -44,7 +28,7 @@ export default function DailyLoveHub() {
     },
     {
       id: 'why-i-love-you',
-      title: 'Why I Love You',
+      title: 'Why does he love me',
       subtitle: 'Because reasons',
       icon: IoStar,
       gradient: ['#FF9472', '#F2709C'],
@@ -52,7 +36,7 @@ export default function DailyLoveHub() {
     },
     {
       id: 'questions',
-      title: 'Daily Questions',
+      title: 'Mhmm what would she say',
       subtitle: 'Let me know you better',
       icon: IoHelpCircle,
       gradient: ['#4FACFE', '#00F2FE'],
@@ -60,23 +44,15 @@ export default function DailyLoveHub() {
     },
     {
       id: 'challenges',
-      title: 'Daily Challenges',
+      title: 'A little this & A little that',
       subtitle: 'Small things for us',
       icon: IoTrophy,
       gradient: ['#43E97B', '#38F9D7'],
       route: '/daily-challenges',
     },
     {
-      id: 'sad',
-      title: "When You're Sad",
-      subtitle: "I'm here for you",
-      icon: IoChatbubbles,
-      gradient: ['#A8EDEA', '#FED6E3'],
-      route: '/daily-love',
-    },
-    {
       id: 'notes',
-      title: 'Special Moments',
+      title: '"Here and There" memories',
       subtitle: 'Things I remember',
       icon: IoBook,
       gradient: ['#FFA8A8', '#FCFF00'],
@@ -131,7 +107,7 @@ export default function DailyLoveHub() {
           animate={{ opacity: 1, y: 0 }}
           style={{
             textAlign: 'center',
-            marginBottom: 40,
+            marginBottom: 32,
           }}
         >
           <h1 style={{
@@ -140,21 +116,97 @@ export default function DailyLoveHub() {
             fontWeight: 600,
             marginBottom: 8,
           }}>
-            This and That
+            Personal Library
           </h1>
           <p style={{
             color: colors.textSecondary,
             fontSize: 16,
           }}>
-            Daily love for my girl
+            Everything for my girl
           </p>
+        </motion.div>
+
+        {/* BIG "When You're Sad" Widget at TOP */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          whileHover={{ scale: 1.02, y: -5 }}
+          whileTap={{ scale: 0.98 }}
+          onClick={() => {
+            haptics.medium()
+            navigate('/daily-love')
+          }}
+          style={{
+            background: `linear-gradient(135deg, ${colors.primary}, ${colors.secondary})`,
+            borderRadius: 24,
+            padding: 32,
+            cursor: 'pointer',
+            boxShadow: `0 12px 40px ${colors.primaryGlow}`,
+            marginBottom: 24,
+            position: 'relative',
+            overflow: 'hidden',
+          }}
+        >
+          {/* Shimmer effect */}
+          <motion.div
+            animate={{ x: ['-100%', '200%'] }}
+            transition={{ duration: 3, repeat: Infinity, repeatDelay: 5 }}
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)',
+              pointerEvents: 'none',
+            }}
+          />
+          
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 20,
+          }}>
+            {/* Icon */}
+            <div style={{
+              width: 72,
+              height: 72,
+              borderRadius: 20,
+              background: 'rgba(255,255,255,0.2)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexShrink: 0,
+            }}>
+              <IoChatbubbles size={36} color="white" />
+            </div>
+
+            {/* Text */}
+            <div>
+              <h2 style={{
+                color: 'white',
+                fontSize: 24,
+                fontWeight: 700,
+                marginBottom: 8,
+              }}>
+                When You're Sad
+              </h2>
+              <p style={{
+                color: 'rgba(255,255,255,0.9)',
+                fontSize: 16,
+                lineHeight: 1.5,
+              }}>
+                I'm here for you 💗
+              </p>
+            </div>
+          </div>
         </motion.div>
 
         {/* Activity Grid */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-          gap: 20,
+          gap: 16,
         }}>
           {activities.map((activity, index) => {
             const Icon = activity.icon
@@ -163,8 +215,8 @@ export default function DailyLoveHub() {
                 key={activity.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                whileHover={{ scale: 1.02, y: -5 }}
+                transition={{ delay: index * 0.08 }}
+                whileHover={{ scale: 1.02, y: -3 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => {
                   haptics.medium()
@@ -175,11 +227,14 @@ export default function DailyLoveHub() {
                   backdropFilter: 'blur(20px)',
                   border: `1px solid ${colors.border}`,
                   borderRadius: 20,
-                  padding: 24,
+                  padding: 20,
                   cursor: 'pointer',
-                  boxShadow: `0 8px 32px ${colors.primaryGlow}`,
+                  boxShadow: `0 4px 20px ${colors.primaryGlow}`,
                   position: 'relative',
                   overflow: 'hidden',
+                  // FIXED: Always visible, no disappearing
+                  opacity: 1,
+                  visibility: 'visible',
                 }}
               >
                 {/* Gradient Overlay */}
@@ -194,31 +249,31 @@ export default function DailyLoveHub() {
 
                 {/* Icon */}
                 <div style={{
-                  width: 56,
-                  height: 56,
-                  borderRadius: 16,
+                  width: 48,
+                  height: 48,
+                  borderRadius: 14,
                   background: `linear-gradient(135deg, ${activity.gradient[0]}, ${activity.gradient[1]})`,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  marginBottom: 16,
+                  marginBottom: 14,
                 }}>
-                  <Icon size={28} color="white" />
+                  <Icon size={24} color="white" />
                 </div>
 
                 {/* Text */}
                 <h3 style={{
                   color: colors.textPrimary,
-                  fontSize: 20,
+                  fontSize: 18,
                   fontWeight: 600,
-                  marginBottom: 8,
+                  marginBottom: 6,
                 }}>
                   {activity.title}
                 </h3>
                 <p style={{
                   color: colors.textSecondary,
-                  fontSize: 14,
-                  lineHeight: 1.5,
+                  fontSize: 13,
+                  lineHeight: 1.4,
                 }}>
                   {activity.subtitle}
                 </p>
