@@ -388,24 +388,34 @@ export default function VirtualBed() {
   
   // ============ AUTONOMOUS CAT ROAMING SYSTEM ============
   
-  // Define 12 safe anchor spots in the room (percentages relative to room container)
-  // These positions are carefully chosen to never overlap UI buttons
+  // FLOOR BOUNDING BOX - cats can ONLY roam within this region
+  // Floor starts at ~60% from top and goes to ~85% (leaving room for blanket)
+  const FLOOR_BOUNDS = {
+    minX: 10,    // Left edge of floor
+    maxX: 90,    // Right edge of floor
+    minY: 62,    // Top edge of floor (cats can't go above this)
+    maxY: 78,    // Bottom edge of floor (above blanket)
+  }
+  
+  // Define 10 safe anchor spots - ALL WITHIN FLOOR REGION ONLY
+  // No spots on walls, window, or upper decorations
   const ANCHOR_SPOTS = [
-    { id: 0, xPercent: 15, yPercent: 65, defaultPose: 'sit' as const },   // Left side, lower
-    { id: 1, xPercent: 25, yPercent: 55, defaultPose: 'lay' as const },   // Left-center
-    { id: 2, xPercent: 35, yPercent: 70, defaultPose: 'sit' as const },   // Center-left, low
-    { id: 3, xPercent: 50, yPercent: 60, defaultPose: 'sit' as const },   // Center
-    { id: 4, xPercent: 65, yPercent: 70, defaultPose: 'lay' as const },   // Center-right, low
-    { id: 5, xPercent: 75, yPercent: 55, defaultPose: 'sit' as const },   // Right-center
-    { id: 6, xPercent: 85, yPercent: 65, defaultPose: 'lay' as const },   // Right side, lower
-    { id: 7, xPercent: 20, yPercent: 45, defaultPose: 'sit' as const },   // Left, upper
-    { id: 8, xPercent: 45, yPercent: 48, defaultPose: 'lay' as const },   // Center, upper
-    { id: 9, xPercent: 70, yPercent: 45, defaultPose: 'sit' as const },   // Right, upper
-    { id: 10, xPercent: 30, yPercent: 62, defaultPose: 'sit' as const },  // Rug left
-    { id: 11, xPercent: 60, yPercent: 62, defaultPose: 'lay' as const },  // Rug right
+    { id: 0, xPercent: 15, yPercent: 70, defaultPose: 'sit' as const },   // Floor left
+    { id: 1, xPercent: 25, yPercent: 65, defaultPose: 'lay' as const },   // Floor left-center
+    { id: 2, xPercent: 35, yPercent: 72, defaultPose: 'sit' as const },   // Floor center-left
+    { id: 3, xPercent: 50, yPercent: 68, defaultPose: 'sit' as const },   // Floor center
+    { id: 4, xPercent: 50, yPercent: 75, defaultPose: 'lay' as const },   // Floor center low
+    { id: 5, xPercent: 65, yPercent: 72, defaultPose: 'sit' as const },   // Floor center-right
+    { id: 6, xPercent: 75, yPercent: 65, defaultPose: 'lay' as const },   // Floor right-center
+    { id: 7, xPercent: 85, yPercent: 70, defaultPose: 'sit' as const },   // Floor right
+    { id: 8, xPercent: 30, yPercent: 68, defaultPose: 'sit' as const },   // Rug left area
+    { id: 9, xPercent: 60, yPercent: 68, defaultPose: 'lay' as const },   // Rug right area
   ]
   
-  // Cat roaming states
+  // Walk direction type
+  type WalkDirection = 'walkUp' | 'walkDown' | 'walkLeft' | 'walkRight'
+  
+  // Cat roaming states - UPDATED with walk direction
   type RoamState = 'idleSit' | 'idleLay' | 'walkToSpot' | 'reacting'
   
   interface CatRoamState {
@@ -416,28 +426,31 @@ export default function VirtualBed() {
     yPercent: number
     pose: 'sit' | 'lay'
     isMoving: boolean
+    walkDirection: WalkDirection
   }
   
-  // Sehaj roaming state (starts at left side)
+  // Sehaj roaming state (starts at left side of floor)
   const [sehajRoam, setSehajRoam] = useState<CatRoamState>({
     state: 'idleSit',
     currentSpotId: 0,
     targetSpotId: 0,
     xPercent: 20,
-    yPercent: 65,
+    yPercent: 70,
     pose: 'sit',
     isMoving: false,
+    walkDirection: 'walkRight',
   })
   
-  // Prabh roaming state (starts at right side)
+  // Prabh roaming state (starts at right side of floor)
   const [prabhRoam, setPrabhRoam] = useState<CatRoamState>({
     state: 'idleSit',
-    currentSpotId: 6,
-    targetSpotId: 6,
+    currentSpotId: 7,
+    targetSpotId: 7,
     xPercent: 80,
-    yPercent: 65,
+    yPercent: 70,
     pose: 'sit',
     isMoving: false,
+    walkDirection: 'walkLeft',
   })
   
   // Cuddle mode - MUST be declared before roaming effects that reference it
@@ -460,9 +473,25 @@ export default function VirtualBed() {
   // Function to get random roam interval (4-10 seconds)
   const getRandomRoamInterval = () => Math.floor(Math.random() * 6000) + 4000
   
-  // Function to pick a random different spot
+  // Function to calculate walk direction based on movement vector
+  const calculateWalkDirection = (fromX: number, fromY: number, toX: number, toY: number): WalkDirection => {
+    const dx = toX - fromX
+    const dy = toY - fromY
+    
+    // Determine dominant direction
+    if (Math.abs(dx) > Math.abs(dy)) {
+      // Horizontal movement dominant
+      return dx > 0 ? 'walkRight' : 'walkLeft'
+    } else {
+      // Vertical movement dominant
+      return dy > 0 ? 'walkDown' : 'walkUp'
+    }
+  }
+  
+  // Function to pick a random different spot - FLOOR ONLY
   const pickRandomSpot = (currentSpotId: number, isLeft: boolean): number => {
     // Filter spots based on cat's side (Sehaj left, Prabh right) with some overlap in middle
+    // ALL spots are already floor-only, just filter by side
     const availableSpots = ANCHOR_SPOTS.filter(spot => {
       if (spot.id === currentSpotId) return false
       if (isLeft) return spot.xPercent <= 60 // Sehaj can go up to 60%
