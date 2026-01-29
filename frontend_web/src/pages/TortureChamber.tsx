@@ -83,24 +83,20 @@ export default function TortureChamber() {
     return '#ef4444' // Red
   }
 
-  // Add floating message with auto-removal
+  // Add floating message with auto-removal after 1 second
   const addFloatingMessage = (value: number, isHeal: boolean) => {
     const id = `${Date.now()}-${Math.random()}`
     const newMessage = { id, value, isHeal, timestamp: Date.now() }
     
     setFloatingMessages(prev => {
-      const updated = [...prev, newMessage]
-      // Limit to max 3 messages
-      if (updated.length > 3) {
-        return updated.slice(-3)
-      }
-      return updated
+      // Just add the new message - no cap needed since they disappear fast
+      return [...prev, newMessage]
     })
     
-    // Auto-remove after 1.8 seconds
+    // FIXED: Auto-remove after 1 second (1000ms) for fast disappearing
     setTimeout(() => {
       setFloatingMessages(prev => prev.filter(msg => msg.id !== id))
-    }, 1800)
+    }, 1000)
   }
 
   // Handle damage
