@@ -428,6 +428,9 @@ export default function VirtualBed() {
     isMoving: false,
   })
   
+  // Cuddle mode - MUST be declared before roaming effects that reference it
+  const [cuddleMode, setCuddleMode] = useState(false)
+  
   // Roaming timers
   const sehajRoamTimerRef = useRef<NodeJS.Timeout | null>(null)
   const prabhRoamTimerRef = useRef<NodeJS.Timeout | null>(null)
