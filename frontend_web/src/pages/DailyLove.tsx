@@ -6,6 +6,7 @@ import { useTheme } from '../context/ThemeContext'
 import { useAudio } from '../context/AudioContext'
 import { useMusic, PLAYLIST } from '../context/MusicContext'
 import { usePresence } from '../context/PresenceContext'
+import haptics from '../utils/haptics'
 
 // ============ CONTENT ARRAYS ============
 
