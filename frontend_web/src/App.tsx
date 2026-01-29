@@ -32,15 +32,6 @@ export default function App() {
       {/* Global Animated Background (Stars/Hearts based on theme) */}
       <AnimatedBackground particleCount={80} shootingCount={4} />
       
-      {/* Theme Toggle - Fixed at bottom above safe area */}
-      <ThemeToggle style={{ 
-        position: 'fixed', 
-        bottom: 30, 
-        left: '50%', 
-        transform: 'translateX(-50%)',
-        zIndex: 9999 
-      }} />
-      
       {/* Global Presence Modals */}
       <UserSetupModal />
       <PresenceCheckModal />
