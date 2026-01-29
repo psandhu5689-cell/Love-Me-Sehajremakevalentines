@@ -662,7 +662,7 @@ export default function VirtualBed() {
                 margin: 0,
                 color: showUnlovedMessage === 'prabh' ? '#8E44AD' : '#E67E22'
               }}>
-                {showUnlovedMessage === 'prabh' ? 'Prabh' : 'Sehaj'} feels unloved...
+                {showUnlovedMessage === 'prabh' ? 'Prabh is severely unloved.' : 'Sehaj needs attention.'}
               </p>
               <p style={{ 
                 fontSize: 14, 
@@ -670,7 +670,7 @@ export default function VirtualBed() {
                 color: 'rgba(255,255,255,0.8)',
                 fontStyle: 'italic'
               }}>
-                Give some attention! 💕
+                Show some love! 💕
               </p>
             </motion.div>
           </motion.div>
