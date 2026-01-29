@@ -119,7 +119,7 @@ export default function TortureChamber() {
   }
 
   // Handle damage
-  const handleDamage = (attack: typeof DAMAGE_ATTACKS[0]) => {
+  const handleDamage = (attack: typeof DAMAGE_ATTACKS[0], buttonIndex: number) => {
     playPop()
     setIsShaking(true)
     setWasJustDamaged(true)
@@ -128,8 +128,8 @@ export default function TortureChamber() {
     const newHp = Math.max(0, hp - attack.damage)
     setHp(newHp)
 
-    // Show floating damage
-    addFloatingMessage(-attack.damage, false)
+    // Show floating damage - with button position
+    addFloatingMessage(-attack.damage, false, buttonIndex)
 
     // Random message or attack message
     if (Math.random() < 0.3) {
@@ -158,7 +158,7 @@ export default function TortureChamber() {
   }
 
   // Handle healing
-  const handleHeal = (action: typeof HEAL_ACTIONS[0]) => {
+  const handleHeal = (action: typeof HEAL_ACTIONS[0], buttonIndex: number) => {
     playClick()
     
     // Check for redemption arc
@@ -173,8 +173,8 @@ export default function TortureChamber() {
     const newHp = Math.min(1800, hp + action.heal) // Cap at 1800 (120% of 1500)
     setHp(newHp)
 
-    // Show floating heal
-    addFloatingMessage(action.heal, true)
+    // Show floating heal - with button position
+    addFloatingMessage(action.heal, true, buttonIndex)
   }
 
   // Revive button
