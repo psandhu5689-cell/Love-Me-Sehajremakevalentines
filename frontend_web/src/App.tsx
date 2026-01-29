@@ -60,6 +60,7 @@ export default function App() {
           <Route path="/word-puzzles" element={<WordPuzzles />} />
           <Route path="/word-search" element={<WordSearch />} />
           <Route path="/crossword" element={<Crossword />} />
+          <Route path="/crossword-game" element={<CrosswordGame />} />
         </Routes>
       </AnimatePresence>
     </>
