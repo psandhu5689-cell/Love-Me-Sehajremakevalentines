@@ -1407,17 +1407,42 @@ export default function VirtualBed() {
               }}>
                 🪴
               </div>
-              {/* Tiny frame on shelf */}
-              <div style={{
-                position: 'absolute',
-                top: -20,
-                right: 15,
-                width: 18,
-                height: 18,
-                background: 'linear-gradient(135deg, #FFD700, #FFA500)',
-                border: '2px solid #8B6914',
-                borderRadius: 3,
-              }} />
+              {/* INTERACTIVE: Tiny frame on shelf - cycles through images */}
+              <motion.div
+                whileTap={{ scale: 0.9 }}
+                onClick={() => {
+                  setFrameIndex(prev => (prev + 1) % FRAME_IMAGES.length)
+                  addXP(1)
+                  haptics.light()
+                }}
+                style={{
+                  position: 'absolute',
+                  top: -22,
+                  right: 12,
+                  width: 22,
+                  height: 22,
+                  background: 'linear-gradient(135deg, #FFD700, #FFA500)',
+                  border: '2px solid #8B6914',
+                  borderRadius: 3,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: 12,
+                }}
+              >
+                <AnimatePresence mode="wait">
+                  <motion.span
+                    key={frameIndex}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.8 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    {FRAME_IMAGES[frameIndex]}
+                  </motion.span>
+                </AnimatePresence>
+              </motion.div>
             </div>
 
             {/* Small lamp - top right - INTERACTIVE */}
