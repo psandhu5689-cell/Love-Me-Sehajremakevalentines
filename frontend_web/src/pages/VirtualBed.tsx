@@ -578,9 +578,9 @@ export default function VirtualBed() {
     haptics.light()
     setSpecialMode(true)
     
-    // Increase both meters significantly
-    setPrabhMeter(prev => Math.min(100, prev + 30))
-    setSehajMeter(prev => Math.min(100, prev + 25))
+    // FIXED: Decrease freakiness meters slightly (not increase)
+    setPrabhMeter(prev => Math.max(0, prev - 15))
+    setSehajMeter(prev => Math.max(0, prev - 12))
     
     // Clear any unloved messages since both cats are getting attention
     setShowUnlovedMessage(null)
