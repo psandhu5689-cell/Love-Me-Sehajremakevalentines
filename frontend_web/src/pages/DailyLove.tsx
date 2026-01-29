@@ -1045,10 +1045,7 @@ export default function DailyLove() {
     const handleHoldToHug = (e: React.MouseEvent | React.TouchEvent) => {
       e.preventDefault()
       setIsHugging(true)
-      // Vibrate to indicate start
-      if (navigator.vibrate) {
-        navigator.vibrate(30)
-      }
+      // Removed vibration as per user request
       haptics.light()
       
       // Clear any existing interval
@@ -1061,10 +1058,7 @@ export default function DailyLove() {
           if (prev >= 100) {
             if (hugIntervalRef.current) clearInterval(hugIntervalRef.current)
             setHugComplete(true)
-            // Strong vibration on complete
-            if (navigator.vibrate) {
-              navigator.vibrate([100, 50, 100, 50, 100])
-            }
+            // Removed vibration as per user request
             haptics.success()
             setTimeout(() => {
               setHugComplete(false)
@@ -1072,10 +1066,7 @@ export default function DailyLove() {
             }, 3000)
             return 100
           }
-          // Light pulse vibration while holding
-          if (prev % 25 === 0 && navigator.vibrate) {
-            navigator.vibrate(15)
-          }
+          // Removed pulse vibration as per user request
           return prev + 5
         })
       }, 100)
