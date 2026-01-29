@@ -1,6 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { IoChevronBack, IoHeart, IoHelpCircle, IoTrophy, IoChatbubbles, IoStar, IoBook } from 'react-icons/io5'
+import { IoChevronBack, IoHeart, IoHelpCircle, IoTrophy, IoChatbubbles, IoStar, IoBook, IoTime, IoSwapHorizontal, IoImages } from 'react-icons/io5'
 import { useNavigate } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
 import haptics from '../utils/haptics'
