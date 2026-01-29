@@ -414,6 +414,33 @@ export default function Index() {
           </motion.button>
         </div>
 
+        {/* This and That Button - CENTERED - Below Silly Crybaby */}
+        <div style={{ display: 'flex', justifyContent: 'center', width: '100%', marginTop: 12 }}>
+          <motion.button
+            whileHover={{ scale: 1.02, boxShadow: `0 0 30px ${colors.primary}30` }}
+            whileTap={{ scale: 0.98 }}
+            onClick={handleDailyLoveHub}
+            style={{
+              background: 'rgba(255, 255, 255, 0.05)',
+              backdropFilter: 'blur(10px)',
+              border: `1.5px solid ${colors.primary}50`,
+              borderRadius: 25,
+              padding: '14px 20px',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 8,
+              boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+            }}
+          >
+            <span style={{ fontSize: 18 }}>✨</span>
+            <span style={{ color: colors.primary, fontSize: 14, fontWeight: 500 }}>
+              this and that
+            </span>
+            <span>💝</span>
+          </motion.button>
+        </div>
+
         {/* Presence Display */}
         <PresenceDisplay style={{ marginTop: 24 }} />
       </motion.div>
