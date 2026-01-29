@@ -601,6 +601,61 @@ export default function VirtualBed() {
         )}
       </AnimatePresence>
       
+      {/* Unloved Message Overlay */}
+      <AnimatePresence>
+        {showUnlovedMessage && (
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -50 }}
+            transition={{ duration: 0.5 }}
+            style={{
+              position: 'fixed',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              background: 'rgba(0,0,0,0.9)',
+              borderRadius: 20,
+              padding: '20px 30px',
+              zIndex: 999,
+              border: `2px solid ${showUnlovedMessage === 'prabh' ? '#8E44AD' : '#E67E22'}`,
+              boxShadow: `0 0 30px ${showUnlovedMessage === 'prabh' ? '#8E44AD' : '#E67E22'}`,
+            }}
+          >
+            <motion.div
+              animate={{ 
+                scale: [1, 1.1, 1],
+              }}
+              transition={{ duration: 0.8, repeat: Infinity }}
+              style={{
+                textAlign: 'center',
+                color: 'white',
+              }}
+            >
+              <div style={{ fontSize: 40, marginBottom: 10 }}>
+                {showUnlovedMessage === 'prabh' ? '🖤💔' : '🧡💔'}
+              </div>
+              <p style={{ 
+                fontSize: 18, 
+                fontWeight: 600, 
+                margin: 0,
+                color: showUnlovedMessage === 'prabh' ? '#8E44AD' : '#E67E22'
+              }}>
+                {showUnlovedMessage === 'prabh' ? 'Prabh' : 'Sehaj'} feels unloved...
+              </p>
+              <p style={{ 
+                fontSize: 14, 
+                margin: '8px 0 0 0',
+                color: 'rgba(255,255,255,0.8)',
+                fontStyle: 'italic'
+              }}>
+                Give some attention! 💕
+              </p>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      
       {/* Header Controls */}
       <motion.button
         whileTap={{ scale: 0.9 }}
