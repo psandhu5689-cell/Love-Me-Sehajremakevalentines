@@ -1412,6 +1412,39 @@ export default function VirtualBed() {
             </div>
           </div>
           
+          {/* NEW: Dim Lights Button */}
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => {
+              setLightsDimmed(prev => !prev)
+              haptics.light()
+            }}
+            style={{
+              width: '100%',
+              marginTop: 16,
+              padding: '14px 20px',
+              borderRadius: 16,
+              background: lightsDimmed 
+                ? 'linear-gradient(135deg, #4a5568, #2d3748)' 
+                : 'linear-gradient(135deg, #FDB813, #F59E0B)',
+              border: 'none',
+              color: 'white',
+              fontSize: 16,
+              fontWeight: 600,
+              cursor: 'pointer',
+              boxShadow: lightsDimmed 
+                ? '0 4px 16px rgba(0,0,0,0.4)' 
+                : '0 4px 16px rgba(253,184,19,0.3)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 8,
+            }}
+          >
+            {lightsDimmed ? '💡 Turn Lights On' : '🌙 Dim Lights'}
+          </motion.button>
+
           {/* Special Button */}
           <motion.button
             whileHover={{ scale: 1.02, boxShadow: `0 0 30px ${colors.primary}` }}
