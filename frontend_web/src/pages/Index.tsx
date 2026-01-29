@@ -7,6 +7,7 @@ import { useAudio } from '../context/AudioContext'
 import { useMusic } from '../context/MusicContext'
 import { PresenceDisplay } from '../components/PresenceModals'
 import MusicJukebox from '../components/MusicJukebox'
+import ThemeToggle from '../components/ThemeToggle'
 
 const STICKER_GOLD_DRESS = 'https://customer-assets.emergentagent.com/job_love-adventure-49/artifacts/grh04hmp_IMG_5616.jpeg'
 
