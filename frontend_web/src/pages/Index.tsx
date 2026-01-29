@@ -414,7 +414,7 @@ export default function Index() {
           </motion.button>
         </div>
 
-        {/* This and That Button - CENTERED - Below Silly Crybaby */}
+        {/* Handwritten Button - CENTERED - Below Silly Crybaby - Leads to Personal Library */}
         <div style={{ display: 'flex', justifyContent: 'center', width: '100%', marginTop: 12 }}>
           <motion.button
             whileHover={{ scale: 1.02, boxShadow: `0 0 30px ${colors.primary}30` }}
@@ -433,9 +433,9 @@ export default function Index() {
               boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
             }}
           >
-            <span style={{ fontSize: 18 }}>✨</span>
+            <span style={{ fontSize: 18 }}>📝</span>
             <span style={{ color: colors.primary, fontSize: 14, fontWeight: 500 }}>
-              this and that
+              handwritten
             </span>
             <span>💝</span>
           </motion.button>
