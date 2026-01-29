@@ -385,6 +385,89 @@ export default function VirtualBed() {
   // NEW: Dim lights state
   const [lightsDimmed, setLightsDimmed] = useState(false)
   
+  // ============ NEW INTERACTIVE FEATURES ============
+  
+  // Lamp Toggle (warm/cool)
+  const [lampMode, setLampMode] = useState<'warm' | 'cool' | 'off'>('warm')
+  const [lampFlicker, setLampFlicker] = useState(false)
+  
+  // Weather modes for window
+  const [weatherMode, setWeatherMode] = useState<'rain' | 'snow' | 'city' | 'sunrise'>('rain')
+  
+  // Curtain state
+  const [curtainState, setCurtainState] = useState<'open' | 'closed' | 'peek'>('open')
+  
+  // Wall frame gallery
+  const [frameIndex, setFrameIndex] = useState(0)
+  const FRAME_IMAGES = ['💕', '🐱🐱', '🌸', '✨', '🏠', '💝', '🌙', '☀️']
+  
+  // Cat mood bubbles
+  const [prabhMoodBubble, setPrabhMoodBubble] = useState<string | null>(null)
+  const [sehajMoodBubble, setSehajMoodBubble] = useState<string | null>(null)
+  
+  // Petting meter
+  const [pettingMeter, setPettingMeter] = useState(0)
+  const [isPetting, setIsPetting] = useState(false)
+  
+  // Cuddle mode
+  const [cuddleMode, setCuddleMode] = useState(false)
+  
+  // Toy spawn
+  const [spawnedToy, setSpawnedToy] = useState<string | null>(null)
+  const TOYS = ['🧶', '🧸', '👑', '🎮', '🎾', '🐟']
+  
+  // Yarn rolling
+  const [yarnRolling, setYarnRolling] = useState(false)
+  
+  // Lights out chaos
+  const [lightsOutMode, setLightsOutMode] = useState(false)
+  const [chaosMessage, setChaosMessage] = useState('')
+  const CHAOS_MESSAGES = [
+    "...suspicious rustling...",
+    "WHO TURNED OFF THE LIGHTS?!",
+    "*mischief intensifies*",
+    "🐱💨 *zoom*",
+    "something fell...",
+  ]
+  
+  // Drama mode
+  const [dramaMode, setDramaMode] = useState(false)
+  
+  // Room level & streak
+  const [roomLevel, setRoomLevel] = useState(() => {
+    const saved = localStorage.getItem('mrMrsRoomLevel')
+    return saved ? parseInt(saved) : 1
+  })
+  const [roomXP, setRoomXP] = useState(() => {
+    const saved = localStorage.getItem('mrMrsRoomXP')
+    return saved ? parseInt(saved) : 0
+  })
+  const [dailyStreak, setDailyStreak] = useState(() => {
+    const saved = localStorage.getItem('mrMrsDailyStreak')
+    return saved ? parseInt(saved) : 0
+  })
+  
+  // XP for level up
+  const XP_PER_LEVEL = 50
+  
+  // Add XP helper
+  const addXP = (amount: number) => {
+    setRoomXP(prev => {
+      const newXP = prev + amount
+      if (newXP >= XP_PER_LEVEL) {
+        setRoomLevel(l => {
+          const newLevel = l + 1
+          localStorage.setItem('mrMrsRoomLevel', String(newLevel))
+          return newLevel
+        })
+        localStorage.setItem('mrMrsRoomXP', String(newXP - XP_PER_LEVEL))
+        return newXP - XP_PER_LEVEL
+      }
+      localStorage.setItem('mrMrsRoomXP', String(newXP))
+      return newXP
+    })
+  }
+  
   // NEW: Cat sound refs for the uploaded audio files
   const catMeowSoftRef = useRef<Howl | null>(null)
   const catMeowNightRef = useRef<Howl | null>(null)
