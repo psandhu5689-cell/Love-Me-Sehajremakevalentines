@@ -270,6 +270,11 @@ export default function VirtualBed() {
     isAwake: true,
   })
   
+  // Horniness Meters (playful affection meter)
+  const [prabhMeter, setPrabhMeter] = useState(0)
+  const [sehajMeter, setSehajMeter] = useState(0)
+  const [showUnlovedMessage, setShowUnlovedMessage] = useState<'prabh' | 'sehaj' | null>(null)
+  
   const [showEffect, setShowEffect] = useState<{
     type: 'heart' | 'z' | 'puff' | 'sparkle' | 'food'
     x: number
