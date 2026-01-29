@@ -619,10 +619,8 @@ export default function VirtualBed() {
         break
         
       case 'feed':
-        // Play happy meow for food
-        if (userInteracted && catMeowFoodRef.current && !isMuted) {
-          catMeowFoodRef.current.play()
-        }
+        // Play happy meow for food with cooldown
+        playCatSound(catMeowFoodRef)
         setCat(prev => ({ ...prev, action: 'eat', mood: Math.min(100, prev.mood + 20) }))
         // Increase meter slightly
         if (cat === 'prabh') {
