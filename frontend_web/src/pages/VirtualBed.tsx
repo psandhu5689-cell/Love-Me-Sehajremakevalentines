@@ -258,6 +258,7 @@ export default function VirtualBed() {
   const [blanketOffset, setBlanketOffset] = useState(50)
   const [userInteracted, setUserInteracted] = useState(false)
   
+  // FIXED: Cats start sitting idle (awake) on load, not sleeping
   const [prabh, setPrabh] = useState<CatState>({
     mood: 75,
     action: 'sitIdle',
