@@ -471,6 +471,10 @@ export default function VirtualBed() {
         } else {
           setSehajMeter(prev => Math.min(100, prev + 8))
         }
+        // Clear unloved message if showing for this cat
+        if (showUnlovedMessage === cat) {
+          setShowUnlovedMessage(null)
+        }
         const food = FOOD_ITEMS[Math.floor(Math.random() * FOOD_ITEMS.length)]
         setShowEffect({ type: 'food', x: isLeft ? 35 : 65, y: 40, value: food })
         break
