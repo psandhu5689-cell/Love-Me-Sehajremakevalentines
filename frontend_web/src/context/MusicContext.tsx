@@ -62,6 +62,8 @@ const MusicContext = createContext<MusicContextType>({
   toggleMute: () => {},
   nextTrack: () => {},
   previousTrack: () => {},
+  needsUserInteraction: true,
+  enableMusic: () => {},
 })
 
 export const useMusic = () => useContext(MusicContext)
