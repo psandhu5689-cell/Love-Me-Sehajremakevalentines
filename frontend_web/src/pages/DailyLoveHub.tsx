@@ -100,33 +100,31 @@ export default function DailyLoveHub() {
         maxWidth: 600,
         margin: '0 auto',
         width: '100%',
-        paddingTop: 60,
+        paddingTop: 50,
         paddingLeft: 16,
         paddingRight: 16,
       }}>
-        {/* Title - MUST BE VISIBLE AT TOP */}
+        {/* Title - FIXED: Use explicit white color */}
         <div
           style={{
             textAlign: 'center',
-            marginBottom: 20,
-            marginTop: 0,
+            marginBottom: 16,
+            padding: '12px 0',
           }}
         >
           <h1 style={{
-            color: colors.textPrimary,
-            fontSize: 26,
+            color: '#FFFFFF',
+            fontSize: 24,
             fontWeight: 700,
             marginBottom: 4,
             marginTop: 0,
-            display: 'block',
           }}>
-            Personal Library
+            ✨ Personal Library ✨
           </h1>
           <p style={{
-            color: colors.textSecondary,
+            color: '#9B9BAE',
             fontSize: 13,
             margin: 0,
-            display: 'block',
           }}>
             Everything for my girl
           </p>
