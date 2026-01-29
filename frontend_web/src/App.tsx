@@ -51,7 +51,6 @@ export default function App() {
           <Route path="/first-intro" element={<FirstIntro />} />
           <Route path="/personalization" element={<Personalization />} />
           <Route path="/origin" element={<Origin />} />
-          <Route path="/crossword" element={<Crossword />} />
           <Route path="/card-match" element={<CardMatch />} />
           <Route path="/hold-reveal" element={<HoldReveal />} />
           <Route path="/quiet-stars" element={<QuietStars />} />
