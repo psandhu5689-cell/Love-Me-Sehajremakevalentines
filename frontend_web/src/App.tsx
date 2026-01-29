@@ -33,8 +33,14 @@ export default function App() {
       {/* Global Animated Background (Stars/Hearts based on theme) */}
       <AnimatedBackground particleCount={80} shootingCount={4} />
       
-      {/* Theme Toggle - Fixed position */}
-      <ThemeToggle style={{ position: 'fixed', top: 20, right: 20, zIndex: 9999 }} />
+      {/* Theme Toggle - Fixed at bottom above safe area */}
+      <ThemeToggle style={{ 
+        position: 'fixed', 
+        bottom: 30, 
+        left: '50%', 
+        transform: 'translateX(-50%)',
+        zIndex: 9999 
+      }} />
       
       {/* Global Presence Modals */}
       <UserSetupModal />
