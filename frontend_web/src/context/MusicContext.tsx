@@ -246,6 +246,8 @@ export const MusicProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         toggleMute,
         nextTrack,
         previousTrack,
+        needsUserInteraction,
+        enableMusic,
       }}
     >
       {children}
