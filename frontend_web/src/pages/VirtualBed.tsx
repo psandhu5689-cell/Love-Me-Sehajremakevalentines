@@ -1420,22 +1420,41 @@ export default function VirtualBed() {
               }} />
             </div>
 
-            {/* Small lamp - top right */}
-            <div style={{
-              position: 'absolute',
-              top: 130,
-              right: 40,
-              zIndex: 1,
-            }}>
+            {/* Small lamp - top right - INTERACTIVE */}
+            <motion.div
+              onClick={() => {
+                const modes: ('warm' | 'cool' | 'off')[] = ['warm', 'cool', 'off']
+                const idx = modes.indexOf(lampMode)
+                setLampMode(modes[(idx + 1) % modes.length])
+                setLampFlicker(true)
+                setTimeout(() => setLampFlicker(false), 300)
+                addXP(2)
+                haptics.light()
+              }}
+              style={{
+                position: 'absolute',
+                top: 130,
+                right: 40,
+                zIndex: 1,
+                cursor: 'pointer',
+              }}
+            >
               {/* Lamp shade */}
-              <div style={{
-                width: 0,
-                height: 0,
-                borderLeft: '20px solid transparent',
-                borderRight: '20px solid transparent',
-                borderBottom: '30px solid #FFE4B5',
-                margin: '0 auto',
-              }} />
+              <motion.div
+                animate={{
+                  opacity: lampFlicker ? [1, 0.3, 1] : 1,
+                }}
+                transition={{ duration: 0.3 }}
+                style={{
+                  width: 0,
+                  height: 0,
+                  borderLeft: '20px solid transparent',
+                  borderRight: '20px solid transparent',
+                  borderBottom: `30px solid ${lampMode === 'warm' ? '#FFE4B5' : lampMode === 'cool' ? '#E0F7FA' : '#666'}`,
+                  margin: '0 auto',
+                  filter: lampMode !== 'off' ? `drop-shadow(0 0 ${lampFlicker ? '20px' : '10px'} ${lampMode === 'warm' ? '#FFD700' : '#00BCD4'})` : 'none',
+                }}
+              />
               {/* Lamp base */}
               <div style={{
                 width: 12,
@@ -1444,7 +1463,42 @@ export default function VirtualBed() {
                 margin: '0 auto',
                 borderRadius: '0 0 6px 6px',
               }} />
-            </div>
+              {/* Light glow effect */}
+              {lampMode !== 'off' && (
+                <motion.div
+                  animate={{ opacity: [0.3, 0.5, 0.3] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                  style={{
+                    position: 'absolute',
+                    top: 15,
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    width: 60,
+                    height: 60,
+                    borderRadius: '50%',
+                    background: `radial-gradient(circle, ${lampMode === 'warm' ? 'rgba(255,215,0,0.3)' : 'rgba(0,188,212,0.3)'} 0%, transparent 70%)`,
+                    pointerEvents: 'none',
+                  }}
+                />
+              )}
+            </motion.div>
+            
+            {/* Room color overlay based on lamp */}
+            <div style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              background: lampMode === 'warm' 
+                ? 'rgba(255, 200, 100, 0.08)' 
+                : lampMode === 'cool' 
+                  ? 'rgba(100, 200, 255, 0.08)' 
+                  : 'transparent',
+              zIndex: 4,
+              pointerEvents: 'none',
+              transition: 'background 0.5s ease',
+            }} />
             
             {/* LAYER 5: Cat Sprites - POSITIONED LOWER FOR MOBILE, NO NAMES */}
             {/* Sehaj Cat (Left - Ginger) - VISIBILITY SAFETY: Always visible */}
