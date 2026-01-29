@@ -541,12 +541,12 @@ export default function VirtualBed() {
       whileTap={{ scale: 0.95 }}
       onClick={onClick}
       style={{
-        padding: '10px 12px',
-        borderRadius: 16,
+        padding: '6px 8px', // SMALLER for mobile
+        borderRadius: 12,
         background: colors.card,
         border: `1px solid ${color || colors.border}`,
         color: colors.textPrimary,
-        fontSize: 12,
+        fontSize: 11, // Smaller font
         fontWeight: 600,
         cursor: 'pointer',
         textAlign: 'left',
