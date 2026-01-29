@@ -480,6 +480,141 @@ export default function LieDetector() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* History Modal */}
+      <AnimatePresence>
+        {showHistory && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: 'rgba(0,0,0,0.95)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: 24,
+              zIndex: 200,
+            }}
+            onClick={() => setShowHistory(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.8 }}
+              animate={{ scale: 1 }}
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                background: '#0a0a0a',
+                border: '2px solid #00ff00',
+                borderRadius: 8,
+                padding: 24,
+                width: '100%',
+                maxWidth: 500,
+                maxHeight: '80vh',
+                overflow: 'auto',
+              }}
+            >
+              <h3 style={{ 
+                color: '#00ff00', 
+                fontFamily: 'monospace', 
+                marginBottom: 20,
+                textAlign: 'center',
+                fontSize: 20,
+                textShadow: '0 0 10px #00ff00',
+              }}>
+                RECENT LIE DETECTIONS
+              </h3>
+
+              {history.length === 0 ? (
+                <p style={{ 
+                  color: 'rgba(0,255,0,0.5)', 
+                  fontFamily: 'monospace', 
+                  textAlign: 'center',
+                  fontSize: 14,
+                }}>
+                  NO HISTORY YET
+                </p>
+              ) : (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                  {history.map((entry, index) => {
+                    const date = new Date(entry.timestamp)
+                    const timeStr = date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })
+                    const dateStr = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+                    
+                    return (
+                      <motion.div
+                        key={entry.id}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.05 }}
+                        style={{
+                          background: 'rgba(0,255,0,0.05)',
+                          border: '1px solid rgba(0,255,0,0.2)',
+                          borderRadius: 6,
+                          padding: 12,
+                        }}
+                      >
+                        <p style={{ 
+                          color: '#00ff00', 
+                          fontFamily: 'monospace', 
+                          fontSize: 13,
+                          marginBottom: 6,
+                          lineHeight: 1.4,
+                        }}>
+                          "{entry.statement}"
+                        </p>
+                        <div style={{ 
+                          display: 'flex', 
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                        }}>
+                          <span style={{ 
+                            color: entry.result === 'LIE' ? '#ff4444' : '#44ff44',
+                            fontFamily: 'monospace',
+                            fontSize: 11,
+                            fontWeight: 'bold',
+                          }}>
+                            {entry.result}
+                          </span>
+                          <span style={{ 
+                            color: 'rgba(0,255,0,0.4)',
+                            fontFamily: 'monospace',
+                            fontSize: 10,
+                          }}>
+                            {dateStr} {timeStr}
+                          </span>
+                        </div>
+                      </motion.div>
+                    )
+                  })}
+                </div>
+              )}
+
+              <button
+                onClick={() => setShowHistory(false)}
+                style={{
+                  marginTop: 20,
+                  width: '100%',
+                  padding: 12,
+                  background: 'rgba(0,255,0,0.2)',
+                  border: '2px solid #00ff00',
+                  color: '#00ff00',
+                  borderRadius: 4,
+                  fontFamily: 'monospace',
+                  fontWeight: 'bold',
+                  cursor: 'pointer',
+                }}
+              >
+                CLOSE
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }
