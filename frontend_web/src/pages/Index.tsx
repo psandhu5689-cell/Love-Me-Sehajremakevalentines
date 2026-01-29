@@ -86,6 +86,11 @@ export default function Index() {
     navigate('/virtual-bed')
   }
 
+  const handleDailyLoveHub = () => {
+    playClick()
+    navigate('/daily-love-hub')
+  }
+
   if (checkingIntro) {
     return <div style={{ flex: 1, background: colors.background }} />
   }
