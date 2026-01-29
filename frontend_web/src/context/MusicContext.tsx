@@ -74,25 +74,83 @@ export const MusicProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   const [isMuted, setIsMuted] = useState(false)
   const [progress, setProgress] = useState(0)
   const [duration, setDuration] = useState(0)
+  const [needsUserInteraction, setNeedsUserInteraction] = useState(true)
   const soundRef = useRef<Howl | null>(null)
   const progressInterval = useRef<number | null>(null)
 
   useEffect(() => {
     const savedMuted = localStorage.getItem('music_muted')
     const savedIndex = localStorage.getItem('music_track_index')
+    const musicEnabled = localStorage.getItem('music_enabled')
     
     if (savedMuted) setIsMuted(savedMuted === 'true')
     if (savedIndex) setCurrentTrackIndex(parseInt(savedIndex, 10))
     
-    setTimeout(() => {
-      loadTrack(savedIndex ? parseInt(savedIndex, 10) : 0, savedMuted !== 'true')
-    }, 1000)
+    // Check if music was previously enabled by user
+    if (musicEnabled === 'true') {
+      setNeedsUserInteraction(false)
+      setTimeout(() => {
+        loadTrack(savedIndex ? parseInt(savedIndex, 10) : 0, savedMuted !== 'true')
+      }, 500)
+    } else {
+      // Try autoplay - if it fails, we'll need user interaction
+      setTimeout(() => {
+        attemptAutoplay(savedIndex ? parseInt(savedIndex, 10) : 0, savedMuted !== 'true')
+      }, 1000)
+    }
 
     return () => {
       if (soundRef.current) soundRef.current.unload()
       if (progressInterval.current) clearInterval(progressInterval.current)
     }
   }, [])
+
+  const attemptAutoplay = (index: number, shouldPlay: boolean) => {
+    if (!shouldPlay) {
+      loadTrack(index, false)
+      return
+    }
+
+    const track = PLAYLIST[index]
+    const testSound = new Howl({
+      src: [track.url],
+      html5: true,
+      volume: 0.4,
+      onplay: () => {
+        // Autoplay succeeded!
+        setNeedsUserInteraction(false)
+        localStorage.setItem('music_enabled', 'true')
+        soundRef.current = testSound
+        setIsPlaying(true)
+        setCurrentTrackIndex(index)
+        localStorage.setItem('music_track_index', index.toString())
+        setDuration(testSound.duration() || 0)
+        startProgressTracking()
+        
+        testSound.on('end', () => {
+          const nextIndex = (index + 1) % PLAYLIST.length
+          setCurrentTrackIndex(nextIndex)
+          loadTrack(nextIndex, !isMuted)
+        })
+      },
+      onplayerror: () => {
+        // Autoplay blocked - need user interaction
+        testSound.unload()
+        setNeedsUserInteraction(true)
+        loadTrack(index, false)
+      },
+    })
+
+    testSound.play()
+  }
+
+  const enableMusic = () => {
+    setNeedsUserInteraction(false)
+    localStorage.setItem('music_enabled', 'true')
+    if (!isPlaying && !isMuted) {
+      loadTrack(currentTrackIndex, true)
+    }
+  }
 
   const loadTrack = (index: number, autoPlay: boolean = true) => {
     if (soundRef.current) {
