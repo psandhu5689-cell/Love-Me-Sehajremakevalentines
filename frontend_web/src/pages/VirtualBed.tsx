@@ -1353,7 +1353,7 @@ export default function VirtualBed() {
           }}>
             <div style={{ flex: 1 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
-                <p style={{ color: '#E67E22', fontSize: 12, fontWeight: 600 }}>🧡 Sehaj Affection</p>
+                <p style={{ color: '#E67E22', fontSize: 12, fontWeight: 600 }}>🧡 Sehaj Freakiness</p>
                 <p style={{ color: '#E67E22', fontSize: 11, fontWeight: 600 }}>{sehajMeter}%</p>
               </div>
               <div style={{
