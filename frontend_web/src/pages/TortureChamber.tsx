@@ -487,12 +487,13 @@ export default function TortureChamber() {
             gridTemplateColumns: 'repeat(5, 1fr)',
             gap: 6,
           }}>
-            {HEAL_ACTIONS.map((action) => (
+            {HEAL_ACTIONS.map((action, index) => (
               <motion.button
                 key={action.name}
+                ref={(el) => (healButtonRefs.current[index] = el)}
                 whileHover={{ scale: 1.08, boxShadow: '0 0 20px rgba(74,222,128,0.4)' }}
                 whileTap={{ scale: 0.9 }}
-                onClick={() => handleHeal(action)}
+                onClick={() => handleHeal(action, index)}
                 disabled={isDead}
                 style={{
                   background: 'rgba(74,222,128,0.15)',
