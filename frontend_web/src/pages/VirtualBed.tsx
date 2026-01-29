@@ -629,92 +629,235 @@ export default function VirtualBed() {
           Mr & Mrs 🐱💕🐱
         </h1>
         
-        {/* Room Scene */}
+        {/* Room Scene Container */}
         <motion.div
           style={{
             background: colors.glass,
             backdropFilter: 'blur(20px)',
             border: `1px solid ${colors.border}`,
             borderRadius: 24,
-            padding: 20,
+            padding: 0,
             position: 'relative',
             boxShadow: `0 8px 32px ${colors.primaryGlow}`,
+            overflow: 'hidden',
           }}
         >
-          {/* Rainy Window - Real Video Loop */}
-          <div style={{
-            width: 180,
-            height: 130,
-            border: '6px solid #5D4037',
-            borderRadius: 12,
-            margin: '0 auto 16px',
-            position: 'relative',
-            overflow: 'hidden',
-          }}>
-            {/* Background Video */}
-            <video
-              autoPlay
-              loop
-              muted={isMuted}
-              playsInline
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                zIndex: 0,
-              }}
-              src="/window-rain.mov"
-            />
-            
-            {/* Window frame */}
-            <div style={{
-              position: 'absolute',
-              top: 0,
-              left: '50%',
-              width: 6,
-              height: '100%',
-              background: '#5D4037',
-              transform: 'translateX(-50%)',
-              zIndex: 1,
-            }} />
-            <div style={{
-              position: 'absolute',
-              top: '50%',
-              left: 0,
-              width: '100%',
-              height: 6,
-              background: '#5D4037',
-              transform: 'translateY(-50%)',
-              zIndex: 1,
-            }} />
-          </div>
-          
-          {/* Floor Scene Container */}
+          {/* Room Environment - Full Scene */}
           <div style={{
             position: 'relative',
             width: '100%',
-            height: 200,
-            display: 'flex',
-            alignItems: 'flex-end',
-            justifyContent: 'center',
-            borderRadius: 16,
+            height: 450,
             overflow: 'hidden',
+            borderRadius: 24,
           }}>
-            {/* Real Cartoon Floor Background from Attached Image */}
+            {/* LAYER 1: Wall Background (full width) */}
+            <div style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              backgroundImage: 'url(/wall-background.jpeg)',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat',
+              zIndex: 0,
+            }} />
+
+            {/* Rainy Window on Wall */}
+            <div style={{
+              position: 'absolute',
+              top: 20,
+              right: 30,
+              width: 120,
+              height: 90,
+              background: 'linear-gradient(180deg, #2a3a5e 0%, #1a2540 100%)',
+              border: '4px solid #5D4037',
+              borderRadius: 8,
+              overflow: 'hidden',
+              zIndex: 1,
+            }}>
+              {/* Looping rain video inside window */}
+              <video
+                autoPlay
+                loop
+                muted={isMuted}
+                playsInline
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  zIndex: 0,
+                }}
+                src="/window-rain.mov"
+              />
+              
+              {/* Window frame overlays */}
+              <div style={{
+                position: 'absolute',
+                top: 0,
+                left: '50%',
+                width: 4,
+                height: '100%',
+                background: '#5D4037',
+                transform: 'translateX(-50%)',
+                zIndex: 1,
+              }} />
+              <div style={{
+                position: 'absolute',
+                top: '50%',
+                left: 0,
+                width: '100%',
+                height: 4,
+                background: '#5D4037',
+                transform: 'translateY(-50%)',
+                zIndex: 1,
+              }} />
+            </div>
+
+            {/* LAYER 2: Floor/Base Surface */}
             <div style={{
               position: 'absolute',
               bottom: 0,
+              left: 0,
               width: '100%',
-              height: '100%',
+              height: '50%',
               backgroundImage: 'url(/floor.jpeg)',
               backgroundSize: 'cover',
               backgroundPosition: 'center bottom',
               backgroundRepeat: 'no-repeat',
-              zIndex: 0,
+              zIndex: 1,
             }} />
+
+            {/* LAYER 3: Rug (centered, below characters) */}
+            <div style={{
+              position: 'absolute',
+              bottom: 40,
+              left: '50%',
+              transform: 'translateX(-50%)',
+              width: '70%',
+              maxWidth: 350,
+              height: 140,
+              backgroundImage: 'url(/rug.png)',
+              backgroundSize: 'contain',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat',
+              zIndex: 2,
+            }} />
+
+            {/* LAYER 4: Furniture Props */}
+            {/* Small couch/bean bag - left side */}
+            <div style={{
+              position: 'absolute',
+              bottom: 60,
+              left: 20,
+              width: 80,
+              height: 70,
+              background: 'linear-gradient(135deg, #8B7355 0%, #6B5644 100%)',
+              borderRadius: '45% 45% 20% 20%',
+              border: '3px solid #5D4037',
+              zIndex: 2,
+              boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
+            }}>
+              {/* Couch cushion detail */}
+              <div style={{
+                position: 'absolute',
+                top: 10,
+                left: '50%',
+                transform: 'translateX(-50%)',
+                width: '60%',
+                height: 25,
+                background: 'rgba(255,255,255,0.1)',
+                borderRadius: 12,
+              }} />
+            </div>
+
+            {/* Toy box - right side */}
+            <div style={{
+              position: 'absolute',
+              bottom: 55,
+              right: 25,
+              width: 70,
+              height: 60,
+              background: 'linear-gradient(135deg, #E8A5C0 0%, #D88BA5 100%)',
+              borderRadius: 8,
+              border: '3px solid #B86080',
+              zIndex: 2,
+              boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
+            }}>
+              {/* Toy sticking out */}
+              <div style={{
+                position: 'absolute',
+                top: -15,
+                right: 10,
+                fontSize: 24,
+              }}>
+                🧸
+              </div>
+            </div>
+
+            {/* Wall shelf - top left */}
+            <div style={{
+              position: 'absolute',
+              top: 120,
+              left: 30,
+              width: 90,
+              height: 8,
+              background: '#8B6F47',
+              borderRadius: 4,
+              zIndex: 1,
+              boxShadow: '0 3px 6px rgba(0,0,0,0.3)',
+            }}>
+              {/* Tiny plant on shelf */}
+              <div style={{
+                position: 'absolute',
+                top: -25,
+                left: 15,
+                fontSize: 20,
+              }}>
+                🪴
+              </div>
+              {/* Tiny frame on shelf */}
+              <div style={{
+                position: 'absolute',
+                top: -20,
+                right: 15,
+                width: 18,
+                height: 18,
+                background: 'linear-gradient(135deg, #FFD700, #FFA500)',
+                border: '2px solid #8B6914',
+                borderRadius: 3,
+              }} />
+            </div>
+
+            {/* Small lamp - top right */}
+            <div style={{
+              position: 'absolute',
+              top: 130,
+              right: 40,
+              zIndex: 1,
+            }}>
+              {/* Lamp shade */}
+              <div style={{
+                width: 0,
+                height: 0,
+                borderLeft: '20px solid transparent',
+                borderRight: '20px solid transparent',
+                borderBottom: '30px solid #FFE4B5',
+                margin: '0 auto',
+              }} />
+              {/* Lamp base */}
+              <div style={{
+                width: 12,
+                height: 25,
+                background: '#8B7355',
+                margin: '0 auto',
+                borderRadius: '0 0 6px 6px',
+              }} />
+            </div>
             
             {/* Sehaj Cat (Left - Ginger) */}
             <motion.div
