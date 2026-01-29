@@ -445,6 +445,10 @@ export default function VirtualBed() {
     haptics.light()
     setSpecialMode(true)
     
+    // Increase both meters significantly
+    setPrabhMeter(prev => Math.min(100, prev + 30))
+    setSehajMeter(prev => Math.min(100, prev + 25))
+    
     // Play tussle sounds
     if (!isMuted && tussleRef.current) {
       tussleRef.current.play()
