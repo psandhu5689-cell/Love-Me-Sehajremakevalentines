@@ -54,7 +54,7 @@ const GAMES = [
     icon: IoFlash,
     gradient: ['#10B981', '#059669'],
     description: 'Love-themed crossword puzzle',
-    route: '/crossword',
+    route: '/crossword-game',
   },
 ]
 
