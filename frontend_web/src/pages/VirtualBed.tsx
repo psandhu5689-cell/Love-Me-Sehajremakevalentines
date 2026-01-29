@@ -2040,62 +2040,6 @@ export default function VirtualBed() {
                 </motion.div>
               )}
             </AnimatePresence>
-                visibility: 'visible',
-                display: 'block',
-                minWidth: 64,
-                minHeight: 64,
-              }}
-            >
-              {/* Mood Bubble for Prabh */}
-              <AnimatePresence>
-                {prabhMoodBubble && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10, scale: 0.8 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -10, scale: 0.8 }}
-                    style={{
-                      position: 'absolute',
-                      top: -40,
-                      left: '50%',
-                      transform: 'translateX(-50%)',
-                      background: 'rgba(255,255,255,0.95)',
-                      borderRadius: 12,
-                      padding: '6px 10px',
-                      fontSize: 14,
-                      boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
-                      whiteSpace: 'nowrap',
-                      zIndex: 10,
-                    }}
-                  >
-                    {prabhMoodBubble}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-              <Sprite
-                sheet={cat1Sheet}
-                animations={PRABH_ANIMATIONS}
-                currentAnimation={prabh.action}
-                onAnimationEnd={handlePrabhAnimEnd}
-                scale={1.8}
-                flip={true}
-              />
-              {/* REMOVED: Name label under cat */}
-              {prabh.action === 'gaming' && (
-                <motion.div
-                  animate={{ y: [0, -3, 0] }}
-                  transition={{ duration: 0.5, repeat: Infinity }}
-                  style={{
-                    position: 'absolute',
-                    bottom: 0,
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    fontSize: 18,
-                  }}
-                >
-                  🎮
-                </motion.div>
-              )}
-            </motion.div>
 
             {/* NEW: LAYER 7: Blanket (moves left/center/right based on hog blanket action) - FOREGROUND */}
             <motion.div
