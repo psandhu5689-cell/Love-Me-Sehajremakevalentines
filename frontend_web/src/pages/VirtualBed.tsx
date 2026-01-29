@@ -500,6 +500,9 @@ export default function VirtualBed() {
     setPrabhMeter(prev => Math.min(100, prev + 30))
     setSehajMeter(prev => Math.min(100, prev + 25))
     
+    // Clear any unloved messages since both cats are getting attention
+    setShowUnlovedMessage(null)
+    
     // Play tussle sounds
     if (!isMuted && tussleRef.current) {
       tussleRef.current.play()
