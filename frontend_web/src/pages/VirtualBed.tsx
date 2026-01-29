@@ -1832,18 +1832,21 @@ export default function VirtualBed() {
               transition: 'background 0.5s ease',
             }} />
             
-            {/* LAYER 5: Cat Sprites - POSITIONED LOWER FOR MOBILE, NO NAMES */}
-            {/* Sehaj Cat (Left - Ginger) - VISIBILITY SAFETY: Always visible */}
+            {/* LAYER 5: Cat Sprites - AUTONOMOUS ROAMING */}
+            {/* Sehaj Cat (Left - Ginger) - ROAMING with smooth transitions */}
             <motion.div
               animate={{
-                y: sehaj.action === 'nudge' || sehaj.action === 'kick' ? [0, -3, 0] : 0,
-                x: cuddleMode ? 30 : 0,
+                left: cuddleMode ? '40%' : `${sehajRoam.xPercent}%`,
+                bottom: cuddleMode ? 110 : `${100 - sehajRoam.yPercent}%`,
+                y: sehaj.action === 'nudge' || sehaj.action === 'kick' ? [0, -5, 0] : 0,
               }}
-              transition={{ duration: 0.3, ease: 'easeOut' }}
+              transition={{ 
+                left: { duration: 2, ease: 'easeInOut' },
+                bottom: { duration: 2, ease: 'easeInOut' },
+                y: { duration: 0.3, ease: 'easeOut' }
+              }}
               style={{
                 position: 'absolute',
-                left: '20%', // MOBILE: Pushed more left for spacing
-                bottom: 110, // Moved lower to touch floor on mobile
                 zIndex: 3,
                 // SAFETY: Never allow invisible cats
                 opacity: 1,
@@ -1851,6 +1854,7 @@ export default function VirtualBed() {
                 display: 'block',
                 minWidth: 64,
                 minHeight: 64,
+                transform: 'translateX(-50%)',
               }}
             >
               {/* Mood Bubble for Sehaj */}
@@ -1878,15 +1882,33 @@ export default function VirtualBed() {
                   </motion.div>
                 )}
               </AnimatePresence>
+              
+              {/* Walking indicator */}
+              {sehajRoam.isMoving && (
+                <motion.div
+                  animate={{ opacity: [0.5, 1, 0.5] }}
+                  transition={{ duration: 0.5, repeat: Infinity }}
+                  style={{
+                    position: 'absolute',
+                    bottom: -10,
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    fontSize: 10,
+                  }}
+                >
+                  🐾
+                </motion.div>
+              )}
+              
               <Sprite
                 sheet={cat2Sheet}
                 animations={SEHAJ_ANIMATIONS}
                 currentAnimation={sehaj.action}
                 onAnimationEnd={handleSehajAnimEnd}
                 scale={1.8}
-                flip={false}
+                flip={sehajRoam.xPercent > 40}
               />
-              {/* REMOVED: Name label under cat */}
+              {/* Gaming emoji */}
               {sehaj.action === 'gaming' && (
                 <motion.div
                   animate={{ y: [0, -3, 0] }}
@@ -1904,20 +1926,120 @@ export default function VirtualBed() {
               )}
             </motion.div>
             
-            {/* Prabh Cat (Right - Grey) - VISIBILITY SAFETY: Always visible */}
+            {/* Prabh Cat (Right - Grey) - ROAMING with smooth transitions */}
             <motion.div
               animate={{
-                y: prabh.action === 'nudge' || prabh.action === 'kick' ? [0, -3, 0] : 0,
-                x: cuddleMode ? -30 : 0,
+                left: cuddleMode ? '55%' : `${prabhRoam.xPercent}%`,
+                bottom: cuddleMode ? 110 : `${100 - prabhRoam.yPercent}%`,
+                y: prabh.action === 'nudge' || prabh.action === 'kick' ? [0, -5, 0] : 0,
               }}
-              transition={{ duration: 0.3, ease: 'easeOut' }}
+              transition={{ 
+                left: { duration: 2, ease: 'easeInOut' },
+                bottom: { duration: 2, ease: 'easeInOut' },
+                y: { duration: 0.3, ease: 'easeOut' }
+              }}
               style={{
                 position: 'absolute',
-                right: '20%', // MOBILE: Pushed more right for spacing
-                bottom: 110, // Moved lower to touch floor on mobile
                 zIndex: 3,
                 // SAFETY: Never allow invisible cats
                 opacity: 1,
+                visibility: 'visible',
+                display: 'block',
+                minWidth: 64,
+                minHeight: 64,
+                transform: 'translateX(-50%)',
+              }}
+            >
+              {/* Mood Bubble for Prabh */}
+              <AnimatePresence>
+                {prabhMoodBubble && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10, scale: 0.8 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -10, scale: 0.8 }}
+                    style={{
+                      position: 'absolute',
+                      top: -40,
+                      left: '50%',
+                      transform: 'translateX(-50%)',
+                      background: 'rgba(255,255,255,0.95)',
+                      borderRadius: 12,
+                      padding: '6px 10px',
+                      fontSize: 14,
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
+                      whiteSpace: 'nowrap',
+                      zIndex: 10,
+                    }}
+                  >
+                    {prabhMoodBubble}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+              
+              {/* Walking indicator */}
+              {prabhRoam.isMoving && (
+                <motion.div
+                  animate={{ opacity: [0.5, 1, 0.5] }}
+                  transition={{ duration: 0.5, repeat: Infinity }}
+                  style={{
+                    position: 'absolute',
+                    bottom: -10,
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    fontSize: 10,
+                  }}
+                >
+                  🐾
+                </motion.div>
+              )}
+              
+              <Sprite
+                sheet={cat1Sheet}
+                animations={PRABH_ANIMATIONS}
+                currentAnimation={prabh.action}
+                onAnimationEnd={handlePrabhAnimEnd}
+                scale={1.8}
+                flip={prabhRoam.xPercent < 60}
+              />
+              {/* Gaming emoji */}
+              {prabh.action === 'gaming' && (
+                <motion.div
+                  animate={{ y: [0, -3, 0] }}
+                  transition={{ duration: 0.5, repeat: Infinity }}
+                  style={{
+                    position: 'absolute',
+                    bottom: 0,
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    fontSize: 18,
+                  }}
+                >
+                  🎮
+                </motion.div>
+              )}
+            </motion.div>
+            
+            {/* Yarn Ball - Rolling animation */}
+            <AnimatePresence>
+              {isYarnRolling && (
+                <motion.div
+                  initial={{ left: '10%', rotate: 0 }}
+                  animate={{ 
+                    left: `${10 + yarnPosition * 0.8}%`,
+                    rotate: yarnPosition * 10,
+                  }}
+                  exit={{ opacity: 0 }}
+                  style={{
+                    position: 'absolute',
+                    bottom: '25%',
+                    fontSize: 30,
+                    zIndex: 5,
+                  }}
+                >
+                  🧶
+                </motion.div>
+              )}
+            </AnimatePresence>
                 visibility: 'visible',
                 display: 'block',
                 minWidth: 64,
