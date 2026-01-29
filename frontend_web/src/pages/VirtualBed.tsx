@@ -145,7 +145,8 @@ function Sprite({ sheet, animations, currentAnimation, onAnimationEnd, scale = 1
   const lastTimeRef = useRef(0)
   const animEndCalledRef = useRef(false)
   
-  const anim = animations[currentAnimation] || animations.sitIdle
+  // SAFETY: Always have a fallback animation
+  const anim = animations[currentAnimation] || animations.sitIdle || { startRow: 0, frameCount: 8, fps: 2, loop: true }
   
   useEffect(() => {
     setFrame(0)
@@ -156,23 +157,25 @@ function Sprite({ sheet, animations, currentAnimation, onAnimationEnd, scale = 1
       if (!lastTimeRef.current) lastTimeRef.current = time
       
       const delta = time - lastTimeRef.current
-      const frameTime = 1000 / anim.fps
+      const frameTime = 1000 / (anim.fps || 2) // SAFETY: Default fps
       
       if (delta >= frameTime) {
         setFrame(prev => {
           const nextFrame = prev + 1
-          if (nextFrame >= anim.frameCount) {
+          // SAFETY: Clamp frame index to valid range
+          const maxFrame = (anim.frameCount || 8) - 1
+          if (nextFrame > maxFrame) {
             if (anim.loop) {
-              return 0
+              return 0 // Loop back to start
             } else {
               if (!animEndCalledRef.current) {
                 animEndCalledRef.current = true
                 setTimeout(() => onAnimationEnd?.(), 50)
               }
-              return prev
+              return Math.min(prev, maxFrame) // SAFETY: Stay at last valid frame
             }
           }
-          return nextFrame
+          return Math.min(nextFrame, maxFrame) // SAFETY: Never exceed max
         })
         lastTimeRef.current = time
       }
@@ -189,13 +192,13 @@ function Sprite({ sheet, animations, currentAnimation, onAnimationEnd, scale = 1
     }
   }, [currentAnimation, anim.fps, anim.frameCount, anim.loop, onAnimationEnd])
   
-  // Calculate which frame column we're at (0-based)
-  const frameCol = frame % anim.frameCount
-  const row = anim.startRow
-  const displaySize = FRAME_SIZE * scale
+  // SAFETY: Clamp all values to prevent invalid rendering
+  const frameCount = Math.max(1, anim.frameCount || 8)
+  const frameCol = Math.min(frame, frameCount - 1) // Clamped frame
+  const row = Math.max(0, Math.min(71, anim.startRow || 0)) // Clamped row (0-71)
+  const displaySize = FRAME_SIZE * (scale || 1)
   
-  // The sprite sheet is 896px wide (14 cols * 64px) and 4608px tall (72 rows * 64px)
-  // We need to position the background to show the correct frame
+  // Calculate background position
   const bgX = -frameCol * FRAME_SIZE * scale
   const bgY = -row * FRAME_SIZE * scale
   
@@ -207,6 +210,9 @@ function Sprite({ sheet, animations, currentAnimation, onAnimationEnd, scale = 1
       transform: flip ? 'scaleX(-1)' : 'none',
       imageRendering: 'pixelated',
       borderRadius: 8,
+      // SAFETY: Never allow opacity 0 or display none
+      opacity: 1,
+      display: 'block',
     }}>
       <div style={{
         width: displaySize,
@@ -216,6 +222,8 @@ function Sprite({ sheet, animations, currentAnimation, onAnimationEnd, scale = 1
         backgroundPosition: `${bgX}px ${bgY}px`,
         backgroundRepeat: 'no-repeat',
         imageRendering: 'pixelated',
+        // SAFETY: Ensure content is always visible
+        opacity: 1,
       }} />
     </div>
   )
