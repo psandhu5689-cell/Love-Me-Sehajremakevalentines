@@ -118,63 +118,79 @@ export default function TortureChamber() {
     }, 1000)
   }
 
-  // Handle damage
-  const handleDamage = (attack: typeof DAMAGE_ATTACKS[0], buttonIndex: number) => {
-    playPop()
-    setIsShaking(true)
-    setWasJustDamaged(true)
-    setTimeout(() => setIsShaking(false), 300)
-
-    const newHp = Math.max(0, hp - attack.damage)
-    setHp(newHp)
-
-    // Show floating damage - with button position
-    addFloatingMessage(-attack.damage, false, buttonIndex)
-
-    // Random message or attack message
-    if (Math.random() < 0.3) {
-      setCurrentMessage(RANDOM_DAMAGE_MESSAGES[Math.floor(Math.random() * RANDOM_DAMAGE_MESSAGES.length)])
-    } else {
-      setCurrentMessage(attack.message)
+  // SINGLE SOURCE OF TRUTH: Unified action handler with hard instrumentation
+  const handleAction = (actionType: 'damage' | 'heal', actionData: any, buttonIndex: number) => {
+    // INSTRUMENTATION: Log every action in dev mode
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`[TORTURE CHAMBER] ${actionType.toUpperCase()} pressed:`, actionData.name, `HP: ${hp}`)
     }
-
-    // Check for death
-    if (newHp <= 0) {
-      setIsDead(true)
-      const newStats = tortureStorage.incrementDeaths()
-      setStats(newStats)
-      setTimeout(() => {
-        setShowJustKidding(true)
-        setTimeout(() => {
-          setHp(900)  // Revive to 30% of 3000
-          const revivedStats = tortureStorage.incrementRevivals()
-          setStats(revivedStats)
-          setIsDead(false)
-          setShowJustKidding(false)
-          setCurrentMessage("im immortal unfortunately.")
-        }, 2000)
-      }, 1500)
+    
+    if (actionType === 'damage') {
+      playPop()
+      setWasJustDamaged(true)
+      setCurrentMessage(RANDOM_DAMAGE_MESSAGES[Math.floor(Math.random() * RANDOM_DAMAGE_MESSAGES.length)])
+      
+      // Functional setState to avoid stale closure
+      setHp(prev => {
+        const newHp = Math.max(0, prev - actionData.damage)
+        // Check for death
+        if (newHp <= 0) {
+          setTimeout(() => handleDeath(), 100)
+        }
+        return newHp
+      })
+      
+      // Shake effect
+      setIsShaking(true)
+      setTimeout(() => setIsShaking(false), 300)
+      
+      // Show floating damage - with button position
+      addFloatingMessage(-actionData.damage, false, buttonIndex)
+    } else {
+      // HEAL ACTION
+      playClick()
+      
+      // INSTRUMENTATION: Always show feedback
+      if (wasJustDamaged) {
+        setCurrentMessage("Redemption arc.")
+        setWasJustDamaged(false)
+      } else {
+        setCurrentMessage(HEAL_MESSAGES[Math.floor(Math.random() * HEAL_MESSAGES.length)])
+      }
+      
+      // Functional setState to avoid stale closure
+      setHp(prev => {
+        const newHp = Math.min(maxHp, prev + actionData.heal)
+        
+        // INSTRUMENTATION: Log if capped
+        if (prev + actionData.heal > maxHp && process.env.NODE_ENV === 'development') {
+          console.log(`[TORTURE CHAMBER] Heal capped at maxHp: ${maxHp}`)
+        }
+        
+        return newHp
+      })
+      
+      // INSTRUMENTATION: Always show floating heal message
+      addFloatingMessage(actionData.heal, true, buttonIndex)
     }
   }
 
-  // Handle healing
-  const handleHeal = (action: typeof HEAL_ACTIONS[0], buttonIndex: number) => {
-    playClick()
-    
-    // Check for redemption arc
-    if (wasJustDamaged) {
-      setCurrentMessage("Redemption arc.")
-      setWasJustDamaged(false)
-    } else {
-      // Use new playful heal messages
-      setCurrentMessage(HEAL_MESSAGES[Math.floor(Math.random() * HEAL_MESSAGES.length)])
-    }
-
-    const newHp = Math.min(1800, hp + action.heal) // Cap at 1800 (120% of 1500)
-    setHp(newHp)
-
-    // Show floating heal - with button position
-    addFloatingMessage(action.heal, true, buttonIndex)
+  // Handle death - extracted for clarity
+  const handleDeath = () => {
+    setIsDead(true)
+    const newStats = tortureStorage.incrementDeaths()
+    setStats(newStats)
+    setTimeout(() => {
+      setShowJustKidding(true)
+      setTimeout(() => {
+        setHp(900)  // Revive to 30% of 3000
+        const revivedStats = tortureStorage.incrementRevivals()
+        setStats(revivedStats)
+        setIsDead(false)
+        setShowJustKidding(false)
+        setCurrentMessage("im immortal unfortunately.")
+      }, 2000)
+    }, 1500)
   }
 
   // Revive button
