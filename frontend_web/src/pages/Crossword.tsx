@@ -385,6 +385,33 @@ export default function Crossword() {
       position: 'relative',
       overflow: 'auto',
     }}>
+      {/* Parallax Floating particles */}
+      {[...Array(10)].map((_, i) => (
+        <motion.div
+          key={i}
+          animate={{
+            y: [-20, -50, -20],
+            x: [0, Math.random() * 15 - 7, 0],
+            opacity: [0.1, 0.3, 0.1],
+          }}
+          transition={{
+            duration: 5 + Math.random() * 3,
+            delay: i * 0.3,
+            repeat: Infinity,
+          }}
+          style={{
+            position: 'fixed',
+            left: `${5 + Math.random() * 90}%`,
+            top: `${10 + Math.random() * 80}%`,
+            fontSize: 16 + Math.random() * 10,
+            pointerEvents: 'none',
+            zIndex: 0,
+          }}
+        >
+          {['✏️', '💕', '✨', '📝', '💗'][i % 5]}
+        </motion.div>
+      ))}
+
       {/* Journey Progress */}
       <JourneyProgress currentPath="/crossword" />
       
@@ -418,6 +445,24 @@ export default function Crossword() {
           navigate(-1)
         }}
         style={{
+          position: 'fixed',
+          top: 20,
+          left: 20,
+          width: 44,
+          height: 44,
+          borderRadius: 22,
+          background: colors.glass,
+          backdropFilter: 'blur(10px)',
+          border: `1px solid ${colors.border}`,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          cursor: 'pointer',
+          zIndex: 100,
+        }}
+      >
+        <IoChevronBack size={24} color={colors.primary} />
+      </motion.button>
           position: 'fixed',
           top: 55,
           left: 20,
