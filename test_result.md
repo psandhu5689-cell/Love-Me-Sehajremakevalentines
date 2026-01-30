@@ -158,12 +158,12 @@ frontend:
     working: "NA"
     file: "/app/frontend_web/src/pages/ReactionJail.tsx"
     stuck_count: 0
-    priority: "high"
+    priority: "medium"
     needs_retesting: true
     status_history:
         - working: "NA"
         - agent: "testing"
-        - comment: "Need to test TAP/WAIT prompts, game completion, scoring, and history functionality"
+        - comment: "Not tested due to modal overlay issues preventing proper game interaction. Game appears in Try Not To Smile menu but requires manual testing."
 
   - task: "Daily Love Hub Navigation"
     implemented: true
