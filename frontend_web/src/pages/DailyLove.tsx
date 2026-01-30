@@ -615,7 +615,7 @@ export default function DailyLove() {
             )}
           </motion.button>
 
-          <p style={{ color: colors.textMuted, textAlign: 'center', fontSize: 14 }}>OR</p>
+          <p style={{ color: colors.textMuted, textAlign: 'center', fontSize: 14, fontWeight: 500 }}>OR</p>
 
           <motion.button
             whileHover={{ scale: wyrMyChoice ? 1 : 1.02 }}
@@ -627,16 +627,18 @@ export default function DailyLove() {
                 ? `linear-gradient(135deg, ${colors.secondary}, #9d4edd)`
                 : wyrOtherChoice === 'b' && wyrMyChoice
                 ? 'rgba(157, 78, 221, 0.3)'
-                : `linear-gradient(135deg, ${colors.secondary}, #9d4edd)`,
-              borderRadius: 16,
-              padding: 20,
+                : colors.glass,
+              backdropFilter: 'blur(20px)',
+              borderRadius: 20,
+              padding: 24,
               cursor: wyrMyChoice ? 'default' : 'pointer',
-              border: wyrMyChoice === 'b' ? '3px solid #FFD700' : wyrOtherChoice === 'b' && wyrMyChoice ? '3px solid rgba(255, 215, 0, 0.5)' : 'none',
+              border: wyrMyChoice === 'b' ? `3px solid #FFD700` : wyrOtherChoice === 'b' && wyrMyChoice ? `3px solid rgba(255, 215, 0, 0.5)` : `1px solid ${colors.border}`,
               position: 'relative',
               opacity: wyrMyChoice && wyrMyChoice !== 'b' ? 0.5 : 1,
+              boxShadow: wyrMyChoice === 'b' ? `0 8px 32px ${colors.secondaryGlow}` : 'none',
             }}
           >
-            <p style={{ color: 'white', fontSize: 18, textAlign: 'center', fontWeight: 500 }}>
+            <p style={{ color: wyrMyChoice === 'b' ? 'white' : colors.textPrimary, fontSize: 18, textAlign: 'center', fontWeight: 500 }}>
               {wyr.b}
             </p>
             {wyrMyChoice === 'b' && (
