@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { IoVolumeHigh, IoPlay, IoPause, IoHome, IoHeart } from 'react-icons/io5'
+import { IoVolumeHigh, IoPlay, IoPause, IoHeart } from 'react-icons/io5'
 import { useTheme } from '../context/ThemeContext'
 import { useMusic } from '../context/MusicContext'
 import { Howl } from 'howler'
