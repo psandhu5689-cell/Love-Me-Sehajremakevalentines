@@ -3436,13 +3436,6 @@ export default function VirtualBed() {
           </div>
         </div>
 
-          
-          {/* Pure living space - no controls, no UI */}
-          
-          {/* Room level badges removed */}
-
-          {/* Special button removed */}
-
           {/* Lights Out Overlay */}
           <AnimatePresence>
             {lightsOutMode && (
