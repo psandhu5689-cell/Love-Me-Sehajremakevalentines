@@ -52,6 +52,7 @@ export default function Question() {
       justifyContent: 'center',
       padding: 24,
       position: 'relative',
+      overflow: 'hidden',
     }}>
       {/* Journey Progress */}
       <JourneyProgress currentPath="/question" />
@@ -68,21 +69,52 @@ export default function Question() {
           width: 44,
           height: 44,
           borderRadius: 22,
-          background: colors.card,
+          background: colors.glass,
+          backdropFilter: 'blur(10px)',
           border: `1px solid ${colors.border}`,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           cursor: 'pointer',
+          zIndex: 10,
         }}
       >
         <IoChevronBack size={24} color={colors.primary} />
       </motion.button>
 
-      {/* Floating Hearts Background */}
-      {[...Array(8)].map((_, i) => (
+      {/* Parallax Floating Hearts Background */}
+      {[...Array(12)].map((_, i) => (
         <motion.div
           key={i}
+          animate={{
+            y: [-20, -60, -20],
+            x: [0, Math.random() * 20 - 10, 0],
+            opacity: [0.15, 0.4, 0.15],
+            scale: [1, 1.15, 1],
+          }}
+          transition={{
+            duration: 5 + Math.random() * 3,
+            delay: i * 0.3,
+            repeat: Infinity,
+          }}
+          style={{
+            position: 'fixed',
+            left: `${5 + Math.random() * 90}%`,
+            top: `${10 + Math.random() * 80}%`,
+            fontSize: 18 + Math.random() * 14,
+            pointerEvents: 'none',
+            zIndex: 0,
+          }}
+        >
+          {['💝', '💕', '✨', '💗', '❤️', '🥰'][i % 6]}
+        </motion.div>
+      ))}
+
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        style={{ textAlign: 'center', maxWidth: 500, zIndex: 1 }}
+      >
           animate={{ y: [0, -20, 0] }}
           transition={{ duration: 2.5, repeat: Infinity, delay: i * 0.3 }}
           style={{
