@@ -115,20 +115,6 @@ export default function Question() {
         animate={{ opacity: 1 }}
         style={{ textAlign: 'center', maxWidth: 500, zIndex: 1 }}
       >
-          animate={{ y: [0, -20, 0] }}
-          transition={{ duration: 2.5, repeat: Infinity, delay: i * 0.3 }}
-          style={{
-            position: 'absolute',
-            left: `${10 + i * 12}%`,
-            top: `${5 + (i % 4) * 22}%`,
-            opacity: 0.1 + (i % 3) * 0.05,
-          }}
-        >
-          <IoHeart size={50 * (0.4 + (i % 3) * 0.2)} color={colors.primary} />
-        </motion.div>
-      ))}
-
-      <div style={{ textAlign: 'center', zIndex: 10 }}>
         {/* Reveal Lines */}
         <div style={{ marginBottom: 40 }}>
           {REVEAL_LINES.map((line, index) => (
