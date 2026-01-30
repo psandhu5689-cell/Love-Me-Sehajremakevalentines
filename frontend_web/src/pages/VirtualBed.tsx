@@ -70,15 +70,18 @@ interface AnimationDef {
  * ANIMATION MAP FOR PRABH (Gray Cat)
  * UPDATED: Default to STATIC single frame, not looping
  * ADDED: Walk animations for each direction (floor roaming)
+ * ADDED: Reaction animations (happy, annoyed, surprised)
  */
 const PRABH_ANIMATIONS: Record<string, AnimationDef> = {
   // STATIC default - single frozen frame
   sitIdle: { startRow: 0, frameCount: 1, fps: 1, loop: false },
+  layIdle: { startRow: 5, frameCount: 1, fps: 1, loop: false },
   tailWag: { startRow: 1, frameCount: 8, fps: 3, loop: false },
   // Sleep states
-  sleep: { startRow: 5, frameCount: 1, fps: 1, loop: false },
+  sleep: { startRow: 5, frameCount: 4, fps: 2, loop: true },
   sleepCurled: { startRow: 6, frameCount: 1, fps: 1, loop: false },
-  // WALK ANIMATIONS - 4 directions (using tail wag frames for walk effect)
+  wake: { startRow: 0, frameCount: 4, fps: 4, loop: false },
+  // WALK ANIMATIONS - 4 directions (gentle 4fps)
   walkRight: { startRow: 1, frameCount: 4, fps: 4, loop: true },
   walkLeft: { startRow: 1, frameCount: 4, fps: 4, loop: true },
   walkUp: { startRow: 1, frameCount: 4, fps: 4, loop: true },
@@ -91,7 +94,13 @@ const PRABH_ANIMATIONS: Record<string, AnimationDef> = {
   // Actions
   nudge: { startRow: 7, frameCount: 8, fps: 5, loop: false },
   kick: { startRow: 8, frameCount: 8, fps: 6, loop: false },
-  // Reactions
+  hogBlanket: { startRow: 7, frameCount: 6, fps: 4, loop: false },
+  feed: { startRow: 10, frameCount: 8, fps: 4, loop: false },
+  // Reactions - for touch interactions
+  happy: { startRow: 1, frameCount: 6, fps: 5, loop: false },
+  annoyed: { startRow: 9, frameCount: 4, fps: 4, loop: false },
+  surprised: { startRow: 3, frameCount: 3, fps: 6, loop: false },
+  // Reactions (legacy)
   hiss: { startRow: 9, frameCount: 4, fps: 3, loop: false },
   // Eating
   eat: { startRow: 10, frameCount: 8, fps: 4, loop: false },
@@ -105,15 +114,18 @@ const PRABH_ANIMATIONS: Record<string, AnimationDef> = {
  * ANIMATION MAP FOR SEHAJ (Brown/Ginger Cat)
  * UPDATED: Default to STATIC single frame, not looping
  * ADDED: Walk animations for each direction (floor roaming)
+ * ADDED: Reaction animations (happy, annoyed, surprised)
  */
 const SEHAJ_ANIMATIONS: Record<string, AnimationDef> = {
   // STATIC default - single frozen frame
   sitIdle: { startRow: 0, frameCount: 1, fps: 1, loop: false },
+  layIdle: { startRow: 5, frameCount: 1, fps: 1, loop: false },
   tailWag: { startRow: 1, frameCount: 8, fps: 3, loop: false },
   // Sleep states
-  sleep: { startRow: 5, frameCount: 1, fps: 1, loop: false },
+  sleep: { startRow: 5, frameCount: 4, fps: 2, loop: true },
   sleepCurled: { startRow: 6, frameCount: 1, fps: 1, loop: false },
-  // WALK ANIMATIONS - 4 directions (using tail wag frames for walk effect)
+  wake: { startRow: 0, frameCount: 4, fps: 4, loop: false },
+  // WALK ANIMATIONS - 4 directions (gentle 4fps)
   walkRight: { startRow: 1, frameCount: 4, fps: 4, loop: true },
   walkLeft: { startRow: 1, frameCount: 4, fps: 4, loop: true },
   walkUp: { startRow: 1, frameCount: 4, fps: 4, loop: true },
@@ -126,7 +138,13 @@ const SEHAJ_ANIMATIONS: Record<string, AnimationDef> = {
   // Actions
   nudge: { startRow: 7, frameCount: 8, fps: 5, loop: false },
   kick: { startRow: 8, frameCount: 8, fps: 6, loop: false },
-  // Reactions
+  hogBlanket: { startRow: 7, frameCount: 6, fps: 4, loop: false },
+  feed: { startRow: 10, frameCount: 8, fps: 4, loop: false },
+  // Reactions - for touch interactions
+  happy: { startRow: 1, frameCount: 6, fps: 5, loop: false },
+  annoyed: { startRow: 9, frameCount: 4, fps: 4, loop: false },
+  surprised: { startRow: 3, frameCount: 3, fps: 6, loop: false },
+  // Reactions (legacy)
   hiss: { startRow: 9, frameCount: 4, fps: 3, loop: false },
   // Eating
   eat: { startRow: 10, frameCount: 8, fps: 4, loop: false },
