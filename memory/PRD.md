@@ -194,3 +194,33 @@ VALENTINES SEQUENCE EXPANSION – Add 8+ new pages with puzzles and media into t
   - Box shadows with `colors.primaryGlow`
   - Shimmer effects on buttons
   - Rounded corners (20-32px radius)
+
+### Date: Jan 30, 2026 (Update 7)
+- ✅ **Glassy Design + Parallax Particles on ALL Remaining Pages**
+  
+  **Created Component:**
+  - `ParallaxParticles.tsx` - Reusable parallax floating particles component
+  
+  **Updated Pages (excluding VirtualBed):**
+  - CardMatch - Floating 🎴💕✨💗🃏 particles with parallax
+  - Celebration - Extra particles (🎉💕✨🎊💗⭐🥳), 15 total
+  - FirstIntro - Parallax heart particles overlay on stars
+  - HoldReveal - Floating 🔓💕✨💗🔮 particles
+  - Origin - Floating 📖💕✨💗🌟 particles
+  - Personalization - Floating 💫💕✨💗✏️ particles
+  - Question - Enhanced parallax 💝💕✨💗❤️🥰 particles
+  - SpotDifference - Floating 🔍💕✨👁️💗 particles
+  - Crossword - Floating ✏️💕✨📝💗 particles
+  - RelationshipEmergency - Emergency 🚨💕❤️🆘💗 particles
+  - TryNotToSmile - Already had floating particles
+  
+  **Parallax Effect:**
+  - Each particle has different parallaxFactor (0.1-0.3)
+  - Particles move at different speeds on scroll
+  - Includes rotation, scale, and opacity animations
+  - Creates depth and immersion
+  
+  **Common Pattern:**
+  - All back buttons now use `colors.glass` with `backdropFilter: 'blur(10px)'`
+  - Pages have `overflow: 'hidden'` to contain particles
+  - Particles use `position: 'fixed'` with `zIndex: 0`
