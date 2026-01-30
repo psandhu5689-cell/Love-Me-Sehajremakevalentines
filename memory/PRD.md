@@ -174,3 +174,23 @@ VALENTINES SEQUENCE EXPANSION – Add 8+ new pages with puzzles and media into t
   - Favorites persist in localStorage
   - Pulsing heart animation at top
   - Updated glassy card design
+
+### Date: Jan 30, 2026 (Update 6)
+- ✅ **Glassy Design Applied to All Pages**
+  
+  **Updated Pages:**
+  - Index (user selection modal with floating particles)
+  - Gallery (glassy header, cards with shadows)
+  - LoveQuiz (floating particles, glassy back button)
+  - SecretCode (floating 🔐 particles, glassy keypad)
+  - HeartDraw (floating ❤️ particles, glassy canvas)
+  - MusicMemory (floating 🎵 particles, glassy cards)
+  - DailyLove activities (already glassy)
+  
+  **Common Glassy Elements:**
+  - `colors.glass` background with `backdropFilter: 'blur(10px-20px)'`
+  - Floating emoji particles with motion animations
+  - Border with `colors.border`
+  - Box shadows with `colors.primaryGlow`
+  - Shimmer effects on buttons
+  - Rounded corners (20-32px radius)
