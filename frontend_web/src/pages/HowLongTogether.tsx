@@ -585,7 +585,6 @@ export default function HowLongTogether() {
           <MemoryChip label="Feb 26, 2025" icon="💬" onClick={() => scrollToSection('talking')} />
           <MemoryChip label="Jul 11, 2025" icon="💗" onClick={() => scrollToSection('dating')} />
           <MemoryChip label="Next July 11" icon="🎉" onClick={() => scrollToSection('anniversary')} />
-          <MemoryChip label="6 Lives Ago" icon="✨" onClick={() => scrollToSection('lifetimes')} />
           <MemoryChip label="Forever" icon="♾️" onClick={() => scrollToSection('forever')} />
         </motion.div>
 
@@ -665,17 +664,6 @@ export default function HowLongTogether() {
               progress={getAnniversaryProgress()}
             />
           ) : null}
-
-          {/* Lifetimes Timer */}
-          <TimerCard
-            title="Found Each Other in Our Old Lifetimes"
-            subtitle="6 lives ago"
-            time={lifetimesTime}
-            color="#FA709A"
-            gradient={['#FA709A', '#FEE140']}
-            story={getStory(3)}
-            refKey="lifetimes"
-          />
 
           {/* Forever Card */}
           <motion.div
