@@ -57,6 +57,9 @@ export default function HoldReveal() {
       padding: 32,
       position: 'relative',
     }}>
+      {/* Journey Progress */}
+      <JourneyProgress currentPath="/hold-reveal" />
+      
       {/* Back Button */}
       <motion.button
         whileHover={{ scale: 1.05 }}
