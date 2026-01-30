@@ -5,6 +5,7 @@ import { IoChevronBack, IoHeart, IoHeartOutline, IoChevronForward } from 'react-
 import { useTheme } from '../context/ThemeContext'
 import { useUser } from '../context/UserContext'
 import { useAudio } from '../context/AudioContext'
+import JourneyProgress from '../components/JourneyProgress'
 
 const REVEAL_LINES = [
   'I already know my answer.',

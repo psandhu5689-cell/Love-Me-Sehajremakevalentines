@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { IoChevronBack, IoHeart, IoChevronForward } from 'react-icons/io5'
 import { useTheme } from '../context/ThemeContext'
 import { useAudio } from '../context/AudioContext'
+import JourneyProgress from '../components/JourneyProgress'
 
 const CARDS = [
   { id: 1, emoji: '💖', text: 'Love' },

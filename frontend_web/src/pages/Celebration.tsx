@@ -6,6 +6,7 @@ import Confetti from 'react-confetti'
 import { useTheme } from '../context/ThemeContext'
 import { useUser } from '../context/UserContext'
 import { useAudio } from '../context/AudioContext'
+import JourneyProgress from '../components/JourneyProgress'
 
 const MEMORIES_FLOATING = [
   'Click the blue heart heheheh',

@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
 import haptics from '../utils/haptics'
 import Confetti from 'react-confetti'
+import JourneyProgress from '../components/JourneyProgress'
 
 const VALID_CODES = ['2625', '0711', '26250711', '26', '07', '11']
 

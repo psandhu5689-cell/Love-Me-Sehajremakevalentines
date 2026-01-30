@@ -6,6 +6,7 @@ import { useTheme } from '../context/ThemeContext'
 import { PLAYLIST } from '../context/MusicContext'
 import haptics from '../utils/haptics'
 import { Howl } from 'howler'
+import JourneyProgress from '../components/JourneyProgress'
 
 const SONG_OPTIONS = [
   { id: 1, song: PLAYLIST[0], label: 'First Love', image: 'https://customer-assets.emergentagent.com/job_romance-theme/artifacts/04jb8vk3_5744FE7D-DE20-40FB-94A9-C39CB3EDC595.MOV' },

@@ -5,6 +5,7 @@ import { IoVolumeHigh, IoPlay, IoPause, IoHeart } from 'react-icons/io5'
 import { useTheme } from '../context/ThemeContext'
 import { useMusic } from '../context/MusicContext'
 import { Howl } from 'howler'
+import JourneyProgress from '../components/JourneyProgress'
 
 const WHISPER_AUDIO = 'https://customer-assets.emergentagent.com/job_sehaj-love/artifacts/n3ojmbeq_e6d8893a.mp3'
 
