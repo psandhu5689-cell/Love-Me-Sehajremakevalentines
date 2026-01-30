@@ -138,8 +138,8 @@ export default function PhotoTimeline() {
                 haptics.light()
                 setFullscreenIndex(currentIndex)
               }}
-              style={
-{              background: colors.card,
+              style={{
+              background: colors.card,
               borderRadius: 20,
               overflow: 'hidden',
               border: `1px solid ${colors.border}`,
