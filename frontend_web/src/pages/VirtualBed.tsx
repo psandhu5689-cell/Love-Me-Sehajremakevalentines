@@ -440,6 +440,23 @@ export default function VirtualBed() {
     isAwake: true,
   })
   
+  // NEW: Animation system integration
+  const prabhAnim = useCatAnimation('prabh')
+  const sehajAnim = useCatAnimation('sehaj')
+  
+  // Drag state for touch interactions
+  const [dragState, setDragState] = useState<{
+    isDragging: boolean;
+    cat: 'prabh' | 'sehaj' | null;
+    startX: number;
+    startY: number;
+  }>({
+    isDragging: false,
+    cat: null,
+    startX: 0,
+    startY: 0,
+  })
+  
   // ============ AUTONOMOUS CAT ROAMING SYSTEM ============
   
   // FLOOR BOUNDING BOX - cats can ONLY roam within this region
