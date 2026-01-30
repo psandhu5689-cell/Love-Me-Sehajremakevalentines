@@ -42,6 +42,7 @@ import { useNavigate } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
 import haptics from '../utils/haptics'
 import { Howl } from 'howler'
+import { useCatAnimation } from '../hooks/useCatAnimation'
 
 // Sprite sheets
 import cat1Sheet from '../assets/sprites/cat1_sheet.png'
@@ -353,6 +354,41 @@ const SPECIAL_MESSAGES = [
 ]
 
 const FOOD_ITEMS = ['🐟', '🦴', '🍖', '🍣', '🥛']
+
+// ============ ACTION ICON COMPONENT ============
+
+interface ActionIconProps {
+  icon: string;
+  label: string;
+  onClick: () => void;
+}
+
+function ActionIcon({ icon, label, onClick }: ActionIconProps) {
+  return (
+    <motion.button
+      onClick={onClick}
+      whileHover={{ scale: 1.1, background: 'rgba(255,255,255,0.3)' }}
+      whileTap={{ scale: 0.95 }}
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: 4,
+        background: 'transparent',
+        border: 'none',
+        cursor: 'pointer',
+        padding: '8px 10px',
+        borderRadius: 12,
+        minWidth: 56,
+      }}
+    >
+      <span style={{ fontSize: 22 }}>{icon}</span>
+      <span style={{ fontSize: 9, color: '#fff', fontWeight: 600, textAlign: 'center' }}>{label}</span>
+    </motion.button>
+  );
+}
+
+// ============ MAIN COMPONENT ============
 
 export default function VirtualBed() {
   const navigate = useNavigate()
@@ -1007,6 +1043,10 @@ export default function VirtualBed() {
   const [frameIndex, setFrameIndex] = useState(0)
   const FRAME_IMAGES = ['💕', '🐱🐱', '🌸', '✨', '🏠', '💝', '🌙', '☀️']
   
+  // NEW: Compact UI state
+  const [showSecondaryPanel, setShowSecondaryPanel] = useState(false)
+  const [targetMode, setTargetMode] = useState<'prabh' | 'sehaj' | 'both'>('both')
+  
   // Cat mood bubbles
   const [prabhMoodBubble, setPrabhMoodBubble] = useState<string | null>(null)
   const [sehajMoodBubble, setSehajMoodBubble] = useState<string | null>(null)
@@ -1331,6 +1371,58 @@ export default function VirtualBed() {
           setCat(prev => ({ ...prev, action: prev.isAwake ? 'sitIdle' : 'sleep' }))
         }, 4000)
         break
+    }
+  }
+  
+  // NEW: Compact action handler with target mode support
+  const handleCompactAction = (action: string) => {
+    if (!userInteracted) setUserInteracted(true)
+    haptics.medium()
+    
+    const targets = targetMode === 'both' ? ['prabh', 'sehaj'] : [targetMode]
+    
+    targets.forEach(cat => {
+      const catTyped = cat as 'prabh' | 'sehaj'
+      
+      switch (action) {
+        case 'wake':
+          handleCatAction(catTyped, 'wake')
+          break
+        case 'sleep':
+          handleCatAction(catTyped, 'sleep')
+          break
+        case 'feed':
+          handleCatAction(catTyped, 'feed')
+          break
+        case 'nudge':
+          handleCatAction(catTyped, 'nudge')
+          break
+        case 'kick':
+          handleCatAction(catTyped, 'kick')
+          break
+        case 'hogBlanket':
+          handleCatAction(catTyped, 'hog')
+          break
+        case 'gaming':
+          handleCatAction(catTyped, 'game')
+          break
+        case 'pet':
+          handleCatAction(catTyped, 'nudge') // Pet uses nudge animation
+          break
+        case 'drama':
+          handleCatAction(catTyped, 'kick') // Drama uses kick/annoyed animation
+          break
+      }
+    })
+    
+    // Special multi-cat actions
+    if (action === 'cuddle' && targetMode === 'both') {
+      setCuddleMode(true)
+      setTimeout(() => setCuddleMode(false), 3000)
+    }
+    
+    if (action === 'lightsOut') {
+      setLightsDimmed(prev => !prev)
     }
   }
   
@@ -2502,75 +2594,6 @@ export default function VirtualBed() {
                 flip={prabhRoam.xPercent < 60}
               />
               
-              {prabh.action === 'gaming' && (
-                <motion.div
-                  animate={{ y: [0, -3, 0] }}
-                  transition={{ duration: 0.5, repeat: Infinity }}
-                  style={{
-                    position: 'absolute',
-                    bottom: 0,
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    fontSize: 18,
-                  }}
-                >
-                  🎮
-                </motion.div>
-              )}
-            </motion.div>
-              
-              {/* Mood Bubble for Prabh */}
-              <AnimatePresence>
-                {prabhMoodBubble && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10, scale: 0.8 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -10, scale: 0.8 }}
-                    style={{
-                      position: 'absolute',
-                      top: -40,
-                      left: '50%',
-                      transform: 'translateX(-50%)',
-                      background: 'rgba(255,255,255,0.95)',
-                      borderRadius: 12,
-                      padding: '6px 10px',
-                      fontSize: 14,
-                      boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
-                      whiteSpace: 'nowrap',
-                      zIndex: 10,
-                    }}
-                  >
-                    {prabhMoodBubble}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-              
-              {/* Walking indicator */}
-              {prabhRoam.isMoving && (
-                <motion.div
-                  animate={{ opacity: [0.5, 1, 0.5] }}
-                  transition={{ duration: 0.5, repeat: Infinity }}
-                  style={{
-                    position: 'absolute',
-                    bottom: -10,
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    fontSize: 10,
-                  }}
-                >
-                  🐾
-                </motion.div>
-              )}
-              
-              <Sprite
-                sheet={cat1Sheet}
-                animations={PRABH_ANIMATIONS}
-                currentAnimation={prabh.action}
-                onAnimationEnd={handlePrabhAnimEnd}
-                scale={1.8}
-                flip={prabhRoam.xPercent < 60}
-              />
-              {/* Gaming emoji */}
               {prabh.action === 'gaming' && (
                 <motion.div
                   animate={{ y: [0, -3, 0] }}
