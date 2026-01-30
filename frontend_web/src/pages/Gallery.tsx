@@ -122,7 +122,34 @@ export default function Gallery() {
       background: colors.background,
       padding: '80px 16px 24px',
       position: 'relative',
+      overflow: 'hidden',
     }}>
+      {/* Floating particles */}
+      {[...Array(8)].map((_, i) => (
+        <motion.div
+          key={i}
+          animate={{
+            y: [-20, -50, -20],
+            opacity: [0.15, 0.35, 0.15],
+          }}
+          transition={{
+            duration: 4 + Math.random() * 3,
+            delay: i * 0.4,
+            repeat: Infinity,
+          }}
+          style={{
+            position: 'fixed',
+            left: `${5 + Math.random() * 90}%`,
+            top: `${10 + Math.random() * 80}%`,
+            fontSize: 18,
+            pointerEvents: 'none',
+            zIndex: 0,
+          }}
+        >
+          {['📸', '🎬', '💕', '✨'][i % 4]}
+        </motion.div>
+      ))}
+
       {/* Header */}
       <div style={{
         position: 'fixed',
@@ -130,11 +157,13 @@ export default function Gallery() {
         left: 0,
         right: 0,
         padding: '16px',
-        background: colors.background,
+        background: `${colors.background}ee`,
+        backdropFilter: 'blur(10px)',
         zIndex: 100,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
+        borderBottom: `1px solid ${colors.border}`,
       }}>
         <motion.button
           whileHover={{ scale: 1.05 }}
@@ -144,7 +173,8 @@ export default function Gallery() {
             width: 44,
             height: 44,
             borderRadius: 22,
-            background: colors.card,
+            background: colors.glass,
+            backdropFilter: 'blur(10px)',
             border: `1px solid ${colors.border}`,
             display: 'flex',
             alignItems: 'center',
@@ -157,7 +187,17 @@ export default function Gallery() {
         
         <h1 style={{ fontSize: 24, fontWeight: 700, color: colors.textPrimary }}>Gallery</h1>
         
-        <div style={{ width: 44, height: 44, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ 
+          width: 44, 
+          height: 44, 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'center',
+          background: colors.glass,
+          backdropFilter: 'blur(10px)',
+          borderRadius: 22,
+          border: `1px solid ${colors.border}`,
+        }}>
           <IoImages size={24} color={colors.primary} />
         </div>
       </div>
@@ -171,11 +211,13 @@ export default function Gallery() {
         display: 'grid',
         gridTemplateColumns: 'repeat(2, 1fr)',
         gap: 16,
+        position: 'relative',
+        zIndex: 1,
       }}>
         {GALLERY_ITEMS.map((item) => (
           <motion.div
             key={item.id}
-            whileHover={{ scale: 1.02 }}
+            whileHover={{ scale: 1.02, y: -4 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => openFullscreen(item)}
             style={{
