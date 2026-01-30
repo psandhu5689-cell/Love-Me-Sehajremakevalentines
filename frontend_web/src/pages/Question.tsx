@@ -244,7 +244,7 @@ export default function Question() {
             <IoChevronForward size={16} />
           </motion.button>
         )}
-      </div>
+      </motion.div>
     </div>
   )
 }
