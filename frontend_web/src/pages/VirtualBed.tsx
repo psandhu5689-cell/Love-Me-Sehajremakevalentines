@@ -3493,7 +3493,6 @@ export default function VirtualBed() {
               </motion.div>
             )}
           </AnimatePresence>
-        </motion.div>
       </div>
     )
   }
