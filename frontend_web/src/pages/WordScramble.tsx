@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
 import haptics from '../utils/haptics'
 import Confetti from 'react-confetti'
+import JourneyProgress from '../components/JourneyProgress'
 
 const WORDS = [
   { word: 'SEHAJ', scrambled: 'JAESH', hint: 'Your girl' },

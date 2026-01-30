@@ -4,6 +4,7 @@ import { IoChevronBack, IoPlay, IoHeart } from 'react-icons/io5'
 import { useNavigate } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
 import haptics from '../utils/haptics'
+import JourneyProgress from '../components/JourneyProgress'
 
 const VIDEO_URL = 'https://customer-assets.emergentagent.com/job_romance-theme/artifacts/04jb8vk3_5744FE7D-DE20-40FB-94A9-C39CB3EDC595.MOV'
 

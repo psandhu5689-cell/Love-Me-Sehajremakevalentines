@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
 import haptics from '../utils/haptics'
 import Confetti from 'react-confetti'
+import JourneyProgress from '../components/JourneyProgress'
 
 // Using two different video frames as "spot the difference"
 const IMAGE_1 = 'https://customer-assets.emergentagent.com/job_romance-theme/artifacts/04jb8vk3_5744FE7D-DE20-40FB-94A9-C39CB3EDC595.MOV'
