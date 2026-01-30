@@ -3496,3 +3496,4 @@ export default function VirtualBed() {
       </div>
     )
   }
+}
