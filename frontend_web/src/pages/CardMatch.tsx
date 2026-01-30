@@ -147,7 +147,7 @@ export default function CardMatch() {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={() => navigate('/hold-reveal')}
+            onClick={() => navigate('/hidden-hearts')}
             style={{
               background: `linear-gradient(135deg, ${colors.primary}, ${colors.secondary})`,
               border: 'none',
@@ -171,7 +171,7 @@ export default function CardMatch() {
       {!isComplete && (
         <motion.button
           whileHover={{ scale: 1.02 }}
-          onClick={() => navigate('/hold-reveal')}
+          onClick={() => navigate('/hidden-hearts')}
           style={{
             marginTop: 30,
             background: 'transparent',
