@@ -63,7 +63,7 @@ export default function DailyLoveHub() {
     },
     {
       id: 'compliments',
-      title: 'Daily Compliment',
+      title: 'For Sehaj & Mrs. Sandhu',
       subtitle: 'Words from my heart',
       icon: IoHeart,
       gradient: ['#FF6B9D', '#C471ED'],
@@ -73,7 +73,7 @@ export default function DailyLoveHub() {
     },
     {
       id: 'why-i-love-you',
-      title: 'Why I Love You',
+      title: 'Why does he love me',
       subtitle: 'Because reasons',
       icon: IoStar,
       gradient: ['#FF9472', '#F2709C'],
@@ -92,7 +92,7 @@ export default function DailyLoveHub() {
     },
     {
       id: 'special-moments',
-      title: 'Special Moments',
+      title: '"Here and There" memories',
       subtitle: 'Things I remember',
       icon: IoBook,
       gradient: ['#FFA8A8', '#FCFF00'],
@@ -102,7 +102,7 @@ export default function DailyLoveHub() {
     },
     {
       id: 'questions',
-      title: 'Daily Questions',
+      title: 'Mhmm what would she say',
       subtitle: 'Let me know you better',
       icon: IoHelpCircle,
       gradient: ['#4FACFE', '#00F2FE'],
@@ -111,7 +111,7 @@ export default function DailyLoveHub() {
     },
     {
       id: 'challenges',
-      title: 'Daily Challenges',
+      title: 'A little this & A little that',
       subtitle: 'Small things for us',
       icon: IoTrophy,
       gradient: ['#43E97B', '#38F9D7'],
@@ -120,7 +120,7 @@ export default function DailyLoveHub() {
     },
     {
       id: 'gallery',
-      title: 'Gallery',
+      title: 'When i.....',
       subtitle: 'Our moments together',
       icon: IoImages,
       gradient: ['#4facfe', '#00f2fe'],
