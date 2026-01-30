@@ -85,65 +85,6 @@ export default function Celebration() {
         />
       )}
 
-      {/* Stickers */}
-      <motion.div
-        animate={{ y: [0, -15, 0] }}
-        transition={{ duration: 3, repeat: Infinity }}
-        style={{
-          position: 'absolute',
-          top: 50,
-          left: 5,
-          transform: 'rotate(-15deg)',
-          zIndex: 10,
-        }}
-      >
-        <div style={{ position: 'relative', width: 120, height: 120 }}>
-          <IoHeart size={120} color={colors.secondary} style={{ position: 'absolute' }} />
-          <img
-            src={STICKER_OCTOPUS}
-            style={{
-              width: 70,
-              height: 70,
-              borderRadius: 35,
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -40%)',
-              border: `3px solid ${colors.card}`,
-            }}
-          />
-        </div>
-      </motion.div>
-
-      <motion.div
-        animate={{ y: [0, -15, 0] }}
-        transition={{ duration: 3, repeat: Infinity }}
-        style={{
-          position: 'absolute',
-          top: 50,
-          right: 5,
-          transform: 'rotate(15deg)',
-          zIndex: 10,
-        }}
-      >
-        <div style={{ position: 'relative', width: 120, height: 120 }}>
-          <IoHeart size={120} color={colors.primary} style={{ position: 'absolute' }} />
-          <img
-            src={STICKER_GOLD}
-            style={{
-              width: 70,
-              height: 70,
-              borderRadius: 35,
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -40%)',
-              border: `3px solid ${colors.card}`,
-            }}
-          />
-        </div>
-      </motion.div>
-
       <div style={{ padding: '100px 24px 24px', textAlign: 'center' }}>
         {/* Title */}
         <motion.div
