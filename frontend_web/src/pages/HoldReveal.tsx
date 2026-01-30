@@ -163,7 +163,7 @@ export default function HoldReveal() {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => { playComplete(); navigate('/quiet-stars'); }}
+              onClick={() => { playComplete(); navigate('/music-memory'); }}
               style={{
                 background: `linear-gradient(135deg, ${colors.primary}, ${colors.secondary})`,
                 border: 'none',
@@ -188,7 +188,7 @@ export default function HoldReveal() {
         {!revealed && (
           <motion.button
             whileHover={{ scale: 1.02 }}
-            onClick={() => { playClick(); navigate('/quiet-stars'); }}
+            onClick={() => { playClick(); navigate('/music-memory'); }}
             style={{
               marginTop: 30,
               background: 'transparent',
