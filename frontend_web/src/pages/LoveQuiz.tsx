@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { IoChevronBack, IoCheckmarkCircle, IoCloseCircle } from 'react-icons/io5'
 import { useNavigate } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
 import haptics from '../utils/haptics'
+import JourneyProgress from '../components/JourneyProgress'
 
 const QUIZ_QUESTIONS = [
   {

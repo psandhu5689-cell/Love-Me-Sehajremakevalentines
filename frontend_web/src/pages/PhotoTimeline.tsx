@@ -4,6 +4,7 @@ import { IoChevronBack, IoChevronForward, IoClose } from 'react-icons/io5'
 import { useNavigate } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
 import haptics from '../utils/haptics'
+import JourneyProgress from '../components/JourneyProgress'
 
 const PHOTOS = [
   {

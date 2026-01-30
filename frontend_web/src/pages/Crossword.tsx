@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
 import haptics from '../utils/haptics'
 import Confetti from 'react-confetti'
+import JourneyProgress from '../components/JourneyProgress'
 
 interface Clue {
   number: number

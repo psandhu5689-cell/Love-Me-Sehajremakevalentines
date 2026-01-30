@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
 import haptics from '../utils/haptics'
 import Confetti from 'react-confetti'
+import JourneyProgress from '../components/JourneyProgress'
 
 // Hidden heart positions (percentages) - scattered across the image
 const HIDDEN_HEARTS = [
