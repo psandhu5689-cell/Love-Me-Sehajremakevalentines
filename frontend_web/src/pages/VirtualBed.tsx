@@ -3144,14 +3144,14 @@ export default function VirtualBed() {
             ))}
           </div>
 
-          {/* Bottom Action Bar - MOBILE OPTIMIZED */}
+          {/* Bottom Action Bar - MOBILE OPTIMIZED - REPOSITIONED */}
           <motion.div
             initial={{ y: 100 }}
             animate={{ y: 0 }}
             transition={{ type: 'spring', damping: 20 }}
             style={{
               position: 'fixed',
-              bottom: window.innerWidth < 768 ? 12 : 16,
+              bottom: window.innerWidth < 768 ? 332 : 342,
               left: '50%',
               transform: 'translateX(-50%)',
               display: 'flex',
