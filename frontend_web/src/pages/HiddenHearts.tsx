@@ -17,7 +17,7 @@ const HIDDEN_HEARTS = [
   { id: 7, x: 85, y: 80, size: 'tiny', hint: 'bottom right' },
 ]
 
-const PHOTO_URL = 'https://customer-assets.emergentagent.com/job_romance-theme/artifacts/04jb8vk3_5744FE7D-DE20-40FB-94A9-C39CB3EDC595.MOV'
+const PHOTO_URL = 'https://customer-assets.emergentagent.com/job_love-adventure-49/artifacts/cayt7gcy_IMG_5352.jpeg'
 
 const getHeartSize = (size: string) => {
   switch (size) {
@@ -237,9 +237,10 @@ export default function HiddenHearts() {
             border: `2px solid ${colors.border}`,
           }}
         >
-          {/* Video as background image */}
-          <video
+          {/* Photo background */}
+          <img
             src={PHOTO_URL}
+            alt="Find the hearts"
             style={{
               width: '100%',
               height: 'auto',
@@ -247,10 +248,6 @@ export default function HiddenHearts() {
               objectFit: 'cover',
               display: 'block',
             }}
-            muted
-            playsInline
-            loop
-            autoPlay
           />
 
           {/* Overlay for better heart visibility */}
