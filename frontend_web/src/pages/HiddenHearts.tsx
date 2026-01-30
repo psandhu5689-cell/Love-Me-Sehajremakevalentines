@@ -99,6 +99,9 @@ export default function HiddenHearts() {
       position: 'relative',
       overflow: 'hidden',
     }}>
+      {/* Journey Progress */}
+      <JourneyProgress currentPath="/hidden-hearts" />
+      
       {showConfetti && (
         <Confetti
           width={window.innerWidth}
