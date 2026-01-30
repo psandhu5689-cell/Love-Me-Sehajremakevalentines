@@ -3001,10 +3001,10 @@ export default function VirtualBed() {
             </div>
           </div>
           
-          {/* ============ BOTTOM HUD STRIP ============ */}
+          {/* ============ BOTTOM HUD STRIP - REPOSITIONED BELOW ROOM ============ */}
           <div style={{
             position: 'fixed',
-            bottom: window.innerWidth < 768 ? 100 : 110,
+            bottom: window.innerWidth < 768 ? 200 : 210,
             left: 0,
             right: 0,
             display: 'flex',
