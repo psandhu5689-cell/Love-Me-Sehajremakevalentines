@@ -10,7 +10,7 @@ const WORDS = [
   { word: 'SEHAJ', scrambled: 'JAESH', hint: 'Your girl' },
   { word: 'PRABH', scrambled: 'HBPAR', hint: 'Your boy' },
   { word: 'BERRYBOO', scrambled: 'YROBEROB', hint: 'Sweet nickname' },
-  { word: 'CRYBABY', scrambled: 'BABYCRY', hint: 'When you're emotional' },
+  { word: 'CRYBABY', scrambled: 'BABYCRY', hint: 'When emotional' },
   { word: 'LOVE', scrambled: 'VOLE', hint: 'What we have' },
   { word: 'CUDDLE', scrambled: 'DUDELC', hint: 'Cozy together' },
   { word: 'KISS', scrambled: 'SIKS', hint: 'Sweet gesture' },
