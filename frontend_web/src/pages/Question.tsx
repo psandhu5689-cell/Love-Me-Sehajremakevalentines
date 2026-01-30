@@ -53,6 +53,9 @@ export default function Question() {
       padding: 24,
       position: 'relative',
     }}>
+      {/* Journey Progress */}
+      <JourneyProgress currentPath="/question" />
+      
       {/* Back Button */}
       <motion.button
         whileHover={{ scale: 1.05 }}
