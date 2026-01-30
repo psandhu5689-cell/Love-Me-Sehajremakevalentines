@@ -464,6 +464,9 @@ export default function DailyLove() {
   // ============ WOULD YOU RATHER ============
   if (showWouldYouRather) {
     const wyr = WOULD_YOU_RATHER[wyrIndex]
+    const matchPercentage = wyrStats.total > 0 ? Math.round((wyrStats.matches / wyrStats.total) * 100) : 0
+    const isCurrentMatch = wyrMyChoice && wyrOtherChoice && wyrMyChoice === wyrOtherChoice
+    
     return (
       <div style={{
         minHeight: '100vh',
@@ -474,7 +477,33 @@ export default function DailyLove() {
         justifyContent: 'center',
         padding: 24,
         position: 'relative',
+        overflow: 'hidden',
       }}>
+        {/* Floating particles */}
+        {[...Array(8)].map((_, i) => (
+          <motion.div
+            key={i}
+            animate={{
+              y: [-20, -50, -20],
+              opacity: [0.2, 0.5, 0.2],
+            }}
+            transition={{
+              duration: 3 + Math.random() * 2,
+              delay: i * 0.2,
+              repeat: Infinity,
+            }}
+            style={{
+              position: 'absolute',
+              left: `${10 + Math.random() * 80}%`,
+              top: `${10 + Math.random() * 80}%`,
+              fontSize: 18,
+              pointerEvents: 'none',
+            }}
+          >
+            {['💕', '✨', '🎲', '💫'][i % 4]}
+          </motion.div>
+        ))}
+
         <motion.button
           whileHover={{ scale: 1.1 }}
           onClick={() => setShowWouldYouRather(false)}
@@ -482,22 +511,62 @@ export default function DailyLove() {
             position: 'absolute',
             top: 50,
             right: 20,
-            background: colors.card,
-            border: 'none',
+            background: colors.glass,
+            backdropFilter: 'blur(10px)',
+            border: `1px solid ${colors.border}`,
             borderRadius: 20,
             padding: 8,
             cursor: 'pointer',
+            zIndex: 10,
           }}
         >
           <IoClose size={28} color={colors.primary} />
         </motion.button>
 
         <span style={{ fontSize: 60 }}>🎲</span>
-        <h1 style={{ color: colors.textPrimary, fontSize: 24, fontWeight: 600, marginTop: 16, marginBottom: 30 }}>
+        <h1 style={{ color: colors.textPrimary, fontSize: 28, fontWeight: 700, marginTop: 16, marginBottom: 8 }}>
           Would You Rather?
         </h1>
+        
+        {/* Match Percentage Display */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          style={{
+            background: colors.glass,
+            backdropFilter: 'blur(20px)',
+            border: `1px solid ${colors.border}`,
+            borderRadius: 20,
+            padding: '12px 24px',
+            marginBottom: 24,
+            display: 'flex',
+            alignItems: 'center',
+            gap: 16,
+          }}
+        >
+          <div style={{ textAlign: 'center' }}>
+            <p style={{ color: colors.textMuted, fontSize: 11, marginBottom: 2 }}>Match Rate</p>
+            <p style={{ 
+              color: matchPercentage >= 70 ? '#4CAF50' : matchPercentage >= 40 ? '#FF9800' : colors.primary, 
+              fontSize: 24, 
+              fontWeight: 700 
+            }}>
+              {matchPercentage}%
+            </p>
+          </div>
+          <div style={{ width: 1, height: 40, background: colors.border }} />
+          <div style={{ textAlign: 'center' }}>
+            <p style={{ color: colors.textMuted, fontSize: 11, marginBottom: 2 }}>Questions</p>
+            <p style={{ color: colors.textPrimary, fontSize: 24, fontWeight: 700 }}>{wyrStats.total}</p>
+          </div>
+          <div style={{ width: 1, height: 40, background: colors.border }} />
+          <div style={{ textAlign: 'center' }}>
+            <p style={{ color: colors.textMuted, fontSize: 11, marginBottom: 2 }}>Matched</p>
+            <p style={{ color: '#4CAF50', fontSize: 24, fontWeight: 700 }}>{wyrStats.matches}</p>
+          </div>
+        </motion.div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 16, width: '100%', maxWidth: 350 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 16, width: '100%', maxWidth: 380 }}>
           <motion.button
             whileHover={{ scale: wyrMyChoice ? 1 : 1.02 }}
             whileTap={{ scale: wyrMyChoice ? 1 : 0.98 }}
@@ -508,16 +577,18 @@ export default function DailyLove() {
                 ? `linear-gradient(135deg, ${colors.primary}, #ff8fab)`
                 : wyrOtherChoice === 'a' && wyrMyChoice
                 ? 'rgba(255, 107, 157, 0.3)'
-                : `linear-gradient(135deg, ${colors.primary}, #ff8fab)`,
-              borderRadius: 16,
-              padding: 20,
+                : colors.glass,
+              backdropFilter: 'blur(20px)',
+              borderRadius: 20,
+              padding: 24,
               cursor: wyrMyChoice ? 'default' : 'pointer',
-              border: wyrMyChoice === 'a' ? '3px solid #FFD700' : wyrOtherChoice === 'a' && wyrMyChoice ? '3px solid rgba(255, 215, 0, 0.5)' : 'none',
+              border: wyrMyChoice === 'a' ? `3px solid #FFD700` : wyrOtherChoice === 'a' && wyrMyChoice ? `3px solid rgba(255, 215, 0, 0.5)` : `1px solid ${colors.border}`,
               position: 'relative',
               opacity: wyrMyChoice && wyrMyChoice !== 'a' ? 0.5 : 1,
+              boxShadow: wyrMyChoice === 'a' ? `0 8px 32px ${colors.primaryGlow}` : 'none',
             }}
           >
-            <p style={{ color: 'white', fontSize: 18, textAlign: 'center', fontWeight: 500 }}>
+            <p style={{ color: wyrMyChoice === 'a' ? 'white' : colors.textPrimary, fontSize: 18, textAlign: 'center', fontWeight: 500 }}>
               {wyr.a}
             </p>
             {wyrMyChoice === 'a' && (
