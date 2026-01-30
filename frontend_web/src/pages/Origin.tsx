@@ -36,7 +36,35 @@ export default function Origin() {
       justifyContent: 'center',
       padding: 32,
       position: 'relative',
+      overflow: 'hidden',
     }}>
+      {/* Parallax Floating particles */}
+      {[...Array(10)].map((_, i) => (
+        <motion.div
+          key={i}
+          animate={{
+            y: [-20, -50, -20],
+            x: [0, Math.random() * 20 - 10, 0],
+            opacity: [0.15, 0.35, 0.15],
+          }}
+          transition={{
+            duration: 5 + Math.random() * 3,
+            delay: i * 0.3,
+            repeat: Infinity,
+          }}
+          style={{
+            position: 'fixed',
+            left: `${5 + Math.random() * 90}%`,
+            top: `${10 + Math.random() * 80}%`,
+            fontSize: 16 + Math.random() * 10,
+            pointerEvents: 'none',
+            zIndex: 0,
+          }}
+        >
+          {['📖', '💕', '✨', '💗', '🌟'][i % 5]}
+        </motion.div>
+      ))}
+
       {/* Journey Progress */}
       <JourneyProgress currentPath="/origin" />
       
@@ -52,12 +80,14 @@ export default function Origin() {
           width: 44,
           height: 44,
           borderRadius: 22,
-          background: colors.card,
+          background: colors.glass,
+          backdropFilter: 'blur(10px)',
           border: `1px solid ${colors.border}`,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           cursor: 'pointer',
+          zIndex: 10,
         }}
       >
         <IoChevronBack size={24} color={colors.primary} />
