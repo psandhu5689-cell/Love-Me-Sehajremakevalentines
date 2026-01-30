@@ -385,6 +385,9 @@ export default function Crossword() {
       position: 'relative',
       overflow: 'auto',
     }}>
+      {/* Journey Progress */}
+      <JourneyProgress currentPath="/crossword" />
+      
       {showConfetti && <Confetti recycle={false} numberOfPieces={200} />}
       
       {/* Hidden input for capturing keyboard - positioned off-screen but not display:none */}
