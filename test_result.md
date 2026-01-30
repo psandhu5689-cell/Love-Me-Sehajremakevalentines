@@ -143,15 +143,15 @@ frontend:
 
   - task: "Love Court Game"
     implemented: true
-    working: "NA"
+    working: false
     file: "/app/frontend_web/src/pages/LoveCourt.tsx"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
-        - working: "NA"
+        - working: false
         - agent: "testing"
-        - comment: "Need to test absurd case display, guilty/not guilty verdicts, appeal functionality, and court records"
+        - comment: "❌ Love Court game found in menu but click interception issues prevent proper testing. Element click timeouts due to overlapping elements intercepting pointer events."
 
   - task: "Reaction Jail Game"
     implemented: true
