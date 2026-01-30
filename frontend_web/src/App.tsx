@@ -76,6 +76,16 @@ export default function App() {
           <Route path="/how-long-together" element={<HowLongTogether />} />
           <Route path="/would-you-rather" element={<WouldYouRather />} />
           
+          {/* New Valentine Sequence Pages */}
+          <Route path="/photo-timeline" element={<PhotoTimeline />} />
+          <Route path="/word-scramble" element={<WordScramble />} />
+          <Route path="/spot-difference" element={<SpotDifference />} />
+          <Route path="/video-letter" element={<VideoLetter />} />
+          <Route path="/music-memory" element={<MusicMemory />} />
+          <Route path="/heart-draw" element={<HeartDraw />} />
+          <Route path="/secret-code" element={<SecretCode />} />
+          <Route path="/love-quiz" element={<LoveQuiz />} />
+          
           <Route path="/quiet-stars" element={<QuietStars />} />
           <Route path="/question" element={<Question />} />
           <Route path="/celebration" element={<Celebration />} />
