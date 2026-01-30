@@ -105,10 +105,17 @@ export function PresenceProvider({ children }: { children: ReactNode }) {
   const setCurrentUser = (user: 'prabh' | 'sehaj') => {
     setCurrentUserState(user)
     localStorage.setItem('currentUser', user)
+    localStorage.setItem('hasVisitedBefore', 'true')
     setShowUserSetup(false)
     
-    // After setting user, show presence check
-    setShowPresenceCheck(true)
+    // Only show presence check if they were away for a while, not on first setup
+    const lastActivity = localStorage.getItem('lastActivityTime')
+    if (lastActivity) {
+      const timeSinceLastActivity = Date.now() - parseInt(lastActivity)
+      if (timeSinceLastActivity > AWAY_THRESHOLD) {
+        setShowPresenceCheck(true)
+      }
+    }
   }
 
   const markPresence = (shared: boolean) => {
