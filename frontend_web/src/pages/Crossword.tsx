@@ -671,7 +671,7 @@ export default function Crossword() {
             whileTap={{ scale: 0.98 }}
             onClick={() => {
               haptics.light()
-              navigate('/card-match')
+              navigate('/word-scramble')
             }}
             style={{
               width: '100%',
