@@ -74,7 +74,7 @@ export default function QuietStars() {
   }
 
   const handleGoBack = () => {
-    navigate('/')
+    navigate('/question')
   }
 
   return (
@@ -211,7 +211,7 @@ export default function QuietStars() {
           for you, always 💕
         </p>
 
-        {/* Back to Start Button */}
+        {/* Continue Button */}
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
@@ -228,8 +228,8 @@ export default function QuietStars() {
             cursor: 'pointer',
           }}
         >
-          <IoHome size={18} color="#FFFFFF" />
-          <span style={{ color: '#FFFFFF', fontSize: 14, fontWeight: 600 }}>Back to Start</span>
+          <IoHeart size={18} color="#FFFFFF" />
+          <span style={{ color: '#FFFFFF', fontSize: 14, fontWeight: 600 }}>Continue</span>
         </motion.button>
       </motion.div>
     </motion.div>
