@@ -393,7 +393,17 @@ export default function DailyLove() {
     setWyrMyChoice(choice)
     // Simulate other person's choice (random for now)
     setTimeout(() => {
-      setWyrOtherChoice(Math.random() > 0.5 ? 'a' : 'b')
+      const otherChoice = Math.random() > 0.5 ? 'a' : 'b'
+      setWyrOtherChoice(otherChoice)
+      
+      // Update match stats
+      const isMatch = choice === otherChoice
+      const newStats = {
+        total: wyrStats.total + 1,
+        matches: wyrStats.matches + (isMatch ? 1 : 0)
+      }
+      setWyrStats(newStats)
+      localStorage.setItem('wyr_stats', JSON.stringify(newStats))
     }, 800)
   }
 
@@ -406,6 +416,18 @@ export default function DailyLove() {
   const handleNextHTH = () => {
     playClick()
     setHthIndex((prev) => (prev + 1) % HEART_TO_HEART.length)
+  }
+  
+  const toggleHTHFavorite = (prompt: string) => {
+    haptics.medium()
+    let newFavorites: string[]
+    if (hthFavorites.includes(prompt)) {
+      newFavorites = hthFavorites.filter(f => f !== prompt)
+    } else {
+      newFavorites = [...hthFavorites, prompt]
+    }
+    setHthFavorites(newFavorites)
+    localStorage.setItem('hth_favorites', JSON.stringify(newFavorites))
   }
 
   const handleCoinFlip = () => {
