@@ -77,3 +77,31 @@ VALENTINES SEQUENCE EXPANSION – Add 8+ new pages with puzzles and media into t
 - Frontend runs on port 3000 (Vite dev server)
 - Backend runs on port 8001 (FastAPI)
 - Videos hosted on customer-assets.emergentagent.com
+
+### Date: Jan 30, 2026 (Update 2)
+- ✅ Created **JourneyProgress** component (`/components/JourneyProgress.tsx`)
+  - Heart-shaped progress indicator that fills based on sequence position
+  - Shows X/17 counter with current page position
+  - Displays current page name label (PHOTOS, CODE, CELEBRATE, etc.)
+  - Smooth animated fill with gradient colors
+  - Positioned in top-right corner of all sequence pages
+  - 3 variants available: heart (default), minimal, full
+
+- ✅ Added JourneyProgress to all 17 Valentine's sequence pages:
+  1. Personalization (1/17)
+  2. Origin (2/17)
+  3. PhotoTimeline (3/17)
+  4. Crossword (4/17)
+  5. WordScramble (5/17)
+  6. SpotDifference (6/17)
+  7. VideoLetter (7/17)
+  8. CardMatch (8/17)
+  9. HiddenHearts (9/17)
+  10. HoldReveal (10/17)
+  11. MusicMemory (11/17)
+  12. HeartDraw (12/17)
+  13. SecretCode (13/17)
+  14. LoveQuiz (14/17)
+  15. QuietStars (15/17)
+  16. Question (16/17)
+  17. Celebration (17/17)
