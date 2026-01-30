@@ -47,6 +47,9 @@ export function PresenceProvider({ children }: { children: ReactNode }) {
 
   const loadData = () => {
     try {
+      // Check if this is the first ever visit
+      const hasVisitedBefore = localStorage.getItem('hasVisitedBefore')
+      
       // Load current user
       const savedUser = localStorage.getItem('currentUser') as 'prabh' | 'sehaj' | null
       const lastActivity = localStorage.getItem('lastActivityTime')
@@ -75,9 +78,10 @@ export function PresenceProvider({ children }: { children: ReactNode }) {
       }
 
       // Determine if we should show modals
-      if (!savedUser) {
-        // No user set - show user setup
+      if (!savedUser || !hasVisitedBefore) {
+        // First visit or no user set - show user setup
         setShowUserSetup(true)
+        localStorage.setItem('hasVisitedBefore', 'true')
       } else {
         setCurrentUserState(savedUser)
         
