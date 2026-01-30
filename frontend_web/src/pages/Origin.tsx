@@ -37,6 +37,9 @@ export default function Origin() {
       padding: 32,
       position: 'relative',
     }}>
+      {/* Journey Progress */}
+      <JourneyProgress currentPath="/origin" />
+      
       {/* Back Button */}
       <motion.button
         whileHover={{ scale: 1.05 }}
