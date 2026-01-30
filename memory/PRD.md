@@ -151,3 +151,26 @@ VALENTINES SEQUENCE EXPANSION – Add 8+ new pages with puzzles and media into t
   **Together For 🕯️:**
   - Shows "X days and counting" preview
   - Glassy card design
+
+### Date: Jan 30, 2026 (Update 5)
+- ✅ **Would You Rather - Match Percentage Feature**
+  - Added match stats panel showing:
+    - Match Rate percentage (color-coded: green >70%, orange >40%, pink <40%)
+    - Total questions answered
+    - Total matches count
+  - Match celebration message when both pick the same ("💕 You both picked the same! 💕")
+  - Stats persist in localStorage
+  - Reset Stats button
+  - Glassy UI with floating particles
+
+- ✅ **Heart to Heart - Favorites Feature**
+  - Favorites button with badge showing count
+  - Heart button on each prompt card to toggle favorite
+  - "X favorite(s) saved" counter below title
+  - Favorites modal with:
+    - Glassy design with backdrop blur
+    - List of saved prompts with remove buttons
+    - Empty state with guidance
+  - Favorites persist in localStorage
+  - Pulsing heart animation at top
+  - Updated glassy card design
