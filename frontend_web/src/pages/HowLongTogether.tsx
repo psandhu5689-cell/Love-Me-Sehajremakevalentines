@@ -44,9 +44,6 @@ export default function HowLongTogether() {
     years: 0, months: 0, days: 0, hours: 0, minutes: 0, seconds: 0, totalDays: 0
   })
   const [anniversaryCountdown, setAnniversaryCountdown] = useState<CountdownTime | null>(null)
-  const [lifetimesTime, setLifetimesTime] = useState<TimeBreakdown>({
-    years: 0, months: 0, days: 0, hours: 0, minutes: 0, seconds: 0, totalDays: 0
-  })
   const [isAnniversaryToday, setIsAnniversaryToday] = useState(false)
 
   // Window resize for confetti
@@ -147,15 +144,6 @@ export default function HowLongTogether() {
       if (!isToday) {
         setAnniversaryCountdown(calculateAnniversaryCountdown(now))
       }
-      
-      // Update lifetimes timer (6x talking time)
-      const talkingBreakdown = calculateTimeBreakdown(TALKING_START, now)
-      const talkingTotalSeconds = Math.floor((now.getTime() - TALKING_START.getTime()) / 1000)
-      const lifetimeSeconds = talkingTotalSeconds * 6
-      
-      // Convert lifetime seconds back to breakdown
-      const lifetimeDate = new Date(TALKING_START.getTime() + lifetimeSeconds * 1000)
-      setLifetimesTime(calculateTimeBreakdown(TALKING_START, lifetimeDate))
     }
     
     updateAllTimers()
