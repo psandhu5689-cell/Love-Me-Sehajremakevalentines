@@ -69,6 +69,9 @@ export default function PhotoTimeline() {
       position: 'relative',
       overflow: 'hidden',
     }}>
+      {/* Journey Progress */}
+      <JourneyProgress currentPath="/photo-timeline" />
+      
       {/* Back Button */}
       <motion.button
         whileHover={{ scale: 1.05 }}
