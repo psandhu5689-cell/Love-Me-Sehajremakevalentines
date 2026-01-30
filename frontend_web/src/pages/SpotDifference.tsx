@@ -54,6 +54,9 @@ export default function SpotDifference() {
       flexDirection: 'column',
       padding: 20,
     }}>
+      {/* Journey Progress */}
+      <JourneyProgress currentPath="/spot-difference" />
+      
       {showConfetti && (
         <Confetti
           width={windowSize.width}
