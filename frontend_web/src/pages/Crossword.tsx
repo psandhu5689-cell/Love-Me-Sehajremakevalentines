@@ -463,24 +463,6 @@ export default function Crossword() {
       >
         <IoChevronBack size={24} color={colors.primary} />
       </motion.button>
-          position: 'fixed',
-          top: 55,
-          left: 20,
-          width: 40,
-          height: 40,
-          borderRadius: 12,
-          background: colors.glass,
-          backdropFilter: 'blur(10px)',
-          border: `1px solid ${colors.border}`,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          cursor: 'pointer',
-          zIndex: 100,
-        }}
-      >
-        <IoChevronBackOutline size={24} color={colors.textPrimary} />
-      </motion.button>
 
       <div style={{
         maxWidth: 700,
