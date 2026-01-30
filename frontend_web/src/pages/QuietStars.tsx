@@ -90,6 +90,9 @@ export default function QuietStars() {
         overflow: 'hidden',
       }}
     >
+      {/* Journey Progress */}
+      <JourneyProgress currentPath="/quiet-stars" />
+      
       {/* Stars */}
       {stars.map((star) => (
         <motion.div
