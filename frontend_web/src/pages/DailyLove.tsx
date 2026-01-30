@@ -815,37 +815,122 @@ export default function DailyLove() {
             position: 'absolute',
             top: 50,
             left: 20,
-            background: colors.card,
-            border: 'none',
+            background: colors.glass,
+            backdropFilter: 'blur(10px)',
+            border: `1px solid ${colors.border}`,
             borderRadius: 20,
             padding: 8,
             cursor: 'pointer',
+            zIndex: 10,
           }}
         >
           <IoTime size={28} color={colors.primary} />
         </motion.button>
+        
+        {/* Favorites Button */}
+        <motion.button
+          whileHover={{ scale: 1.1 }}
+          onClick={() => setShowHTHFavorites(true)}
+          style={{
+            position: 'absolute',
+            top: 50,
+            left: 70,
+            background: colors.glass,
+            backdropFilter: 'blur(10px)',
+            border: `1px solid ${colors.border}`,
+            borderRadius: 20,
+            padding: 8,
+            cursor: 'pointer',
+            zIndex: 10,
+          }}
+        >
+          <IoHeart size={28} color={hthFavorites.length > 0 ? '#FF6B9D' : colors.textMuted} />
+          {hthFavorites.length > 0 && (
+            <span style={{
+              position: 'absolute',
+              top: -4,
+              right: -4,
+              background: colors.primary,
+              color: 'white',
+              fontSize: 10,
+              fontWeight: 700,
+              width: 18,
+              height: 18,
+              borderRadius: 9,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+              {hthFavorites.length}
+            </span>
+          )}
+        </motion.button>
 
-        <IoHeart size={60} color={colors.primary} />
-        <h1 style={{ color: colors.textPrimary, fontSize: 24, fontWeight: 600, marginTop: 16 }}>
+        <motion.div
+          animate={{ scale: [1, 1.1, 1] }}
+          transition={{ duration: 2, repeat: Infinity }}
+        >
+          <IoHeart size={60} color={colors.primary} />
+        </motion.div>
+        <h1 style={{ color: colors.textPrimary, fontSize: 28, fontWeight: 700, marginTop: 16 }}>
           Heart to Heart 💕
         </h1>
-        <p style={{ color: colors.textSecondary, fontSize: 14, marginBottom: 30 }}>
+        <p style={{ color: colors.textSecondary, fontSize: 14, marginBottom: 24 }}>
           Our repair & connection space
         </p>
+        
+        {/* Favorites count */}
+        {hthFavorites.length > 0 && (
+          <p style={{ 
+            color: colors.textMuted, 
+            fontSize: 12, 
+            marginBottom: 16,
+            display: 'flex',
+            alignItems: 'center',
+            gap: 4,
+          }}>
+            <IoHeart size={14} color={colors.primary} />
+            {hthFavorites.length} favorite{hthFavorites.length !== 1 ? 's' : ''} saved
+          </p>
+        )}
 
         <motion.div
           key={hthIndex}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           style={{
-            background: colors.card,
+            background: colors.glass,
+            backdropFilter: 'blur(20px)',
             border: `2px solid ${colors.primary}`,
-            borderRadius: 20,
-            padding: 24,
-            maxWidth: 350,
-            boxShadow: `0 0 40px ${colors.primaryGlow}`,
+            borderRadius: 24,
+            padding: 28,
+            maxWidth: 380,
+            boxShadow: `0 8px 40px ${colors.primaryGlow}`,
+            position: 'relative',
           }}
         >
+          {/* Favorite toggle button on card */}
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => toggleHTHFavorite(currentPrompt)}
+            style={{
+              position: 'absolute',
+              top: 12,
+              right: 12,
+              background: isFavorited ? colors.primary : 'transparent',
+              border: `2px solid ${isFavorited ? colors.primary : colors.border}`,
+              borderRadius: 20,
+              padding: 6,
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <IoHeart size={18} color={isFavorited ? 'white' : colors.textMuted} />
+          </motion.button>
+          
           <p style={{
             color: colors.textPrimary,
             fontSize: 20,
