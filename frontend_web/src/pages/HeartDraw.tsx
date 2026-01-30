@@ -105,6 +105,9 @@ export default function HeartDraw() {
       flexDirection: 'column',
       padding: 20,
     }}>
+      {/* Journey Progress */}
+      <JourneyProgress currentPath="/heart-draw" />
+      
       {showConfetti && (
         <Confetti
           width={windowSize.width}
