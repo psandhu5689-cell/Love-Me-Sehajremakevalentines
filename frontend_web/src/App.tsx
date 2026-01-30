@@ -45,6 +45,7 @@ import MusicMemory from './pages/MusicMemory'
 import HeartDraw from './pages/HeartDraw'
 import SecretCode from './pages/SecretCode'
 import LoveQuiz from './pages/LoveQuiz'
+import HiddenHearts from './pages/HiddenHearts'
 import RoastRoulette from './pages/RoastRoulette'
 import LoveCourt from './pages/LoveCourt'
 import ReactionJail from './pages/ReactionJail'
@@ -100,6 +101,7 @@ export default function App() {
           <Route path="/heart-draw" element={<HeartDraw />} />
           <Route path="/secret-code" element={<SecretCode />} />
           <Route path="/love-quiz" element={<LoveQuiz />} />
+          <Route path="/hidden-hearts" element={<HiddenHearts />} />
           
           {/* Try Not To Smile Games */}
           <Route path="/roast-roulette" element={<RoastRoulette />} />
