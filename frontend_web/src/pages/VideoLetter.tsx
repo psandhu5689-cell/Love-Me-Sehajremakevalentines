@@ -61,6 +61,9 @@ export default function VideoLetter() {
       position: 'relative',
       overflow: 'hidden',
     }}>
+      {/* Journey Progress */}
+      <JourneyProgress currentPath="/video-letter" />
+      
       {/* Back Button */}
       <motion.button
         whileHover={{ scale: 1.05 }}
