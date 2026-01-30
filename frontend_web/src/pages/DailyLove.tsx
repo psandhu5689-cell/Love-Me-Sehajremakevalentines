@@ -1564,6 +1564,33 @@ export default function DailyLove() {
       position: 'relative',
       overflowY: 'auto',
     }}>
+      {/* Floating Background Particles */}
+      {[...Array(12)].map((_, i) => (
+        <motion.div
+          key={i}
+          animate={{
+            y: [-20, -60, -20],
+            x: [0, Math.random() * 30 - 15, 0],
+            opacity: [0.2, 0.5, 0.2],
+          }}
+          transition={{
+            duration: 4 + Math.random() * 3,
+            delay: i * 0.3,
+            repeat: Infinity,
+          }}
+          style={{
+            position: 'fixed',
+            left: `${5 + Math.random() * 90}%`,
+            top: `${10 + Math.random() * 80}%`,
+            fontSize: 16 + Math.random() * 12,
+            pointerEvents: 'none',
+            zIndex: 0,
+          }}
+        >
+          {['💗', '✨', '💕', '⭐'][i % 4]}
+        </motion.div>
+      ))}
+
       {/* Header */}
       <div style={{
         position: 'fixed',
@@ -1571,7 +1598,8 @@ export default function DailyLove() {
         left: 0,
         right: 0,
         padding: '16px',
-        background: colors.background,
+        background: `${colors.background}ee`,
+        backdropFilter: 'blur(10px)',
         zIndex: 100,
         display: 'flex',
         justifyContent: 'space-between',
@@ -1584,7 +1612,8 @@ export default function DailyLove() {
             width: 44,
             height: 44,
             borderRadius: 22,
-            background: colors.card,
+            background: colors.glass,
+            backdropFilter: 'blur(10px)',
             border: `1px solid ${colors.border}`,
             display: 'flex',
             alignItems: 'center',
@@ -1597,11 +1626,13 @@ export default function DailyLove() {
 
         <div style={{
           background: colors.glass,
+          backdropFilter: 'blur(10px)',
           padding: '6px 12px',
           borderRadius: 20,
           display: 'flex',
           alignItems: 'center',
           gap: 4,
+          border: `1px solid ${colors.border}`,
         }}>
           <IoFlame size={20} color="#FF9800" />
           <span style={{ color: '#FF9800', fontSize: 14, fontWeight: 600 }}>{streak} days</span>
