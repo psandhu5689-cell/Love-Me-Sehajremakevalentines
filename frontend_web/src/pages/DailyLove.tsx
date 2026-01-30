@@ -1079,6 +1079,135 @@ export default function DailyLove() {
             </motion.div>
           )}
         </AnimatePresence>
+        
+        {/* Favorites Modal */}
+        <AnimatePresence>
+          {showHTHFavorites && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              style={{
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                background: 'rgba(0,0,0,0.8)',
+                backdropFilter: 'blur(8px)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                zIndex: 100,
+                padding: 20,
+              }}
+              onClick={() => setShowHTHFavorites(false)}
+            >
+              <motion.div
+                initial={{ scale: 0.9, y: 20 }}
+                animate={{ scale: 1, y: 0 }}
+                exit={{ scale: 0.9, y: 20 }}
+                onClick={(e) => e.stopPropagation()}
+                style={{
+                  background: colors.glass,
+                  backdropFilter: 'blur(20px)',
+                  borderRadius: 24,
+                  padding: 24,
+                  maxWidth: 400,
+                  width: '100%',
+                  maxHeight: '70vh',
+                  overflow: 'auto',
+                  border: `1px solid ${colors.border}`,
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
+                  <h3 style={{ color: colors.textPrimary, fontSize: 20, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <IoHeart size={24} color={colors.primary} />
+                    Favorite Prompts
+                  </h3>
+                  <span style={{ 
+                    background: colors.primary, 
+                    color: 'white', 
+                    fontSize: 12, 
+                    padding: '4px 10px', 
+                    borderRadius: 12,
+                    fontWeight: 600,
+                  }}>
+                    {hthFavorites.length}
+                  </span>
+                </div>
+
+                {hthFavorites.length === 0 ? (
+                  <div style={{ textAlign: 'center', padding: '40px 20px' }}>
+                    <IoHeart size={48} color={colors.textMuted} style={{ opacity: 0.3 }} />
+                    <p style={{ color: colors.textMuted, marginTop: 16 }}>
+                      No favorites yet.<br />
+                      Tap the ❤️ on prompts you love!
+                    </p>
+                  </div>
+                ) : (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                    {hthFavorites.map((prompt, index) => (
+                      <motion.div
+                        key={index}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.05 }}
+                        style={{
+                          background: colors.card,
+                          borderRadius: 16,
+                          padding: 16,
+                          borderLeft: `4px solid ${colors.primary}`,
+                          position: 'relative',
+                        }}
+                      >
+                        <p style={{ color: colors.textPrimary, fontSize: 14, lineHeight: 1.5, paddingRight: 32 }}>
+                          "{prompt}"
+                        </p>
+                        <motion.button
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.9 }}
+                          onClick={() => toggleHTHFavorite(prompt)}
+                          style={{
+                            position: 'absolute',
+                            top: 12,
+                            right: 12,
+                            background: 'transparent',
+                            border: 'none',
+                            cursor: 'pointer',
+                            padding: 4,
+                          }}
+                        >
+                          <IoClose size={20} color={colors.textMuted} />
+                        </motion.button>
+                      </motion.div>
+                    ))}
+                  </div>
+                )}
+
+                <motion.button
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setShowHTHFavorites(false)}
+                  style={{
+                    marginTop: 20,
+                    width: '100%',
+                    background: `linear-gradient(135deg, ${colors.primary}, ${colors.secondary})`,
+                    border: 'none',
+                    color: 'white',
+                    padding: '14px',
+                    borderRadius: 16,
+                    fontSize: 15,
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                    boxShadow: `0 6px 20px ${colors.primaryGlow}`,
+                  }}
+                >
+                  Close
+                </motion.button>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     )
   }
