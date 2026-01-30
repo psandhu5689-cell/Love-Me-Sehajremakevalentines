@@ -351,7 +351,7 @@ export default function LoveQuiz() {
                 cursor: 'pointer',
               }}
             >
-              Continue to Celebration 🎊
+              Continue 💕
             </motion.button>
           </motion.div>
         )}
