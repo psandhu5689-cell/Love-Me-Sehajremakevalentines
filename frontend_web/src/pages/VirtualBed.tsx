@@ -1391,7 +1391,7 @@ export default function VirtualBed() {
     }
   }
   
-  // NEW: Compact action handler with target mode support
+  // NEW: Compact action handler with target mode support + animation system
   const handleCompactAction = (action: string) => {
     if (!userInteracted) setUserInteracted(true)
     haptics.medium()
@@ -1400,47 +1400,170 @@ export default function VirtualBed() {
     
     targets.forEach(cat => {
       const catTyped = cat as 'prabh' | 'sehaj'
+      const animController = catTyped === 'prabh' ? prabhAnim : sehajAnim
       
       switch (action) {
         case 'wake':
+          animController.playAction('wake', 1500)
           handleCatAction(catTyped, 'wake')
           break
         case 'sleep':
+          animController.playAction('sleep1LeftFront', 5000)
           handleCatAction(catTyped, 'sleep')
           break
         case 'feed':
+          animController.playAction('eatFoodStandFront', 2000)
           handleCatAction(catTyped, 'feed')
           break
         case 'nudge':
+          animController.playAction('scratchSitLeft', 1500)
           handleCatAction(catTyped, 'nudge')
           break
         case 'kick':
+          animController.playAction('pawSwipeStandFront', 1500)
           handleCatAction(catTyped, 'kick')
           break
         case 'hogBlanket':
+          animController.playAction('curlBallLie', 2000)
           handleCatAction(catTyped, 'hog')
           break
         case 'gaming':
+          animController.playAction('yarnSitFront', 3000)
           handleCatAction(catTyped, 'game')
           break
         case 'pet':
-          handleCatAction(catTyped, 'nudge') // Pet uses nudge animation
+          animController.playAction('lickPawSitFront', 2000)
+          handleCatAction(catTyped, 'nudge')
           break
         case 'drama':
-          handleCatAction(catTyped, 'kick') // Drama uses kick/annoyed animation
+          animController.playAction('hissFrontLeft', 2000)
+          handleCatAction(catTyped, 'kick')
           break
       }
     })
     
     // Special multi-cat actions
     if (action === 'cuddle' && targetMode === 'both') {
+      // Move cats together
+      const meetX = 40
+      const meetY = 65
+      prabhAnim.moveTo(meetX - 5, meetY, () => {
+        prabhAnim.setState(prev => ({ ...prev, animation: 'curlBallLie' }))
+      }, 'curlBallLie')
+      sehajAnim.moveTo(meetX + 5, meetY, () => {
+        sehajAnim.setState(prev => ({ ...prev, animation: 'curlBallLie' }))
+      }, 'curlBallLie')
+      
       setCuddleMode(true)
-      setTimeout(() => setCuddleMode(false), 3000)
+      setTimeout(() => {
+        setCuddleMode(false)
+        prabhAnim.startRoaming()
+        sehajAnim.startRoaming()
+      }, 3000)
     }
     
     if (action === 'lightsOut') {
       setLightsDimmed(prev => !prev)
     }
+  }
+  
+  // NEW: Drag handlers for mood effects
+  const handleDragStart = (cat: 'prabh' | 'sehaj', e: React.MouseEvent | React.TouchEvent) => {
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX
+    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY
+    
+    setDragState({
+      isDragging: true,
+      cat,
+      startX: clientX,
+      startY: clientY,
+    })
+    
+    const animController = cat === 'prabh' ? prabhAnim : sehajAnim
+    animController.stopRoaming()
+    
+    haptics.light()
+  }
+  
+  const handleDragMove = (e: React.MouseEvent | React.TouchEvent) => {
+    if (!dragState.isDragging || !dragState.cat) return
+    
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX
+    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY
+    
+    // Calculate movement in percentages
+    const deltaX = ((clientX - dragState.startX) / window.innerWidth) * 100
+    const deltaY = ((clientY - dragState.startY) / window.innerHeight) * 100
+    
+    const animController = dragState.cat === 'prabh' ? prabhAnim : sehajAnim
+    const newX = Math.max(15, Math.min(75, animController.state.x + deltaX * 0.5))
+    const newY = Math.max(55, Math.min(75, animController.state.y + deltaY * 0.5))
+    
+    // Determine walk direction
+    const walkAnim = deltaX > 0 ? 'walkRight' : 'walkLeft'
+    
+    animController.setState(prev => ({
+      ...prev,
+      x: newX,
+      y: newY,
+      animation: walkAnim,
+      isMoving: true,
+    }))
+    
+    // Update drag start for next move
+    setDragState(prev => ({
+      ...prev,
+      startX: clientX,
+      startY: clientY,
+    }))
+    
+    // Check distance between cats for mood effects
+    const prabhPos = prabhAnim.state
+    const sehajPos = sehajAnim.state
+    const distance = Math.sqrt(Math.pow(prabhPos.x - sehajPos.x, 2) + Math.pow(prabhPos.y - sehajPos.y, 2))
+    
+    if (distance < 10) {
+      // Close together = happy
+      setPrabhMoodBubble('💕')
+      setSehajMoodBubble('💕')
+      setPrabh(prev => ({ ...prev, mood: Math.min(100, prev.mood + 5) }))
+      setSehaj(prev => ({ ...prev, mood: Math.min(100, prev.mood + 5) }))
+    } else if (distance > 50) {
+      // Far apart = sad
+      setPrabhMoodBubble('💔')
+      setSehajMoodBubble('💔')
+      setPrabh(prev => ({ ...prev, mood: Math.max(0, prev.mood - 3) }))
+      setSehaj(prev => ({ ...prev, mood: Math.max(0, prev.mood - 3) }))
+    }
+  }
+  
+  const handleDragEnd = () => {
+    if (!dragState.cat) return
+    
+    const animController = dragState.cat === 'prabh' ? prabhAnim : sehajAnim
+    
+    // Walk to nearest spot
+    animController.setState(prev => ({ ...prev, animation: 'sitIdle', isMoving: false }))
+    
+    // Clear mood bubbles after delay
+    setTimeout(() => {
+      setPrabhMoodBubble(null)
+      setSehajMoodBubble(null)
+    }, 2000)
+    
+    // Resume roaming after 3 seconds
+    setTimeout(() => {
+      animController.startRoaming()
+    }, 3000)
+    
+    setDragState({
+      isDragging: false,
+      cat: null,
+      startX: 0,
+      startY: 0,
+    })
+    
+    haptics.light()
   }
   
   // Enhanced special button with personality
