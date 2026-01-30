@@ -77,6 +77,9 @@ export default function WordScramble() {
       flexDirection: 'column',
       padding: 20,
     }}>
+      {/* Journey Progress */}
+      <JourneyProgress currentPath="/word-scramble" />
+      
       {showConfetti && (
         <Confetti
           width={windowSize.width}
