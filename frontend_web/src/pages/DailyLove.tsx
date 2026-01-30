@@ -1853,52 +1853,302 @@ export default function DailyLove() {
         })}
       </div>
 
-      {/* More Activities */}
-      <div style={{ marginBottom: 24 }}>
-        <p style={{ color: colors.textSecondary, fontSize: 14, fontWeight: 600, marginBottom: 12 }}>
+      {/* More Activities - Glassy Design */}
+      <div style={{ marginBottom: 24, position: 'relative', zIndex: 1 }}>
+        <p style={{ 
+          color: colors.textSecondary, 
+          fontSize: 14, 
+          fontWeight: 600, 
+          marginBottom: 16,
+          display: 'flex',
+          alignItems: 'center',
+          gap: 8,
+        }}>
+          <span style={{ 
+            width: 24, 
+            height: 2, 
+            background: `linear-gradient(90deg, ${colors.primary}, transparent)`,
+            borderRadius: 1,
+          }} />
           More Activities
         </p>
 
-        {[
-          { title: 'Heart to Heart 💕', subtitle: 'Our apology & repair space', icon: IoChatbubbles, color: colors.primary, onClick: handleOpenHTH },
-          { title: 'Would You Rather 🎲', subtitle: 'Fun couples game', icon: IoHelpCircle, color: colors.secondary, onClick: handleOpenWYR },
-          { title: "Who's Right? 🪙", subtitle: 'Flip a coin to decide', icon: null, emoji: '🪙', color: '#FFD700', onClick: handleCoinFlip },
-          { title: 'Together For 🕯', subtitle: 'Our time together', icon: null, emoji: '🕯', color: colors.primary, onClick: handleOpenTimeTogether },
-        ].map((item, index) => (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          {/* Heart to Heart - Glassy Card */}
           <motion.div
-            key={index}
-            whileHover={{ scale: 1.01 }}
+            whileHover={{ scale: 1.02, y: -2 }}
             whileTap={{ scale: 0.98 }}
-            onClick={item.onClick}
+            onClick={handleOpenHTH}
             style={{
-              background: colors.card,
+              background: colors.glass,
+              backdropFilter: 'blur(20px)',
               border: `1px solid ${colors.border}`,
-              borderRadius: 16,
-              padding: 16,
-              marginBottom: 12,
-              display: 'flex',
-              alignItems: 'center',
+              borderRadius: 20,
+              padding: 20,
               cursor: 'pointer',
+              position: 'relative',
+              overflow: 'hidden',
+              boxShadow: `0 8px 32px ${colors.primaryGlow}`,
             }}
           >
-            <div style={{
-              width: 50,
-              height: 50,
-              borderRadius: 25,
-              background: `${item.color}20`,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-              {item.icon ? <item.icon size={28} color={item.color} /> : <span style={{ fontSize: 26 }}>{item.emoji}</span>}
+            {/* Shimmer effect */}
+            <motion.div
+              animate={{ x: [-200, 400] }}
+              transition={{ duration: 3, repeat: Infinity, repeatDelay: 5 }}
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: 100,
+                height: '100%',
+                background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent)',
+                pointerEvents: 'none',
+              }}
+            />
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <div style={{
+                width: 56,
+                height: 56,
+                borderRadius: 16,
+                background: `linear-gradient(135deg, ${colors.primary}40, ${colors.primary}20)`,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                border: `1px solid ${colors.primary}40`,
+              }}>
+                <IoChatbubbles size={28} color={colors.primary} />
+              </div>
+              <div style={{ flex: 1, marginLeft: 16 }}>
+                <p style={{ color: colors.textPrimary, fontSize: 17, fontWeight: 600 }}>Heart to Heart 💕</p>
+                <p style={{ color: colors.textSecondary, fontSize: 13 }}>Our apology & repair space</p>
+                <div style={{ 
+                  display: 'flex', 
+                  gap: 6, 
+                  marginTop: 8,
+                  flexWrap: 'wrap',
+                }}>
+                  <span style={{ 
+                    background: `${colors.primary}20`, 
+                    color: colors.primary, 
+                    fontSize: 10, 
+                    padding: '3px 8px', 
+                    borderRadius: 10,
+                    fontWeight: 500,
+                  }}>60 prompts</span>
+                  <span style={{ 
+                    background: `${colors.secondary}20`, 
+                    color: colors.secondary, 
+                    fontSize: 10, 
+                    padding: '3px 8px', 
+                    borderRadius: 10,
+                    fontWeight: 500,
+                  }}>Save history</span>
+                </div>
+              </div>
+              <IoChevronForward size={24} color={colors.primary} />
             </div>
-            <div style={{ flex: 1, marginLeft: 14 }}>
-              <p style={{ color: colors.textPrimary, fontSize: 16, fontWeight: 600 }}>{item.title}</p>
-              <p style={{ color: colors.textSecondary, fontSize: 13 }}>{item.subtitle}</p>
-            </div>
-            <IoChevronForward size={24} color={colors.textMuted} />
           </motion.div>
-        ))}
+
+          {/* Would You Rather - Glassy Card */}
+          <motion.div
+            whileHover={{ scale: 1.02, y: -2 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={handleOpenWYR}
+            style={{
+              background: colors.glass,
+              backdropFilter: 'blur(20px)',
+              border: `1px solid ${colors.border}`,
+              borderRadius: 20,
+              padding: 20,
+              cursor: 'pointer',
+              position: 'relative',
+              overflow: 'hidden',
+              boxShadow: `0 8px 32px ${colors.secondaryGlow}`,
+            }}
+          >
+            <motion.div
+              animate={{ x: [-200, 400] }}
+              transition={{ duration: 3, repeat: Infinity, repeatDelay: 7 }}
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: 100,
+                height: '100%',
+                background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent)',
+                pointerEvents: 'none',
+              }}
+            />
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <div style={{
+                width: 56,
+                height: 56,
+                borderRadius: 16,
+                background: `linear-gradient(135deg, ${colors.secondary}40, ${colors.secondary}20)`,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                border: `1px solid ${colors.secondary}40`,
+              }}>
+                <IoHelpCircle size={28} color={colors.secondary} />
+              </div>
+              <div style={{ flex: 1, marginLeft: 16 }}>
+                <p style={{ color: colors.textPrimary, fontSize: 17, fontWeight: 600 }}>Would You Rather 🎲</p>
+                <p style={{ color: colors.textSecondary, fontSize: 13 }}>Fun couples game</p>
+                <div style={{ 
+                  display: 'flex', 
+                  gap: 6, 
+                  marginTop: 8,
+                  flexWrap: 'wrap',
+                }}>
+                  <span style={{ 
+                    background: `${colors.secondary}20`, 
+                    color: colors.secondary, 
+                    fontSize: 10, 
+                    padding: '3px 8px', 
+                    borderRadius: 10,
+                    fontWeight: 500,
+                  }}>35 questions</span>
+                  <span style={{ 
+                    background: `${colors.primary}20`, 
+                    color: colors.primary, 
+                    fontSize: 10, 
+                    padding: '3px 8px', 
+                    borderRadius: 10,
+                    fontWeight: 500,
+                  }}>See their pick</span>
+                </div>
+              </div>
+              <IoChevronForward size={24} color={colors.secondary} />
+            </div>
+          </motion.div>
+
+          {/* Who's Right Coin Flip - Glassy Card */}
+          <motion.div
+            whileHover={{ scale: 1.02, y: -2 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={handleCoinFlip}
+            style={{
+              background: colors.glass,
+              backdropFilter: 'blur(20px)',
+              border: `1px solid rgba(255, 215, 0, 0.3)`,
+              borderRadius: 20,
+              padding: 20,
+              cursor: 'pointer',
+              position: 'relative',
+              overflow: 'hidden',
+              boxShadow: '0 8px 32px rgba(255, 215, 0, 0.15)',
+            }}
+          >
+            <motion.div
+              animate={{ x: [-200, 400] }}
+              transition={{ duration: 3, repeat: Infinity, repeatDelay: 6 }}
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: 100,
+                height: '100%',
+                background: 'linear-gradient(90deg, transparent, rgba(255,215,0,0.1), transparent)',
+                pointerEvents: 'none',
+              }}
+            />
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <motion.div 
+                animate={{ rotateY: [0, 360] }}
+                transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
+                style={{
+                  width: 56,
+                  height: 56,
+                  borderRadius: 28,
+                  background: 'linear-gradient(135deg, #FFD700, #FFA500)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: 28,
+                  boxShadow: '0 4px 16px rgba(255, 215, 0, 0.4)',
+                }}
+              >
+                🪙
+              </motion.div>
+              <div style={{ flex: 1, marginLeft: 16 }}>
+                <p style={{ color: colors.textPrimary, fontSize: 17, fontWeight: 600 }}>Who's Right? 🪙</p>
+                <p style={{ color: colors.textSecondary, fontSize: 13 }}>Flip a coin to decide</p>
+                <div style={{ 
+                  display: 'flex', 
+                  gap: 8, 
+                  marginTop: 8,
+                  alignItems: 'center',
+                }}>
+                  <span style={{ 
+                    background: 'rgba(255,215,0,0.2)', 
+                    color: '#FFD700', 
+                    fontSize: 11, 
+                    padding: '3px 10px', 
+                    borderRadius: 10,
+                    fontWeight: 600,
+                  }}>Prabh: {coinTally.prabh}</span>
+                  <span style={{ color: colors.textMuted, fontSize: 10 }}>vs</span>
+                  <span style={{ 
+                    background: `${colors.primary}20`, 
+                    color: colors.primary, 
+                    fontSize: 11, 
+                    padding: '3px 10px', 
+                    borderRadius: 10,
+                    fontWeight: 600,
+                  }}>Sehaj: {coinTally.sehaj}</span>
+                </div>
+              </div>
+              <IoChevronForward size={24} color="#FFD700" />
+            </div>
+          </motion.div>
+
+          {/* Together For - Glassy Card */}
+          <motion.div
+            whileHover={{ scale: 1.02, y: -2 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={handleOpenTimeTogether}
+            style={{
+              background: colors.glass,
+              backdropFilter: 'blur(20px)',
+              border: `1px solid ${colors.border}`,
+              borderRadius: 20,
+              padding: 20,
+              cursor: 'pointer',
+              position: 'relative',
+              overflow: 'hidden',
+              boxShadow: `0 8px 32px ${colors.primaryGlow}`,
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <div style={{
+                width: 56,
+                height: 56,
+                borderRadius: 16,
+                background: `linear-gradient(135deg, ${colors.primary}40, ${colors.secondary}20)`,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: 28,
+              }}>
+                🕯️
+              </div>
+              <div style={{ flex: 1, marginLeft: 16 }}>
+                <p style={{ color: colors.textPrimary, fontSize: 17, fontWeight: 600 }}>Together For 🕯️</p>
+                <p style={{ color: colors.textSecondary, fontSize: 13 }}>Our time together</p>
+                <p style={{ 
+                  color: colors.primary, 
+                  fontSize: 14, 
+                  fontWeight: 700,
+                  marginTop: 6,
+                }}>
+                  {daysTogether} days and counting
+                </p>
+              </div>
+              <IoChevronForward size={24} color={colors.primary} />
+            </div>
+          </motion.div>
+        </div>
       </div>
 
       {/* Need a Hug */}
