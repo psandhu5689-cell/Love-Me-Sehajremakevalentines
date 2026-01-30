@@ -208,11 +208,11 @@ export default function Celebration() {
           </div>
         </motion.div>
 
-        {/* Continue Button - First */}
+        {/* Back to Home Button */}
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          onClick={() => { playMagic(); navigate('/quiet-stars'); }}
+          onClick={() => { playMagic(); navigate('/'); }}
           style={{
             background: `linear-gradient(135deg, ${colors.secondary}, ${colors.secondaryDark})`,
             border: 'none',
@@ -230,7 +230,7 @@ export default function Celebration() {
           }}
         >
           <IoGift size={20} />
-          One more thing...
+          Back to Home
         </motion.button>
 
         {/* Blue Heart - Second */}
