@@ -12,11 +12,13 @@ import {
   IoSwapHorizontal,
   IoRefresh,
   IoShuffle,
-  IoSparkles
+  IoSparkles,
+  IoTime,
+  IoFlame
 } from 'react-icons/io5'
 import { useNavigate } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
-import haptics from '../utils/haptics'
+import soundManager from '../utils/soundManager'
 import {
   DAILY_COMPLIMENTS,
   WHY_I_LOVE_YOU,
@@ -34,7 +36,6 @@ interface Activity {
   gradient: string[]
   route: string
   previewData?: string[]
-  featured?: boolean
 }
 
 export default function DailyLoveHub() {
@@ -42,25 +43,31 @@ export default function DailyLoveHub() {
   const { colors } = useTheme()
   const carouselRef = useRef<HTMLDivElement>(null)
   
-  // State for previews and progress
-  const [previews, setPreviews] = useState<Record<string, string>>({})
-  const [progress, setProgress] = useState<Record<string, number>>({})
+  // State
+  const [sadPreview, setSadPreview] = useState('')
+  const [thisOrThatPreview, setThisOrThatPreview] = useState('')
+  const [togetherPreview, setTogetherPreview] = useState('')
+  const [activityPreviews, setActivityPreviews] = useState<Record<string, string>>({})
   const [streak, setStreak] = useState(0)
-  const [selectedActivity, setSelectedActivity] = useState<Activity | null>(null)
-  const [showPreview, setShowPreview] = useState(false)
-  const [rotatingSubtitle, setRotatingSubtitle] = useState('')
+  const [daysUntilAnniversary, setDaysUntilAnniversary] = useState(0)
 
+  // Calculate days until next anniversary
+  useEffect(() => {
+    const now = new Date()
+    const currentYear = now.getFullYear()
+    let nextAnniversary = new Date(currentYear, 6, 11) // July 11
+    
+    if (now > nextAnniversary) {
+      nextAnniversary = new Date(currentYear + 1, 6, 11)
+    }
+    
+    const diffTime = nextAnniversary.getTime() - now.getTime()
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+    setDaysUntilAnniversary(diffDays)
+  }, [])
+
+  // Activities for carousel
   const activities: Activity[] = [
-    {
-      id: 'sad',
-      title: 'When You\'re Sad',
-      subtitle: 'I\'m here for you',
-      icon: IoChatbubbles,
-      gradient: ['#FF6B9D', '#C471ED'],
-      route: '/daily-love',
-      previewData: WHEN_YOURE_SAD_MESSAGES,
-      featured: true,
-    },
     {
       id: 'compliments',
       title: 'For Sehaj & Mrs. Sandhu',
@@ -69,7 +76,6 @@ export default function DailyLoveHub() {
       gradient: ['#FF6B9D', '#C471ED'],
       route: '/daily-compliments',
       previewData: DAILY_COMPLIMENTS,
-      featured: true,
     },
     {
       id: 'why-i-love-you',
@@ -79,26 +85,6 @@ export default function DailyLoveHub() {
       gradient: ['#FF9472', '#F2709C'],
       route: '/why-i-love-you',
       previewData: WHY_I_LOVE_YOU,
-      featured: true,
-    },
-    {
-      id: 'would-you-rather',
-      title: 'This or That',
-      subtitle: 'Fun choices together',
-      icon: IoSwapHorizontal,
-      gradient: ['#FA709A', '#FEE140'],
-      route: '/would-you-rather',
-      featured: true,
-    },
-    {
-      id: 'special-moments',
-      title: '"Here and There" memories',
-      subtitle: 'Things I remember',
-      icon: IoBook,
-      gradient: ['#FFA8A8', '#FCFF00'],
-      route: '/special-moments',
-      previewData: SPECIAL_MOMENT_NOTES,
-      featured: true,
     },
     {
       id: 'questions',
@@ -119,6 +105,15 @@ export default function DailyLoveHub() {
       previewData: DAILY_CHALLENGES,
     },
     {
+      id: 'special-moments',
+      title: '"Here and There" memories',
+      subtitle: 'Things I remember',
+      icon: IoBook,
+      gradient: ['#FFA8A8', '#FCFF00'],
+      route: '/special-moments',
+      previewData: SPECIAL_MOMENT_NOTES,
+    },
+    {
       id: 'gallery',
       title: 'When i.....',
       subtitle: 'Our moments together',
@@ -128,88 +123,67 @@ export default function DailyLoveHub() {
     },
   ]
 
-  // Initialize previews and load progress
+  // Initialize previews
   useEffect(() => {
-    loadProgress()
+    loadStreak()
     generateAllPreviews()
-    rotateSubtitle()
-    
-    const interval = setInterval(rotateSubtitle, 5000)
-    return () => clearInterval(interval)
   }, [])
 
-  const loadProgress = () => {
-    const savedProgress = localStorage.getItem('dailyLoveProgress')
+  const loadStreak = () => {
     const savedStreak = localStorage.getItem('dailyLoveStreak')
-    
-    if (savedProgress) setProgress(JSON.parse(savedProgress))
     if (savedStreak) setStreak(parseInt(savedStreak))
-  }
-
-  const saveProgress = (activityId: string) => {
-    const newProgress = { ...progress, [activityId]: (progress[activityId] || 0) + 1 }
-    setProgress(newProgress)
-    localStorage.setItem('dailyLoveProgress', JSON.stringify(newProgress))
-  }
-
-  const generateAllPreviews = () => {
-    const newPreviews: Record<string, string> = {}
-    activities.forEach(activity => {
-      if (activity.previewData && activity.previewData.length > 0) {
-        newPreviews[activity.id] = getRandomItem(activity.previewData)
-      }
-    })
-    setPreviews(newPreviews)
-  }
-
-  const refreshPreview = (activityId: string, e: React.MouseEvent) => {
-    e.stopPropagation()
-    haptics.light()
-    
-    const activity = activities.find(a => a.id === activityId)
-    if (activity?.previewData) {
-      setPreviews(prev => ({
-        ...prev,
-        [activityId]: getRandomItem(activity.previewData!)
-      }))
-    }
   }
 
   const getRandomItem = <T,>(array: T[]): T => {
     return array[Math.floor(Math.random() * array.length)]
   }
 
-  const rotateSubtitle = () => {
-    const allMessages = [...DAILY_COMPLIMENTS, ...WHEN_YOURE_SAD_MESSAGES]
-    setRotatingSubtitle(getRandomItem(allMessages))
+  const generateAllPreviews = () => {
+    // Sad preview
+    setSadPreview(getRandomItem(WHEN_YOURE_SAD_MESSAGES))
+    
+    // This or That preview
+    setThisOrThatPreview('Would you rather have a quiet night in or go on an adventure?')
+    
+    // Together For preview
+    setTogetherPreview(`${daysUntilAnniversary} days until our anniversary`)
+    
+    // Activity previews
+    const newPreviews: Record<string, string> = {}
+    activities.forEach(activity => {
+      if (activity.previewData && activity.previewData.length > 0) {
+        newPreviews[activity.id] = getRandomItem(activity.previewData)
+      }
+    })
+    setActivityPreviews(newPreviews)
+  }
+
+  const refreshSadPreview = () => {
+    soundManager.play('sparkle')
+    setSadPreview(getRandomItem(WHEN_YOURE_SAD_MESSAGES))
   }
 
   const handleShuffle = () => {
-    haptics.medium()
+    soundManager.play('magic')
     generateAllPreviews()
-    rotateSubtitle()
   }
 
   const handleSurpriseMe = () => {
-    haptics.medium()
-    const randomActivity = getRandomItem(activities)
-    navigate(randomActivity.route)
+    soundManager.play('sparkle')
+    const allRoutes = [
+      '/daily-love',
+      '/would-you-rather',
+      '/how-long-together',
+      ...activities.map(a => a.route)
+    ]
+    const randomRoute = getRandomItem(allRoutes)
+    navigate(randomRoute)
   }
 
-  const handleActivityClick = (activity: Activity) => {
-    haptics.medium()
-    saveProgress(activity.id)
-    navigate(activity.route)
+  const handleNavigate = (route: string) => {
+    soundManager.play('uiNavigate')
+    navigate(route)
   }
-
-  const handleLongPress = (activity: Activity) => {
-    haptics.medium()
-    setSelectedActivity(activity)
-    setShowPreview(true)
-  }
-
-  const featuredActivities = activities.filter(a => a.featured)
-  const gridActivities = activities
 
   return (
     <div style={{
@@ -218,13 +192,12 @@ export default function DailyLoveHub() {
       display: 'flex',
       flexDirection: 'column',
       paddingBottom: 100,
-    }}>
-      {/* Back Button */}
+    }}>\n      {/* Back Button */}
       <motion.button
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => {
-          haptics.light()
+          soundManager.play('uiBack')
           navigate('/')
         }}
         style={{
@@ -247,12 +220,11 @@ export default function DailyLoveHub() {
         <IoChevronBack size={24} color={colors.primary} />
       </motion.button>
 
-      {/* Header */}
+      {/* Header with Streak */}
       <div style={{
         padding: '80px 20px 20px',
         textAlign: 'center',
-      }}>
-        <motion.h1
+      }}>\n        <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           style={{
@@ -265,22 +237,13 @@ export default function DailyLoveHub() {
           Daily Love ✨
         </motion.h1>
         
-        <AnimatePresence mode="wait">
-          <motion.p
-            key={rotatingSubtitle}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.5 }}
-            style={{
-              color: colors.textSecondary,
-              fontSize: 14,
-              marginBottom: 8,
-            }}
-          >
-            {rotatingSubtitle}
-          </motion.p>
-        </AnimatePresence>
+        <p style={{
+          color: colors.textSecondary,
+          fontSize: 14,
+          marginBottom: 16,
+        }}>
+          Your personal love library
+        </p>
 
         {streak > 0 && (
           <motion.div
@@ -296,296 +259,430 @@ export default function DailyLoveHub() {
               fontSize: 12,
               fontWeight: 600,
               color: 'white',
-              marginTop: 8,
             }}
           >
-            🔥 {streak} day streak
+            <IoFlame size={16} />
+            {streak} day streak
           </motion.div>
         )}
       </div>
 
-      {/* Featured Carousel */}
-      <div style={{
-        padding: '0 0 24px 0',
-        overflow: 'hidden',
-      }}>
-        <div
-          ref={carouselRef}
-          style={{
-            display: 'flex',
-            gap: 16,
-            overflowX: 'auto',
-            scrollSnapType: 'x mandatory',
-            paddingLeft: 20,
-            paddingRight: 20,
-            scrollbarWidth: 'none',
-            msOverflowStyle: 'none',
-          }}
-          className="hide-scrollbar"
-        >
-          {featuredActivities.map((activity, index) => {
-            const Icon = activity.icon
-            const preview = previews[activity.id]
-            
-            return (
-              <motion.div
-                key={activity.id}
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.1 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => handleActivityClick(activity)}
-                onContextMenu={(e) => {
-                  e.preventDefault()
-                  handleLongPress(activity)
-                }}
-                style={{
-                  minWidth: 280,
-                  maxWidth: 280,
-                  scrollSnapAlign: 'start',
-                  background: colors.glass,
-                  backdropFilter: 'blur(20px)',
-                  border: `1px solid ${colors.border}`,
-                  borderRadius: 24,
-                  padding: 24,
-                  cursor: 'pointer',
-                  position: 'relative',
-                  overflow: 'hidden',
-                  boxShadow: `0 8px 32px ${colors.primaryGlow}`,
-                }}
-              >
-                {/* Gradient Top Bar */}
-                <div style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  height: 4,
-                  background: `linear-gradient(90deg, ${activity.gradient[0]}, ${activity.gradient[1]})`,
-                }} />
-
-                {/* Icon */}
-                <div style={{
-                  width: 56,
-                  height: 56,
-                  borderRadius: 16,
-                  background: `linear-gradient(135deg, ${activity.gradient[0]}, ${activity.gradient[1]})`,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginBottom: 16,
-                }}>
-                  <Icon size={28} color="white" />
-                </div>
-
-                {/* Title */}
-                <h3 style={{
-                  color: colors.textPrimary,
-                  fontSize: 20,
-                  fontWeight: 600,
-                  marginBottom: 8,
-                }}>
-                  {activity.title}
-                </h3>
-
-                {/* Preview or Subtitle */}
-                <p style={{
-                  color: colors.textSecondary,
-                  fontSize: 13,
-                  lineHeight: 1.5,
-                  minHeight: 60,
-                  marginBottom: 12,
-                }}>
-                  {preview ? `"${preview}"` : activity.subtitle}
-                </p>
-
-                {/* Refresh Button */}
-                {activity.previewData && (
-                  <motion.button
-                    whileHover={{ scale: 1.1, rotate: 180 }}
-                    whileTap={{ scale: 0.9 }}
-                    onClick={(e) => refreshPreview(activity.id, e)}
-                    style={{
-                      position: 'absolute',
-                      top: 16,
-                      right: 16,
-                      width: 32,
-                      height: 32,
-                      borderRadius: 16,
-                      background: colors.card,
-                      border: `1px solid ${colors.border}`,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      cursor: 'pointer',
-                    }}
-                  >
-                    <IoRefresh size={16} color={colors.primary} />
-                  </motion.button>
-                )}
-
-                {/* Progress Badge */}
-                {progress[activity.id] > 0 && (
-                  <div style={{
-                    position: 'absolute',
-                    bottom: 16,
-                    right: 16,
-                    background: colors.card,
-                    border: `1px solid ${colors.border}`,
-                    borderRadius: 12,
-                    padding: '4px 10px',
-                    fontSize: 11,
-                    fontWeight: 600,
-                    color: colors.primary,
-                  }}>
-                    {progress[activity.id]} visits
-                  </div>
-                )}
-              </motion.div>
-            )
-          })}
-        </div>
-      </div>
-
-      {/* Activity Grid */}
       <div style={{
         padding: '0 20px',
+        maxWidth: 800,
+        margin: '0 auto',
+        width: '100%',
       }}>
-        <h2 style={{
-          color: colors.textPrimary,
-          fontSize: 20,
-          fontWeight: 600,
-          marginBottom: 16,
-        }}>
-          All Activities
-        </h2>
+        {/* FEATURED: When You're Sad */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          whileHover={{ scale: 1.02, y: -4 }}
+          whileTap={{ scale: 0.98 }}
+          onClick={() => handleNavigate('/daily-love')}
+          style={{
+            background: `linear-gradient(135deg, #FF6B9D, #C471ED)`,
+            borderRadius: 24,
+            padding: 32,
+            marginBottom: 24,
+            position: 'relative',
+            overflow: 'hidden',
+            cursor: 'pointer',
+            boxShadow: `0 12px 40px ${colors.primaryGlow}`,
+          }}
+        >
+          {/* Shimmer effect */}
+          <div style={{
+            position: 'absolute',
+            top: 0,
+            left: '-100%',
+            width: '100%',
+            height: '100%',
+            background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)',
+            animation: 'shimmer 3s infinite',
+          }} />
 
+          <div style={{
+            display: 'flex',
+            alignItems: 'flex-start',
+            gap: 16,
+            position: 'relative',
+          }}>
+            <div style={{
+              width: 56,
+              height: 56,
+              borderRadius: 16,
+              background: 'rgba(255,255,255,0.2)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexShrink: 0,
+            }}>
+              <IoChatbubbles size={28} color=\"white\" />
+            </div>
+
+            <div style={{ flex: 1 }}>
+              <h2 style={{
+                color: 'white',
+                fontSize: 24,
+                fontWeight: 600,
+                marginBottom: 8,
+              }}>
+                When You're Sad
+              </h2>
+              
+              <p style={{
+                color: 'rgba(255,255,255,0.9)',
+                fontSize: 15,
+                lineHeight: 1.6,
+                fontStyle: 'italic',
+                marginBottom: 0,
+              }}>
+                \"{sadPreview}\"
+              </p>
+            </div>
+
+            <motion.button
+              whileHover={{ scale: 1.1, rotate: 180 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={(e) => {
+                e.stopPropagation()
+                refreshSadPreview()
+              }}
+              style={{
+                width: 36,
+                height: 36,
+                borderRadius: 18,
+                background: 'rgba(255,255,255,0.2)',
+                border: 'none',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                flexShrink: 0,
+              }}
+            >
+              <IoRefresh size={18} color=\"white\" />
+            </motion.button>
+          </div>
+
+          <div style={{
+            marginTop: 16,
+            paddingTop: 16,
+            borderTop: '1px solid rgba(255,255,255,0.2)',
+          }}>
+            <span style={{
+              color: 'rgba(255,255,255,0.8)',
+              fontSize: 13,
+            }}>
+              Tap to open • I'm here for you 💗
+            </span>
+          </div>
+        </motion.div>
+
+        {/* TWO BIG FEATURED TILES */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(2, 1fr)',
-          gap: 12,
+          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+          gap: 16,
+          marginBottom: 32,
         }}>
-          {gridActivities.map((activity, index) => {
-            const Icon = activity.icon
-            const preview = previews[activity.id]
-            
-            return (
-              <motion.div
-                key={activity.id}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: index * 0.05 }}
-                whileHover={{ scale: 1.03, y: -2 }}
-                whileTap={{ scale: 0.97 }}
-                onClick={() => handleActivityClick(activity)}
-                onContextMenu={(e) => {
-                  e.preventDefault()
-                  handleLongPress(activity)
-                }}
-                style={{
-                  background: colors.glass,
-                  backdropFilter: 'blur(20px)',
-                  border: `1px solid ${colors.border}`,
-                  borderRadius: 16,
-                  padding: 16,
-                  cursor: 'pointer',
-                  position: 'relative',
-                  overflow: 'hidden',
-                }}
-              >
-                {/* Gradient Top Bar */}
-                <div style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  height: 3,
-                  background: `linear-gradient(90deg, ${activity.gradient[0]}, ${activity.gradient[1]})`,
-                }} />
+          {/* This or That */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.1 }}
+            whileHover={{ scale: 1.03, y: -4 }}
+            whileTap={{ scale: 0.97 }}
+            onClick={() => handleNavigate('/would-you-rather')}
+            style={{
+              background: colors.glass,
+              backdropFilter: 'blur(20px)',
+              border: `1px solid ${colors.border}`,
+              borderRadius: 20,
+              padding: 24,
+              cursor: 'pointer',
+              position: 'relative',
+              overflow: 'hidden',
+              boxShadow: `0 8px 24px ${colors.primaryGlow}`,
+            }}
+          >
+            <div style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              height: 4,
+              background: 'linear-gradient(90deg, #FA709A, #FEE140)',
+            }} />
 
-                {/* Icon */}
+            <div style={{
+              width: 48,
+              height: 48,
+              borderRadius: 14,
+              background: 'linear-gradient(135deg, #FA709A, #FEE140)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginBottom: 16,
+            }}>
+              <IoSwapHorizontal size={24} color=\"white\" />
+            </div>
+
+            <h3 style={{
+              color: colors.textPrimary,
+              fontSize: 20,
+              fontWeight: 600,
+              marginBottom: 8,
+            }}>
+              This or That
+            </h3>
+
+            <p style={{
+              color: colors.textSecondary,
+              fontSize: 14,
+              lineHeight: 1.5,
+              marginBottom: 12,
+            }}>
+              {thisOrThatPreview}
+            </p>
+
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 6,
+              color: colors.primary,
+              fontSize: 13,
+              fontWeight: 600,
+            }}>
+              Fun choices together →
+            </div>
+          </motion.div>
+
+          {/* Together For (How Long Together) */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.2 }}
+            whileHover={{ scale: 1.03, y: -4 }}
+            whileTap={{ scale: 0.97 }}
+            onClick={() => handleNavigate('/how-long-together')}
+            style={{
+              background: colors.glass,
+              backdropFilter: 'blur(20px)',
+              border: `1px solid ${colors.border}`,
+              borderRadius: 20,
+              padding: 24,
+              cursor: 'pointer',
+              position: 'relative',
+              overflow: 'hidden',
+              boxShadow: `0 8px 24px ${colors.primaryGlow}`,
+            }}
+          >
+            <div style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              height: 4,
+              background: 'linear-gradient(90deg, #4FACFE, #00F2FE)',
+            }} />
+
+            <div style={{
+              width: 48,
+              height: 48,
+              borderRadius: 14,
+              background: 'linear-gradient(135deg, #4FACFE, #00F2FE)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginBottom: 16,
+            }}>
+              <IoTime size={24} color=\"white\" />
+            </div>
+
+            <h3 style={{
+              color: colors.textPrimary,
+              fontSize: 20,
+              fontWeight: 600,
+              marginBottom: 8,
+            }}>
+              Together For
+            </h3>
+
+            <div style={{
+              marginBottom: 12,
+            }}>
+              <div style={{
+                display: 'flex',
+                gap: 8,
+                marginBottom: 8,
+              }}>
                 <div style={{
-                  width: 40,
-                  height: 40,
+                  flex: 1,
+                  background: colors.card,
                   borderRadius: 12,
-                  background: `linear-gradient(135deg, ${activity.gradient[0]}, ${activity.gradient[1]})`,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginBottom: 12,
+                  padding: '8px 12px',
+                  textAlign: 'center',
                 }}>
-                  <Icon size={20} color="white" />
+                  <div style={{
+                    color: colors.primary,
+                    fontSize: 16,
+                    fontWeight: 700,
+                  }}>
+                    Talking
+                  </div>
+                  <div style={{
+                    color: colors.textSecondary,
+                    fontSize: 11,
+                  }}>
+                    Feb 26
+                  </div>
                 </div>
-
-                {/* Title */}
-                <h4 style={{
-                  color: colors.textPrimary,
-                  fontSize: 14,
-                  fontWeight: 600,
-                  marginBottom: 4,
+                <div style={{
+                  flex: 1,
+                  background: colors.card,
+                  borderRadius: 12,
+                  padding: '8px 12px',
+                  textAlign: 'center',
                 }}>
-                  {activity.title}
-                </h4>
+                  <div style={{
+                    color: colors.primary,
+                    fontSize: 16,
+                    fontWeight: 700,
+                  }}>
+                    Dating
+                  </div>
+                  <div style={{
+                    color: colors.textSecondary,
+                    fontSize: 11,
+                  }}>
+                    Jul 11
+                  </div>
+                </div>
+              </div>
+              
+              <div style={{
+                color: colors.textSecondary,
+                fontSize: 13,
+                textAlign: 'center',
+              }}>
+                {daysUntilAnniversary} days till anniversary 💖
+              </div>
+            </div>
 
-                {/* Preview or Subtitle */}
-                <p style={{
-                  color: colors.textSecondary,
-                  fontSize: 11,
-                  lineHeight: 1.4,
-                  minHeight: 32,
-                }}>
-                  {preview ? `"${preview.substring(0, 40)}..."` : activity.subtitle}
-                </p>
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 6,
+              color: colors.primary,
+              fontSize: 13,
+              fontWeight: 600,
+            }}>
+              See our timers →
+            </div>
+          </motion.div>
+        </div>
 
-                {/* Refresh Button */}
-                {activity.previewData && (
-                  <motion.button
-                    whileHover={{ scale: 1.1, rotate: 180 }}
-                    whileTap={{ scale: 0.9 }}
-                    onClick={(e) => refreshPreview(activity.id, e)}
-                    style={{
-                      position: 'absolute',
-                      top: 12,
-                      right: 12,
-                      width: 24,
-                      height: 24,
-                      borderRadius: 12,
-                      background: colors.card,
-                      border: `1px solid ${colors.border}`,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      cursor: 'pointer',
-                    }}
-                  >
-                    <IoRefresh size={12} color={colors.primary} />
-                  </motion.button>
-                )}
+        {/* ACTIVITY CAROUSEL */}
+        <div style={{
+          marginBottom: 32,
+        }}>
+          <h2 style={{
+            color: colors.textPrimary,
+            fontSize: 20,
+            fontWeight: 600,
+            marginBottom: 16,
+          }}>
+            More Activities
+          </h2>
 
-                {/* Progress Badge */}
-                {progress[activity.id] > 0 && (
+          <div
+            ref={carouselRef}
+            style={{
+              display: 'flex',
+              gap: 16,
+              overflowX: 'auto',
+              scrollSnapType: 'x mandatory',
+              paddingBottom: 8,
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none',
+            }}
+            className=\"hide-scrollbar\"
+          >
+            {activities.map((activity, index) => {
+              const Icon = activity.icon
+              const preview = activityPreviews[activity.id]
+              
+              return (
+                <motion.div
+                  key={activity.id}
+                  initial={{ opacity: 0, x: 50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.3 + index * 0.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => handleNavigate(activity.route)}
+                  style={{
+                    minWidth: 240,
+                    maxWidth: 240,
+                    scrollSnapAlign: 'start',
+                    background: colors.glass,
+                    backdropFilter: 'blur(20px)',
+                    border: `1px solid ${colors.border}`,
+                    borderRadius: 16,
+                    padding: 20,
+                    cursor: 'pointer',
+                    position: 'relative',
+                    overflow: 'hidden',
+                  }}
+                >
                   <div style={{
                     position: 'absolute',
-                    bottom: 12,
-                    right: 12,
-                    background: colors.card,
-                    border: `1px solid ${colors.border}`,
-                    borderRadius: 8,
-                    padding: '2px 6px',
-                    fontSize: 9,
-                    fontWeight: 600,
-                    color: colors.primary,
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    height: 3,
+                    background: `linear-gradient(90deg, ${activity.gradient[0]}, ${activity.gradient[1]})`,
+                  }} />
+
+                  <div style={{
+                    width: 40,
+                    height: 40,
+                    borderRadius: 12,
+                    background: `linear-gradient(135deg, ${activity.gradient[0]}, ${activity.gradient[1]})`,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginBottom: 12,
                   }}>
-                    {progress[activity.id]}
+                    <Icon size={20} color=\"white\" />
                   </div>
-                )}
-              </motion.div>
-            )
-          })}
+
+                  <h4 style={{
+                    color: colors.textPrimary,
+                    fontSize: 15,
+                    fontWeight: 600,
+                    marginBottom: 6,
+                  }}>
+                    {activity.title}
+                  </h4>
+
+                  <p style={{
+                    color: colors.textSecondary,
+                    fontSize: 12,
+                    lineHeight: 1.4,
+                    minHeight: 48,
+                  }}>
+                    {preview ? `\"${preview.substring(0, 50)}...\"` : activity.subtitle}
+                  </p>
+                </motion.div>
+              )
+            })}
+          </div>
         </div>
       </div>
 
-      {/* Bottom Quick Actions */}
+      {/* QUICK ACTIONS BAR */}
       <div style={{
         position: 'fixed',
         bottom: 0,
@@ -620,7 +717,7 @@ export default function DailyLoveHub() {
           }}
         >
           <IoShuffle size={18} />
-          Shuffle
+          Shuffle Hub
         </motion.button>
 
         <motion.button
@@ -649,118 +746,14 @@ export default function DailyLoveHub() {
         </motion.button>
       </div>
 
-      {/* Long Press Preview Modal */}
-      <AnimatePresence>
-        {showPreview && selectedActivity && (
-          <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setShowPreview(false)}
-              style={{
-                position: 'fixed',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                background: 'rgba(0, 0, 0, 0.7)',
-                backdropFilter: 'blur(8px)',
-                zIndex: 200,
-              }}
-            />
-            
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8, y: 50 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.8, y: 50 }}
-              style={{
-                position: 'fixed',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                width: '90%',
-                maxWidth: 400,
-                background: colors.card,
-                border: `1px solid ${colors.border}`,
-                borderRadius: 24,
-                padding: 32,
-                zIndex: 201,
-                boxShadow: `0 20px 60px ${colors.primaryGlow}`,
-              }}
-            >
-              {(() => {
-                const Icon = selectedActivity.icon
-                return (
-                  <>
-                    <div style={{
-                      width: 64,
-                      height: 64,
-                      borderRadius: 18,
-                      background: `linear-gradient(135deg, ${selectedActivity.gradient[0]}, ${selectedActivity.gradient[1]})`,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      marginBottom: 16,
-                      margin: '0 auto 16px',
-                    }}>
-                      <Icon size={32} color="white" />
-                    </div>
-
-                    <h3 style={{
-                      color: colors.textPrimary,
-                      fontSize: 24,
-                      fontWeight: 600,
-                      textAlign: 'center',
-                      marginBottom: 8,
-                    }}>
-                      {selectedActivity.title}
-                    </h3>
-
-                    <p style={{
-                      color: colors.textSecondary,
-                      fontSize: 14,
-                      textAlign: 'center',
-                      marginBottom: 24,
-                      lineHeight: 1.5,
-                    }}>
-                      {previews[selectedActivity.id] 
-                        ? `"${previews[selectedActivity.id]}"` 
-                        : selectedActivity.subtitle}
-                    </p>
-
-                    <motion.button
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      onClick={() => {
-                        setShowPreview(false)
-                        handleActivityClick(selectedActivity)
-                      }}
-                      style={{
-                        width: '100%',
-                        padding: '16px',
-                        borderRadius: 16,
-                        background: `linear-gradient(135deg, ${selectedActivity.gradient[0]}, ${selectedActivity.gradient[1]})`,
-                        border: 'none',
-                        color: 'white',
-                        fontSize: 16,
-                        fontWeight: 600,
-                        cursor: 'pointer',
-                      }}
-                    >
-                      Start
-                    </motion.button>
-                  </>
-                )
-              })()}
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
-
       <style>{`
         .hide-scrollbar::-webkit-scrollbar {
           display: none;
+        }
+        
+        @keyframes shimmer {
+          0% { left: -100%; }
+          100% { left: 100%; }
         }
       `}</style>
     </div>
