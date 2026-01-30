@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { IoChevronBack, IoGavel, IoRefresh } from 'react-icons/io5'
+import { IoChevronBack, IoHammer, IoRefresh } from 'react-icons/io5'
 import { useNavigate } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
 import soundManager from '../utils/soundManager'
@@ -207,7 +207,7 @@ export default function LoveCourt() {
               >
                 {currentCase.icon}
               </motion.div>
-              <IoGavel size={48} color={colors.primary} style={{ marginBottom: 16 }} />
+              <IoHammer size={48} color={colors.primary} style={{ marginBottom: 16 }} />
               <h2 style={{ color: colors.textPrimary, fontSize: 24, fontWeight: 600, marginBottom: 8 }}>
                 The Case:
               </h2>
@@ -280,7 +280,7 @@ export default function LoveCourt() {
                 animate={{ scale: 1, rotate: [0, -15, 15, 0] }}
                 transition={{ duration: 0.5 }}
               >
-                <IoGavel size={64} color="white" style={{ marginBottom: 16 }} />
+                <IoHammer size={64} color="white" style={{ marginBottom: 16 }} />
               </motion.div>
               
               <h3 style={{ color: 'white', fontSize: 22, fontWeight: 700, marginBottom: 16 }}>
