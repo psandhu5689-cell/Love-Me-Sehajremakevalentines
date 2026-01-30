@@ -120,3 +120,34 @@ VALENTINES SEQUENCE EXPANSION – Add 8+ new pages with puzzles and media into t
   - Memory chips for quick navigation
   - Story/Clean mode toggle
   - Anniversary celebration with confetti on July 11
+
+### Date: Jan 30, 2026 (Update 4)
+- ✅ **Daily Love Activities - Glassy Redesign**
+  
+  **Page Improvements:**
+  - Added floating background particles (💗, ✨, 💕, ⭐)
+  - Glassy header with backdrop blur
+  - All activity cards now have glassmorphism design
+  
+  **Heart to Heart 💕:**
+  - Glassy card with shimmer effect
+  - Tags showing "60 prompts" and "Save history"
+  - Gradient icon background
+  
+  **Would You Rather 🎲:**
+  - Glassy card with shimmer effect
+  - Tags showing "35 questions" and "See their pick"
+  - Purple gradient icon
+  
+  **Who's Right? 🪙:**
+  - Spinning 3D coin animation (idle wobble)
+  - Enhanced flip animation with perspective
+  - Glassy score display (Prabh vs Sehaj)
+  - Live score tracking on card preview
+  - "Reset Score" button
+  - Floating sparkle particles
+  - Gold gradient button with glow
+  
+  **Together For 🕯️:**
+  - Shows "X days and counting" preview
+  - Glassy card design
