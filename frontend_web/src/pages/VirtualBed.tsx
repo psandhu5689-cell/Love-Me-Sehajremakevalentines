@@ -3201,44 +3201,7 @@ export default function VirtualBed() {
           
           {/* Living space only - no UI controls */}
           
-          {/* Room Level & Streak - Compact at top */}
-          <div style={{
-            position: 'fixed',
-            top: 70,
-            left: 20,
-            display: 'flex',
-            gap: 12,
-            zIndex: 40,
-          }}>
-            <div style={{
-              background: colors.glass,
-              padding: '6px 10px',
-              borderRadius: 12,
-              border: `1px solid ${colors.border}`,
-              display: 'flex',
-              alignItems: 'center',
-              gap: 6,
-            }}>
-              <span style={{ fontSize: 14 }}>🏠</span>
-              <span style={{ color: colors.textPrimary, fontSize: 11, fontWeight: 600 }}>
-                Lv.{roomLevel}
-              </span>
-            </div>
-            <div style={{
-              background: colors.glass,
-              padding: '6px 10px',
-              borderRadius: 12,
-              border: `1px solid ${colors.border}`,
-              display: 'flex',
-              alignItems: 'center',
-              gap: 6,
-            }}>
-              <span style={{ fontSize: 14 }}>🔥</span>
-              <span style={{ color: colors.textPrimary, fontSize: 11, fontWeight: 600 }}>
-                {dailyStreak}
-              </span>
-            </div>
-          </div>
+          {/* Room level badges removed */}
 
           {/* Special Button - Compact at bottom center */}
           <motion.button
