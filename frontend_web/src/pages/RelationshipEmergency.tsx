@@ -96,6 +96,34 @@ export default function RelationshipEmergency() {
       position: 'relative',
       overflow: 'hidden',
     }}>
+      {/* Parallax Emergency particles */}
+      {[...Array(10)].map((_, i) => (
+        <motion.div
+          key={i}
+          animate={{
+            y: [-30, -70, -30],
+            x: [0, Math.random() * 30 - 15, 0],
+            opacity: [0.2, 0.5, 0.2],
+            scale: [1, 1.2, 1],
+          }}
+          transition={{
+            duration: 4 + Math.random() * 3,
+            delay: i * 0.3,
+            repeat: Infinity,
+          }}
+          style={{
+            position: 'fixed',
+            left: `${5 + Math.random() * 90}%`,
+            top: `${10 + Math.random() * 80}%`,
+            fontSize: 18 + Math.random() * 14,
+            pointerEvents: 'none',
+            zIndex: 0,
+          }}
+        >
+          {['🚨', '💕', '❤️', '🆘', '💗'][i % 5]}
+        </motion.div>
+      ))}
+
       {showConfetti && <Confetti width={window.innerWidth} height={window.innerHeight} recycle={false} />}
 
       {/* Flashing border */}
