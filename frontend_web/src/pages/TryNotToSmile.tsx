@@ -7,6 +7,36 @@ import { useAudio } from '../context/AudioContext'
 
 const GAMES = [
   {
+    id: 'roast-roulette',
+    title: 'Roast Roulette',
+    subtitle: 'Get Roasted Then Comforted',
+    emoji: '🎯',
+    icon: IoFlash,
+    gradient: ['#FA709A', '#FEE140'],
+    description: 'Spin for a roast, then get a hug',
+    route: '/roast-roulette',
+  },
+  {
+    id: 'love-court',
+    title: 'Love Court',
+    subtitle: 'Mini Trials & Verdicts',
+    emoji: '⚖️',
+    icon: IoWarning,
+    gradient: ['#C471ED', '#FF6B9D'],
+    description: 'Judge absurd relationship crimes',
+    route: '/love-court',
+  },
+  {
+    id: 'reaction-jail',
+    title: 'Reaction Jail',
+    subtitle: 'Fast Reflex Challenge',
+    emoji: '⚡',
+    icon: IoFlash,
+    gradient: ['#43E97B', '#38F9D7'],
+    description: 'React fast or get locked up',
+    route: '/reaction-jail',
+  },
+  {
     id: 'lie-detector',
     title: 'Lie Detector',
     subtitle: 'Sehaj Certified Truth Machine',
