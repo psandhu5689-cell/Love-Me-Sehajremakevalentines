@@ -103,39 +103,79 @@ export default function Index() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        position: 'relative',
+        overflow: 'hidden',
       }}>
+        {/* Floating particles */}
+        {[...Array(12)].map((_, i) => (
+          <motion.div
+            key={i}
+            animate={{
+              y: [-20, -60, -20],
+              x: [0, Math.random() * 20 - 10, 0],
+              opacity: [0.2, 0.5, 0.2],
+            }}
+            transition={{
+              duration: 4 + Math.random() * 3,
+              delay: i * 0.3,
+              repeat: Infinity,
+            }}
+            style={{
+              position: 'absolute',
+              left: `${5 + Math.random() * 90}%`,
+              top: `${10 + Math.random() * 80}%`,
+              fontSize: 16 + Math.random() * 12,
+              pointerEvents: 'none',
+            }}
+          >
+            {['💗', '✨', '💕', '⭐', '💫'][i % 5]}
+          </motion.div>
+        ))}
+        
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           style={{
-            background: colors.card,
-            padding: 32,
-            borderRadius: 24,
+            background: colors.glass,
+            backdropFilter: 'blur(20px)',
+            padding: 40,
+            borderRadius: 32,
             textAlign: 'center',
             border: `1px solid ${colors.border}`,
+            boxShadow: `0 20px 60px ${colors.primaryGlow}`,
           }}
         >
-          <IoHeart size={50} color={colors.primary} />
-          <h2 style={{ color: colors.textPrimary, marginTop: 16, fontWeight: 300 }}>
+          <motion.div
+            animate={{ scale: [1, 1.1, 1] }}
+            transition={{ duration: 2, repeat: Infinity }}
+          >
+            <IoHeart size={60} color={colors.primary} />
+          </motion.div>
+          <h2 style={{ color: colors.textPrimary, marginTop: 20, fontWeight: 400, fontSize: 24 }}>
             Who is using this phone?
           </h2>
-          <div style={{ marginTop: 24, display: 'flex', gap: 16 }}>
-            <button
+          <div style={{ marginTop: 28, display: 'flex', gap: 16 }}>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => handleUserSelect('prabh')}
               style={{
                 padding: '16px 32px',
-                background: colors.secondary,
-                border: 'none',
+                background: colors.glass,
+                backdropFilter: 'blur(10px)',
+                border: `2px solid ${colors.secondary}`,
                 borderRadius: 25,
-                color: 'white',
+                color: colors.secondary,
                 fontSize: 16,
                 fontWeight: 600,
                 cursor: 'pointer',
               }}
             >
               I'm Prabh
-            </button>
-            <button
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => handleUserSelect('sehaj')}
               style={{
                 padding: '16px 32px',
@@ -146,10 +186,11 @@ export default function Index() {
                 fontSize: 16,
                 fontWeight: 600,
                 cursor: 'pointer',
+                boxShadow: `0 6px 20px ${colors.primaryGlow}`,
               }}
             >
               I'm Sehaj
-            </button>
+            </motion.button>
           </div>
         </motion.div>
       </div>
