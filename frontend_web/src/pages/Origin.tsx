@@ -5,6 +5,7 @@ import { IoChevronBack, IoHeart, IoChevronForward } from 'react-icons/io5'
 import { useTheme } from '../context/ThemeContext'
 import { useUser } from '../context/UserContext'
 import { useAudio } from '../context/AudioContext'
+import JourneyProgress from '../components/JourneyProgress'
 
 const ORIGIN_STORY = [
   // REMOVED: "It started with a simple 'hi' on Tinder." line as per request
