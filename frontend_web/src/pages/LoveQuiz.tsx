@@ -95,7 +95,7 @@ export default function LoveQuiz() {
 
   const handleContinue = () => {
     haptics.medium()
-    navigate('/celebration')
+    navigate('/quiet-stars')
   }
 
   const getScoreMessage = () => {
