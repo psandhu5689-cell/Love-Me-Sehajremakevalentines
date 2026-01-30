@@ -44,6 +44,9 @@ export default function Celebration() {
       position: 'relative',
       overflow: 'auto',
     }}>
+      {/* Journey Progress */}
+      <JourneyProgress currentPath="/celebration" />
+      
       {showConfetti && (
         <Confetti
           width={window.innerWidth}
