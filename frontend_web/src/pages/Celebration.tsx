@@ -44,6 +44,34 @@ export default function Celebration() {
       position: 'relative',
       overflow: 'auto',
     }}>
+      {/* Parallax Floating particles */}
+      {[...Array(15)].map((_, i) => (
+        <motion.div
+          key={i}
+          animate={{
+            y: [-30, -80, -30],
+            x: [0, Math.random() * 30 - 15, 0],
+            opacity: [0.2, 0.5, 0.2],
+            scale: [1, 1.1, 1],
+          }}
+          transition={{
+            duration: 5 + Math.random() * 4,
+            delay: i * 0.2,
+            repeat: Infinity,
+          }}
+          style={{
+            position: 'fixed',
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`,
+            fontSize: 18 + Math.random() * 16,
+            pointerEvents: 'none',
+            zIndex: 0,
+          }}
+        >
+          {['🎉', '💕', '✨', '🎊', '💗', '⭐', '🥳'][i % 7]}
+        </motion.div>
+      ))}
+
       {/* Journey Progress */}
       <JourneyProgress currentPath="/celebration" />
       
