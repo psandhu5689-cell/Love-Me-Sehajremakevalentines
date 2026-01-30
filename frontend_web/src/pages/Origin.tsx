@@ -22,7 +22,7 @@ export default function Origin() {
 
   const handleContinue = () => {
     playMagic()
-    navigate('/crossword')
+    navigate('/photo-timeline')
   }
 
   return (
