@@ -2566,15 +2566,22 @@ export default function VirtualBed() {
             {/* Prabh Cat (Right - Grey) - ROAMING with smooth transitions - TOUCH ZONES */}
             <motion.div
               animate={{
-                left: cuddleMode ? '52%' : `${prabhRoam.xPercent}%`,
-                bottom: cuddleMode ? '30%' : `${100 - prabhRoam.yPercent}%`,
+                left: `${prabhAnim.state.x}%`,
+                bottom: `${100 - prabhAnim.state.y}%`,
                 y: prabh.action === 'nudge' || prabh.action === 'kick' ? [0, -5, 0] : 0,
               }}
               transition={{ 
-                left: { duration: 2.5, ease: 'easeInOut' },
-                bottom: { duration: 2.5, ease: 'easeInOut' },
+                left: { duration: 0.5, ease: 'linear' },
+                bottom: { duration: 0.5, ease: 'linear' },
                 y: { duration: 0.3, ease: 'easeOut' }
               }}
+              onMouseDown={(e) => handleDragStart('prabh', e)}
+              onMouseMove={handleDragMove}
+              onMouseUp={handleDragEnd}
+              onMouseLeave={handleDragEnd}
+              onTouchStart={(e) => handleDragStart('prabh', e)}
+              onTouchMove={handleDragMove}
+              onTouchEnd={handleDragEnd}
               style={{
                 position: 'absolute',
                 zIndex: 3,
@@ -2584,7 +2591,7 @@ export default function VirtualBed() {
                 minWidth: 80,
                 minHeight: 80,
                 transform: 'translateX(-50%)',
-                cursor: 'pointer',
+                cursor: dragState.cat === 'prabh' ? 'grabbing' : 'grab',
               }}
             >
               {/* Touch Zones - Invisible clickable areas */}
