@@ -59,6 +59,9 @@ export default function SecretCode() {
       flexDirection: 'column',
       padding: 20,
     }}>
+      {/* Journey Progress */}
+      <JourneyProgress currentPath="/secret-code" />
+      
       {showConfetti && (
         <Confetti
           width={windowSize.width}
