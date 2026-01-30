@@ -44,6 +44,34 @@ export default function FirstIntro() {
       position: 'relative',
       overflow: 'hidden',
     }}>
+      {/* Parallax Heart particles */}
+      {[...Array(12)].map((_, i) => (
+        <motion.div
+          key={`heart-${i}`}
+          animate={{
+            y: [-20, -60, -20],
+            x: [0, Math.random() * 20 - 10, 0],
+            opacity: [0.1, 0.3, 0.1],
+            scale: [1, 1.2, 1],
+          }}
+          transition={{
+            duration: 6 + Math.random() * 4,
+            delay: i * 0.5,
+            repeat: Infinity,
+          }}
+          style={{
+            position: 'fixed',
+            left: `${5 + Math.random() * 90}%`,
+            top: `${20 + Math.random() * 60}%`,
+            fontSize: 14 + Math.random() * 12,
+            pointerEvents: 'none',
+            zIndex: 1,
+          }}
+        >
+          {['💗', '✨', '💕', '⭐'][i % 4]}
+        </motion.div>
+      ))}
+
       {/* Stars */}
       {stars.map((star) => (
         <motion.div
