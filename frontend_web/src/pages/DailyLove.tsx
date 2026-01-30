@@ -821,7 +821,33 @@ export default function DailyLove() {
         justifyContent: 'center',
         padding: 24,
         position: 'relative',
+        overflow: 'hidden',
       }}>
+        {/* Floating particles */}
+        {[...Array(8)].map((_, i) => (
+          <motion.div
+            key={i}
+            animate={{
+              y: [-20, -50, -20],
+              opacity: [0.3, 0.6, 0.3],
+            }}
+            transition={{
+              duration: 3 + Math.random() * 2,
+              delay: i * 0.2,
+              repeat: Infinity,
+            }}
+            style={{
+              position: 'absolute',
+              left: `${10 + Math.random() * 80}%`,
+              top: `${10 + Math.random() * 80}%`,
+              fontSize: 20,
+              pointerEvents: 'none',
+            }}
+          >
+            {['✨', '⭐', '💫'][i % 3]}
+          </motion.div>
+        ))}
+
         <motion.button
           whileHover={{ scale: 1.1 }}
           onClick={() => setShowCoinFlip(false)}
@@ -829,84 +855,148 @@ export default function DailyLove() {
             position: 'absolute',
             top: 50,
             right: 20,
-            background: colors.card,
-            border: 'none',
+            background: colors.glass,
+            backdropFilter: 'blur(10px)',
+            border: `1px solid ${colors.border}`,
             borderRadius: 20,
             padding: 8,
             cursor: 'pointer',
+            zIndex: 10,
           }}
         >
           <IoClose size={28} color={colors.primary} />
         </motion.button>
 
-        <h1 style={{ color: colors.textPrimary, fontSize: 24, fontWeight: 600, marginBottom: 16 }}>
-          Who's Right? 🪙
-        </h1>
-        
-        {/* Tally Display */}
-        <div style={{
-          display: 'flex',
-          gap: 24,
-          marginBottom: 30,
-          padding: '12px 24px',
-          background: colors.card,
-          borderRadius: 16,
-          border: `1px solid ${colors.border}`,
-        }}>
-          <div style={{ textAlign: 'center' }}>
-            <p style={{ color: colors.textMuted, fontSize: 12, marginBottom: 4 }}>Prabh</p>
-            <p style={{ color: colors.secondary, fontSize: 28, fontWeight: 700 }}>
-              {coinTally.prabh}
-            </p>
-          </div>
-          <div style={{
-            width: 1,
-            height: 50,
-            background: colors.border,
-          }} />
-          <div style={{ textAlign: 'center' }}>
-            <p style={{ color: colors.textMuted, fontSize: 12, marginBottom: 4 }}>Sehaj</p>
-            <p style={{ color: colors.primary, fontSize: 28, fontWeight: 700 }}>
-              {coinTally.sehaj}
-            </p>
-          </div>
-        </div>
-
-        <motion.div
-          animate={isFlipping ? { rotateY: [0, 1800] } : {}}
-          transition={{ duration: 1.5 }}
-          style={{
-            width: 150,
-            height: 150,
-            borderRadius: 75,
-            background: 'linear-gradient(135deg, #FFD700, #FFA500)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: 60,
-            boxShadow: '0 10px 30px rgba(255, 215, 0, 0.4)',
-            marginBottom: 30,
+        <motion.h1 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          style={{ 
+            color: colors.textPrimary, 
+            fontSize: 28, 
+            fontWeight: 700, 
+            marginBottom: 8,
+            textAlign: 'center',
           }}
         >
-          🪙
+          Who's Right? 🪙
+        </motion.h1>
+        <p style={{ color: colors.textSecondary, fontSize: 14, marginBottom: 24 }}>
+          Let fate decide!
+        </p>
+        
+        {/* Glassy Tally Display */}
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          style={{
+            display: 'flex',
+            gap: 16,
+            marginBottom: 40,
+            padding: '20px 32px',
+            background: colors.glass,
+            backdropFilter: 'blur(20px)',
+            borderRadius: 24,
+            border: `1px solid ${colors.border}`,
+            boxShadow: `0 8px 32px ${colors.primaryGlow}`,
+          }}
+        >
+          <div style={{ textAlign: 'center' }}>
+            <p style={{ color: colors.textMuted, fontSize: 12, marginBottom: 4, fontWeight: 500 }}>Prabh</p>
+            <motion.p 
+              key={`prabh-${coinTally.prabh}`}
+              initial={{ scale: 1.3 }}
+              animate={{ scale: 1 }}
+              style={{ color: colors.secondary, fontSize: 36, fontWeight: 700 }}
+            >
+              {coinTally.prabh}
+            </motion.p>
+            <p style={{ color: colors.textMuted, fontSize: 10 }}>wins</p>
+          </div>
+          <div style={{
+            width: 2,
+            height: 70,
+            background: `linear-gradient(180deg, transparent, ${colors.border}, transparent)`,
+            alignSelf: 'center',
+          }} />
+          <div style={{ textAlign: 'center' }}>
+            <p style={{ color: colors.textMuted, fontSize: 12, marginBottom: 4, fontWeight: 500 }}>Sehaj</p>
+            <motion.p 
+              key={`sehaj-${coinTally.sehaj}`}
+              initial={{ scale: 1.3 }}
+              animate={{ scale: 1 }}
+              style={{ color: colors.primary, fontSize: 36, fontWeight: 700 }}
+            >
+              {coinTally.sehaj}
+            </motion.p>
+            <p style={{ color: colors.textMuted, fontSize: 10 }}>wins</p>
+          </div>
         </motion.div>
 
+        {/* 3D Coin */}
+        <div style={{ perspective: 1000, marginBottom: 30 }}>
+          <motion.div
+            animate={isFlipping ? { 
+              rotateX: [0, 1800],
+              rotateY: [0, 900],
+              scale: [1, 1.2, 1],
+            } : {
+              rotateY: [0, 10, 0, -10, 0],
+            }}
+            transition={isFlipping ? { 
+              duration: 1.5,
+              ease: 'easeOut',
+            } : {
+              duration: 4,
+              repeat: Infinity,
+              ease: 'easeInOut',
+            }}
+            style={{
+              width: 160,
+              height: 160,
+              borderRadius: 80,
+              background: 'linear-gradient(145deg, #FFD700, #FFA500, #FF8C00)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: 70,
+              boxShadow: '0 20px 60px rgba(255, 215, 0, 0.5), inset 0 -5px 20px rgba(0,0,0,0.2)',
+              border: '4px solid rgba(255,255,255,0.3)',
+              transformStyle: 'preserve-3d',
+            }}
+          >
+            🪙
+          </motion.div>
+        </div>
+
+        {/* Result Display */}
         <AnimatePresence>
           {coinResult && (
             <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, scale: 0.5, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.5 }}
               style={{
-                background: colors.card,
+                background: colors.glass,
+                backdropFilter: 'blur(20px)',
                 border: `2px solid #FFD700`,
-                borderRadius: 16,
-                padding: 20,
-                marginBottom: 20,
+                borderRadius: 20,
+                padding: '20px 40px',
+                marginBottom: 24,
+                boxShadow: '0 8px 32px rgba(255, 215, 0, 0.3)',
               }}
             >
-              <p style={{ color: colors.textPrimary, fontSize: 22, fontWeight: 600, textAlign: 'center' }}>
+              <motion.p 
+                animate={{ scale: [1, 1.05, 1] }}
+                transition={{ duration: 0.5, repeat: 3 }}
+                style={{ 
+                  color: colors.textPrimary, 
+                  fontSize: 24, 
+                  fontWeight: 700, 
+                  textAlign: 'center',
+                }}
+              >
                 {coinResult}
-              </p>
+              </motion.p>
             </motion.div>
           )}
         </AnimatePresence>
@@ -920,15 +1010,44 @@ export default function DailyLove() {
             background: isFlipping ? colors.textMuted : 'linear-gradient(135deg, #FFD700, #FFA500)',
             border: 'none',
             color: '#000',
-            padding: '14px 28px',
-            borderRadius: 25,
+            padding: '18px 40px',
+            borderRadius: 30,
             fontSize: 18,
-            fontWeight: 600,
+            fontWeight: 700,
             cursor: isFlipping ? 'not-allowed' : 'pointer',
+            boxShadow: isFlipping ? 'none' : '0 8px 24px rgba(255, 215, 0, 0.4)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 10,
           }}
         >
-          {isFlipping ? 'Flipping...' : 'Flip the Coin!'}
+          {isFlipping ? '✨ Flipping...' : '🎲 Flip the Coin!'}
         </motion.button>
+
+        {/* Reset tally button */}
+        {(coinTally.prabh > 0 || coinTally.sehaj > 0) && (
+          <motion.button
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            onClick={() => {
+              setCoinTally({ prabh: 0, sehaj: 0 })
+              localStorage.setItem('coinFlip_tally', JSON.stringify({ prabh: 0, sehaj: 0 }))
+              haptics.light()
+            }}
+            style={{
+              marginTop: 20,
+              background: 'transparent',
+              border: `1px solid ${colors.border}`,
+              color: colors.textMuted,
+              padding: '10px 20px',
+              borderRadius: 20,
+              fontSize: 13,
+              cursor: 'pointer',
+            }}
+          >
+            Reset Score
+          </motion.button>
+        )}
       </div>
     )
   }
