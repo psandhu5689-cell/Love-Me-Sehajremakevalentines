@@ -65,6 +65,9 @@ export default function CardMatch() {
       padding: '80px 24px 24px',
       position: 'relative',
     }}>
+      {/* Journey Progress */}
+      <JourneyProgress currentPath="/card-match" />
+      
       {/* Back Button */}
       <motion.button
         whileHover={{ scale: 1.05 }}
