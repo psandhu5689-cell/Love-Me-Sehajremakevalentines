@@ -56,7 +56,36 @@ export default function HoldReveal() {
       justifyContent: 'center',
       padding: 32,
       position: 'relative',
+      overflow: 'hidden',
     }}>
+      {/* Parallax Floating particles */}
+      {[...Array(12)].map((_, i) => (
+        <motion.div
+          key={i}
+          animate={{
+            y: [-20, -60, -20],
+            x: [0, Math.random() * 20 - 10, 0],
+            opacity: [0.15, 0.4, 0.15],
+            scale: [1, 1.15, 1],
+          }}
+          transition={{
+            duration: 5 + Math.random() * 3,
+            delay: i * 0.3,
+            repeat: Infinity,
+          }}
+          style={{
+            position: 'fixed',
+            left: `${5 + Math.random() * 90}%`,
+            top: `${10 + Math.random() * 80}%`,
+            fontSize: 16 + Math.random() * 12,
+            pointerEvents: 'none',
+            zIndex: 0,
+          }}
+        >
+          {['🔓', '💕', '✨', '💗', '🔮'][i % 5]}
+        </motion.div>
+      ))}
+
       {/* Journey Progress */}
       <JourneyProgress currentPath="/hold-reveal" />
       
@@ -72,12 +101,14 @@ export default function HoldReveal() {
           width: 44,
           height: 44,
           borderRadius: 22,
-          background: colors.card,
+          background: colors.glass,
+          backdropFilter: 'blur(10px)',
           border: `1px solid ${colors.border}`,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           cursor: 'pointer',
+          zIndex: 10,
         }}
       >
         <IoChevronBack size={24} color={colors.primary} />
