@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { IoChevronBackOutline, IoHelp, IoCheckmarkCircle } from 'react-icons/io5'
+import { IoChevronBack, IoChevronBackOutline, IoHelp, IoCheckmarkCircle } from 'react-icons/io5'
 import { useNavigate } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
 import haptics from '../utils/haptics'
