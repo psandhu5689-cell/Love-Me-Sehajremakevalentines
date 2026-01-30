@@ -5,6 +5,7 @@ import { IoChevronBack, IoSparkles, IoArrowForward, IoChevronForward } from 'rea
 import { useTheme } from '../context/ThemeContext'
 import { useUser } from '../context/UserContext'
 import { useAudio } from '../context/AudioContext'
+import JourneyProgress from '../components/JourneyProgress'
 
 export default function Personalization() {
   const navigate = useNavigate()
@@ -37,6 +38,9 @@ export default function Personalization() {
       padding: 32,
       position: 'relative',
     }}>
+      {/* Journey Progress */}
+      <JourneyProgress currentPath="/personalization" />
+      
       {/* Back Button */}
       <motion.button
         whileHover={{ scale: 1.05 }}
