@@ -666,16 +666,39 @@ export default function DailyLove() {
           </motion.button>
         </div>
 
+        {/* Match Celebration */}
+        <AnimatePresence>
+          {isCurrentMatch && wyrOtherChoice && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.5, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              style={{
+                marginTop: 20,
+                background: 'linear-gradient(135deg, #4CAF50, #8BC34A)',
+                borderRadius: 16,
+                padding: '12px 24px',
+                boxShadow: '0 8px 24px rgba(76, 175, 80, 0.4)',
+              }}
+            >
+              <p style={{ color: 'white', fontSize: 16, fontWeight: 600, textAlign: 'center' }}>
+                💕 You both picked the same! 💕
+              </p>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={handleNextWYR}
           style={{
-            marginTop: 30,
-            background: colors.card,
+            marginTop: 24,
+            background: colors.glass,
+            backdropFilter: 'blur(20px)',
             border: `2px solid ${colors.primary}`,
             color: colors.primary,
-            padding: '12px 24px',
+            padding: '14px 28px',
             borderRadius: 25,
             fontSize: 16,
             fontWeight: 600,
@@ -688,6 +711,31 @@ export default function DailyLove() {
           Next Question
           <IoRefresh size={18} />
         </motion.button>
+        
+        {/* Reset Stats */}
+        {wyrStats.total > 0 && (
+          <motion.button
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            onClick={() => {
+              setWyrStats({ total: 0, matches: 0 })
+              localStorage.setItem('wyr_stats', JSON.stringify({ total: 0, matches: 0 }))
+              haptics.light()
+            }}
+            style={{
+              marginTop: 16,
+              background: 'transparent',
+              border: `1px solid ${colors.border}`,
+              color: colors.textMuted,
+              padding: '8px 16px',
+              borderRadius: 16,
+              fontSize: 12,
+              cursor: 'pointer',
+            }}
+          >
+            Reset Stats
+          </motion.button>
+        )}
       </div>
     )
   }
@@ -698,18 +746,47 @@ export default function DailyLove() {
       addHeartToHeart(HEART_TO_HEART[hthIndex])
       playMagic()
     }
+    
+    const currentPrompt = HEART_TO_HEART[hthIndex]
+    const isFavorited = hthFavorites.includes(currentPrompt)
 
     return (
       <div style={{
         minHeight: '100vh',
-        background: isDark ? '#1A0D1A' : colors.background,
+        background: colors.background,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
         padding: 24,
         position: 'relative',
+        overflow: 'hidden',
       }}>
+        {/* Floating particles */}
+        {[...Array(10)].map((_, i) => (
+          <motion.div
+            key={i}
+            animate={{
+              y: [-20, -50, -20],
+              opacity: [0.2, 0.4, 0.2],
+            }}
+            transition={{
+              duration: 4 + Math.random() * 2,
+              delay: i * 0.3,
+              repeat: Infinity,
+            }}
+            style={{
+              position: 'absolute',
+              left: `${5 + Math.random() * 90}%`,
+              top: `${10 + Math.random() * 80}%`,
+              fontSize: 16,
+              pointerEvents: 'none',
+            }}
+          >
+            {['💕', '💗', '✨', '💫'][i % 4]}
+          </motion.div>
+        ))}
+
         {/* Close Button */}
         <motion.button
           whileHover={{ scale: 1.1 }}
@@ -718,11 +795,13 @@ export default function DailyLove() {
             position: 'absolute',
             top: 50,
             right: 20,
-            background: colors.card,
-            border: 'none',
+            background: colors.glass,
+            backdropFilter: 'blur(10px)',
+            border: `1px solid ${colors.border}`,
             borderRadius: 20,
             padding: 8,
             cursor: 'pointer',
+            zIndex: 10,
           }}
         >
           <IoClose size={28} color={colors.primary} />
