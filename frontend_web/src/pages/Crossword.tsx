@@ -97,7 +97,7 @@ export default function Crossword() {
       setTimeout(() => {
         setShowConfetti(false)
         // Navigate to the next page in Valentines pathway
-        navigate('/card-match')
+        navigate('/word-scramble')
       }, 3000)
     }
   }, [userGrid, navigate])
