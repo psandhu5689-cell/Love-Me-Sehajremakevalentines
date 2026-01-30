@@ -45,6 +45,12 @@ import MusicMemory from './pages/MusicMemory'
 import HeartDraw from './pages/HeartDraw'
 import SecretCode from './pages/SecretCode'
 import LoveQuiz from './pages/LoveQuiz'
+import RoastRoulette from './pages/RoastRoulette'
+import LoveCourt from './pages/LoveCourt'
+import ReactionJail from './pages/ReactionJail'
+import LoveVault from './pages/LoveVault'
+import TriggerPull from './pages/TriggerPull'
+import SharedAlbum from './pages/SharedAlbum'
 import MuteToggle from './components/MuteToggle'
 import { UserSetupModal, PresenceCheckModal } from './components/PresenceModals'
 import AnimatedBackground from './components/AnimatedBackground'
@@ -94,6 +100,16 @@ export default function App() {
           <Route path="/heart-draw" element={<HeartDraw />} />
           <Route path="/secret-code" element={<SecretCode />} />
           <Route path="/love-quiz" element={<LoveQuiz />} />
+          
+          {/* Try Not To Smile Games */}
+          <Route path="/roast-roulette" element={<RoastRoulette />} />
+          <Route path="/love-court" element={<LoveCourt />} />
+          <Route path="/reaction-jail" element={<ReactionJail />} />
+          
+          {/* Daily Love Hub Activities */}
+          <Route path="/love-vault" element={<LoveVault />} />
+          <Route path="/trigger-pull" element={<TriggerPull />} />
+          <Route path="/shared-album" element={<SharedAlbum />} />
           
           <Route path="/quiet-stars" element={<QuietStars />} />
           <Route path="/question" element={<Question />} />
