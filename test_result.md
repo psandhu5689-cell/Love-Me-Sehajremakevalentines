@@ -101,3 +101,138 @@
 #====================================================================================================
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
+
+user_problem_statement: "Test the web application at http://localhost:3000 with comprehensive test plan covering Try Not To Smile menu games (Roast Roulette, Love Court, Reaction Jail), Daily Love Hub activities (Love Vault, Trigger Pull, Shared Album), user selection, navigation, and all interactive features."
+
+frontend:
+  - task: "User Selection - I'm Sehaj"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend_web/src/pages/Index.tsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+        - agent: "testing"
+        - comment: "Need to test user selection functionality and navigation to main app"
+
+  - task: "Try Not To Smile Menu Navigation"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend_web/src/pages/TryNotToSmile.tsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+        - agent: "testing"
+        - comment: "Need to test navigation to Try Not To Smile menu and verify 3 new games appear at top"
+
+  - task: "Roast Roulette Game"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend_web/src/pages/RoastRoulette.tsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+        - agent: "testing"
+        - comment: "Need to test level selection, roast generation, comfort messages, favorites, and history functionality"
+
+  - task: "Love Court Game"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend_web/src/pages/LoveCourt.tsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+        - agent: "testing"
+        - comment: "Need to test absurd case display, guilty/not guilty verdicts, appeal functionality, and court records"
+
+  - task: "Reaction Jail Game"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend_web/src/pages/ReactionJail.tsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+        - agent: "testing"
+        - comment: "Need to test TAP/WAIT prompts, game completion, scoring, and history functionality"
+
+  - task: "Daily Love Hub Navigation"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend_web/src/pages/DailyLoveHub.tsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+        - agent: "testing"
+        - comment: "Need to test navigation to Daily Love Hub and access to activities"
+
+  - task: "Love Vault Activity"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend_web/src/pages/LoveVault.tsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+        - agent: "testing"
+        - comment: "Need to test secret creation, passcode locking, unlocking with correct/wrong passcode"
+
+  - task: "Trigger Pull Activity"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend_web/src/pages/TriggerPull.tsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+        - agent: "testing"
+        - comment: "Need to test random prompt generation, response submission, skip functionality, and past responses view"
+
+  - task: "Shared Album Activity"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend_web/src/pages/SharedAlbum.tsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+        - agent: "testing"
+        - comment: "Need to test photo addition, favorites, filtering, full-size view functionality"
+
+metadata:
+  created_by: "testing_agent"
+  version: "1.0"
+  test_sequence: 1
+
+test_plan:
+  current_focus:
+    - "User Selection - I'm Sehaj"
+    - "Try Not To Smile Menu Navigation"
+    - "Roast Roulette Game"
+    - "Love Court Game"
+    - "Reaction Jail Game"
+    - "Daily Love Hub Navigation"
+    - "Love Vault Activity"
+    - "Trigger Pull Activity"
+    - "Shared Album Activity"
+  stuck_tasks: []
+  test_all: true
+  test_priority: "sequential"
+
+agent_communication:
+    - agent: "testing"
+    - message: "Starting comprehensive testing of web application at http://localhost:3000. Will test all Try Not To Smile games, Daily Love Hub activities, user selection, and navigation flows as specified in test request."
