@@ -287,8 +287,7 @@ export default function MusicMemory() {
               }}>
                 {SONG_OPTIONS.find(o => o.id === selected)?.song.title || 'Playing...'}
               </p>
-              <p style={
-{
+              <p style={{
                 color: colors.textSecondary,
                 fontSize: 12,
               }}>
