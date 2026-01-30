@@ -287,9 +287,12 @@ export default function DailyLove() {
   const [wyrIndex, setWyrIndex] = useState(0)
   const [wyrMyChoice, setWyrMyChoice] = useState<'a' | 'b' | null>(null)
   const [wyrOtherChoice, setWyrOtherChoice] = useState<'a' | 'b' | null>(null)
+  const [wyrStats, setWyrStats] = useState({ total: 0, matches: 0 })
   const [showHeartToHeart, setShowHeartToHeart] = useState(false)
   const [hthIndex, setHthIndex] = useState(0)
   const [showHTHHistory, setShowHTHHistory] = useState(false)
+  const [hthFavorites, setHthFavorites] = useState<string[]>([])
+  const [showHTHFavorites, setShowHTHFavorites] = useState(false)
   const [showCoinFlip, setShowCoinFlip] = useState(false)
   const [coinResult, setCoinResult] = useState<string | null>(null)
   const [isFlipping, setIsFlipping] = useState(false)
@@ -326,6 +329,18 @@ export default function DailyLove() {
     const storedTally = localStorage.getItem('coinFlip_tally')
     if (storedTally) {
       setCoinTally(JSON.parse(storedTally))
+    }
+    
+    // Load WYR stats from localStorage
+    const storedWyrStats = localStorage.getItem('wyr_stats')
+    if (storedWyrStats) {
+      setWyrStats(JSON.parse(storedWyrStats))
+    }
+    
+    // Load HTH favorites from localStorage
+    const storedFavorites = localStorage.getItem('hth_favorites')
+    if (storedFavorites) {
+      setHthFavorites(JSON.parse(storedFavorites))
     }
   }, [])
 
