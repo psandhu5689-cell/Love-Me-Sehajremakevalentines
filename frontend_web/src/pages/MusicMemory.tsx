@@ -95,6 +95,9 @@ export default function MusicMemory() {
       flexDirection: 'column',
       padding: 20,
     }}>
+      {/* Journey Progress */}
+      <JourneyProgress currentPath="/music-memory" />
+      
       <motion.button
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
