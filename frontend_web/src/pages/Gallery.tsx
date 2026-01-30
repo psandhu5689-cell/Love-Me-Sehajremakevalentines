@@ -221,11 +221,13 @@ export default function Gallery() {
             whileTap={{ scale: 0.98 }}
             onClick={() => openFullscreen(item)}
             style={{
-              background: colors.card,
+              background: colors.glass,
+              backdropFilter: 'blur(10px)',
               border: `1px solid ${colors.border}`,
-              borderRadius: 16,
+              borderRadius: 20,
               overflow: 'hidden',
               cursor: 'pointer',
+              boxShadow: `0 8px 32px ${colors.primaryGlow}`,
             }}
           >
             <div style={{ position: 'relative', paddingTop: '100%' }}>
